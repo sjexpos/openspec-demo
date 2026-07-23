@@ -11,8 +11,8 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.example</groupId>
-    <artifactId>demo</artifactId>
+    <groupId>ai.sergio</groupId>
+    <artifactId>openspec-demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>demo</name>
     <description>Spring Boot REST API with OpenAPI 3</description>
@@ -30,13 +30,34 @@
         <url/>
     </scm>
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>21</java.version>
+        <maven.version>3.8.8</maven.version>
+        <maven.resources.includeEmptyDirs>true</maven.resources.includeEmptyDirs>
+        <maven.resources.overwrite>true</maven.resources.overwrite>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+
         <springdoc.version>3.0.1</springdoc.version>
         <flyway-maven-plugin.version>10.9.1</flyway-maven-plugin.version>
         <postgresql-connector.version>42.7.3</postgresql-connector.version>
-        <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
-        <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
         <junit-pioneer.version>2.2.0</junit-pioneer.version>
+
+        <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
+        <spotless-maven-plugin.version>2.43.0</spotless-maven-plugin.version>
+        <modernizer-maven-plugin.version>3.1.0</modernizer-maven-plugin.version>
+        <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
+        <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
+        <duplicate-finder-maven-plugin.version>2.0.1</duplicate-finder-maven-plugin.version>
+        <spotbugs-maven-plugin.version>4.8.6.2</spotbugs-maven-plugin.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
+        <maven-surefire-plugin.version>3.3.1</maven-surefire-plugin.version>
+        <maven-failsafe-plugin.version>3.3.1</maven-failsafe-plugin.version>
+        <pitest-maven.version>1.16.2</pitest-maven.version>
+        <pitest-junit5-plugin.version>1.2.1</pitest-junit5-plugin.version>
+        <pitest.skip>false</pitest.skip>
     </properties>
 
     <dependencies>
@@ -151,101 +172,91 @@
         </testResources>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>${maven-enforcer-plugin.version}</version>
                 <executions>
                     <execution>
-                        <id>default-compile</id>
-                        <phase>compile</phase>
+                        <id>enforce-versions</id>
                         <goals>
-                            <goal>compile</goal>
+                            <goal>enforce</goal>
                         </goals>
                         <configuration>
-                            <annotationProcessorPaths>
-                                <path>
-                                    <groupId>org.projectlombok</groupId>
-                                    <artifactId>lombok</artifactId>
-                                </path>
-                            </annotationProcessorPaths>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>default-testCompile</id>
-                        <phase>test-compile</phase>
-                        <goals>
-                            <goal>testCompile</goal>
-                        </goals>
-                        <configuration>
-                            <annotationProcessorPaths>
-                                <path>
-                                    <groupId>org.projectlombok</groupId>
-                                    <artifactId>lombok</artifactId>
-                                </path>
-                                </annotationProcessorPaths>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>${maven.version}</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>${maven.compiler.source}</version>
+                                </requireJavaVersion>                            
+                            </rules>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.hibernate.orm</groupId>
-                <artifactId>hibernate-maven-plugin</artifactId>
-                <version>${hibernate.version}</version>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>${spotless-maven-plugin.version}</version>
+                <configuration>
+                    <java>
+                        <includes>
+                            <include>src/main/java/**/*.java</include>
+                            <include>src/test/java/**/*.java</include>
+                        </includes>
+                        <googleJavaFormat>
+                            <reflowLongStrings>true</reflowLongStrings>
+                            <formatJavadoc>false</formatJavadoc>
+                        </googleJavaFormat>
+                        <licenseHeader>
+                            <file>./license-header.txt</file>
+                        </licenseHeader>
+                        <importOrder/>
+                        <removeUnusedImports />
+                        <formatAnnotations />
+                        <endWithNewline />
+                    </java>
+                </configuration>
                 <executions>
                     <execution>
-                        <id>enhance</id>
+                        <id>apply-checkstyle</id>
+                        <phase>validate</phase>
                         <goals>
-                            <goal>enhance</goal>
+                            <goal>apply</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
+                <groupId>org.gaul</groupId>
+                <artifactId>modernizer-maven-plugin</artifactId>
+                <version>${modernizer-maven-plugin.version}</version>
                 <configuration>
-                    <excludes>
-                        <exclude>com/example/demo/integration/**/*</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <configuration>
-                    <classesDirectory>${project.build.outputDirectory}</classesDirectory>
-                    <argLine> <!-- it allows to override env vars using JUnit pioneer extension on Java 17 and later  -->
-                        --add-opens java.base/java.util=ALL-UNNAMED
-                        --add-opens java.base/java.lang=ALL-UNNAMED
-                    </argLine>          
-                    <summaryFile>${project.build.directory}/site/failsafe-summary.xml</summaryFile>
-                    <includes>
-                        <include>com/example/demo/integration/**/*</include>
-                    </includes>
+                    <javaVersion>${maven.compiler.source}</javaVersion>
                 </configuration>
                 <executions>
                     <execution>
+                        <id>run-modernizer</id>
+                        <phase>validate</phase>
                         <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
+                            <goal>modernizer</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.graalvm.buildtools</groupId>
-                <artifactId>native-maven-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${build-helper-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>parse-version</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>parse-version</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>pl.project13.maven</groupId>
@@ -269,6 +280,113 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.basepom.maven</groupId>
+                <artifactId>duplicate-finder-maven-plugin</artifactId>
+                <version>${duplicate-finder-maven-plugin.version}</version>
+                <configuration>
+                    <checkCompileClasspath>true</checkCompileClasspath>
+                    <checkRuntimeClasspath>true</checkRuntimeClasspath>
+                    <checkTestClasspath>true</checkTestClasspath>
+                    <failBuildInCaseOfEqualContentConflict>true</failBuildInCaseOfEqualContentConflict>
+                    <failBuildInCaseOfConflict>true</failBuildInCaseOfConflict>
+                    <ignoredDependencies>
+                        <dependency>
+                            <groupId>org.springframework</groupId>
+                            <artifactId>spring-jcl</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.springframework</groupId>
+                            <artifactId>spring-aop</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>jakarta.servlet</groupId>
+                            <artifactId>jakarta.servlet-api</artifactId>
+                        </dependency>
+                    </ignoredDependencies>
+                    <ignoredResourcePatterns>COPYRIGHT.txt,logback.xml,git.properties,application.yml</ignoredResourcePatterns>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>run-duplicate-finder</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>${spotbugs-maven-plugin.version}</version>
+                <configuration>
+                    <excludeFilterFile>spotbugs-exclude.xml</excludeFilterFile>
+                    <jvmArgs>-Dfindbugs.assertionmethods=org.apache.commons.lang3.Validate.notNull</jvmArgs>
+                    <failOnError>true</failOnError>
+                    <htmlOutput>true</htmlOutput>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>run-spotbugs</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <parameters>true</parameters> <!-- store method argument names on byte code. Useful for spring SPEL -->
+                    <annotationProcessorPaths>
+                        <!-- The order in those processors are important. If not mapstruct would work bad together lombok -->
+                        <path>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>default-compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-testCompile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.hibernate.orm</groupId>
+                <artifactId>hibernate-maven-plugin</artifactId>
+                <version>${hibernate.version}</version>
+                <executions>
+                    <execution>
+                        <id>enhance</id>
+                        <goals>
+                            <goal>enhance</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco-maven-plugin.version}</version>
@@ -290,6 +408,120 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>com/example/demo/integration/**/*</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-failsafe-plugin.version}</version>
+                <configuration>
+                    <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+                    <argLine> <!-- it allows to override env vars using JUnit pioneer extension on Java 17 and later  -->
+                        --add-opens java.base/java.util=ALL-UNNAMED
+                        --add-opens java.base/java.lang=ALL-UNNAMED
+                    </argLine>          
+                    <summaryFile>${project.build.directory}/site/failsafe-summary.xml</summaryFile>
+                    <includes>
+                        <include>com/example/demo/integration/**/*</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>${pitest-maven.version}</version>
+                <configuration>
+                    <jvmArgs>
+                        <jvmArg>-XX:TieredStopAtLevel=1</jvmArg>
+                    </jvmArgs>
+                    <mutators>
+                        <!-- Defauls -->
+                        <mutator>CONDITIONALS_BOUNDARY</mutator>
+                        <mutator>INCREMENTS</mutator>
+                        <mutator>INVERT_NEGS</mutator>
+                        <mutator>MATH</mutator>
+                        <mutator>NEGATE_CONDITIONALS</mutator>
+                        <mutator>VOID_METHOD_CALLS</mutator>
+                        <mutator>EMPTY_RETURNS</mutator>
+                        <mutator>FALSE_RETURNS</mutator>
+                        <mutator>TRUE_RETURNS</mutator>
+                        <mutator>NULL_RETURNS</mutator>
+                        <mutator>PRIMITIVE_RETURNS</mutator>
+                        <!-- Optionals -->
+                        <mutator>CONSTRUCTOR_CALLS</mutator>
+                        <mutator>INLINE_CONSTS</mutator>
+                        <mutator>NON_VOID_METHOD_CALLS</mutator>
+                        <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                        <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                        <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
+                        <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                        <mutator>REMOVE_INCREMENTS</mutator>
+                        <!-- Experimental -->
+                        <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                        <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                        <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                        <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                        <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                        <mutator>EXPERIMENTAL_SWITCH</mutator>
+                    </mutators>
+                    <mutationThreshold>0</mutationThreshold>
+                    <exportLineCoverage>true</exportLineCoverage>
+                    <skip>${pitest.skip}</skip>
+                    <timestampedReports>false</timestampedReports>
+                    <outputFormats><value>XML</value><value>HTML</value></outputFormats>
+                    <verbose>false</verbose> <!-- Set to true for noisy output -->
+                    <verbosity>NO_SPINNER</verbosity> <!-- For CI -->
+                    <withHistory>true</withHistory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>pitest-mutation-coverage</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>mutationCoverage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>${pitest-junit5-plugin.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.graalvm.buildtools</groupId>
+                <artifactId>native-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.flywaydb</groupId>
