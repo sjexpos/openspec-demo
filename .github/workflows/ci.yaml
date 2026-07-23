@@ -302,7 +302,7 @@ jobs:
     name: Publish reports
     needs: [run-sonarqube]
     runs-on: ubuntu-24.04
-    if: github.ref_name == env.DEFAULT_BRANCH
+    if: github.ref_name == vars.DEFAULT_BRANCH
     steps:
       - name: Download site sources
         uses: actions/download-artifact@v4.1.7
