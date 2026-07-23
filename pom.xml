@@ -57,6 +57,8 @@
         <maven-failsafe-plugin.version>3.3.1</maven-failsafe-plugin.version>
         <pitest-maven.version>1.16.2</pitest-maven.version>
         <pitest-junit5-plugin.version>1.2.1</pitest-junit5-plugin.version>
+        <surefire.skip>false</surefire.skip>
+        <failsafe.skip>false</failsafe.skip>
         <pitest.skip>false</pitest.skip>
     </properties>
 
@@ -414,6 +416,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
+                    <skip>${surefire.skip}</skip>
                     <excludes>
                         <exclude>com/example/demo/integration/**/*</exclude>
                     </excludes>
@@ -424,6 +427,7 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${maven-failsafe-plugin.version}</version>
                 <configuration>
+                    <skip>${failsafe.skip}</skip>
                     <classesDirectory>${project.build.outputDirectory}</classesDirectory>
                     <argLine> <!-- it allows to override env vars using JUnit pioneer extension on Java 17 and later  -->
                         --add-opens java.base/java.util=ALL-UNNAMED
