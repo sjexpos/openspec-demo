@@ -4,11 +4,11 @@ on:
     branches: [ "**" ]
 
 env:
-  SONAR_PROJECT_KEY: openspec-demo
-  SONAR_PROJECT_NAME: Openspec Demo
+  SONAR_PROJECT_KEY: "openspec-demo"
+  SONAR_PROJECT_NAME: "Openspec Demo"
   DOCKER_IMAGES: "['sjexpossdd/openspec-demo']"
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
-  DEFAULT_BRANCH: main
+  DEFAULT_BRANCH: "main"
 
 jobs:
   check-styling:
@@ -302,7 +302,7 @@ jobs:
     name: Publish reports
     needs: [run-sonarqube]
     runs-on: ubuntu-24.04
-    if: ${{ github.ref_name == env.DEFAULT_BRANCH }}
+    if: github.ref_name == env.DEFAULT_BRANCH
     steps:
       - name: Download site sources
         uses: actions/download-artifact@v4.1.7
@@ -322,14 +322,12 @@ jobs:
     strategy:
       matrix:
         file: ${{ fromJSON(inputs.docker_images) }}
-    env:
-      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
     steps:
       - name: Download compiled sources
         if: ${{ matrix.file != '_' }}
         uses: actions/download-artifact@v4.1.7
         with:
-          name: compiled-sources-${{ env.BRANCH_NAME }}
+          name: compiled-sources-$BRANCH_NAME
           path: ./
       - name: Split image name, context, dockerfile
         if: ${{ matrix.file != '_' }}
