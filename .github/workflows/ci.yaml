@@ -94,6 +94,20 @@ jobs:
     name: Run Integration Tests
     needs: [run-unit-tests]
     runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:14.4
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: demo
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - name: Download unit tested sources
         uses: actions/download-artifact@v4.1.7
