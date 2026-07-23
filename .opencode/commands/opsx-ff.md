@@ -1,0 +1,1 @@
+../../.agents/opencode/commands/opsx-ff.md

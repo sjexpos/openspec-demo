@@ -1,0 +1,67 @@
+server:
+  port: 8080
+  tomcat:
+    max-connections: 2000 # Maximum connections
+    accept-count: 200     # Maximum waiting number
+  servlet:
+    context-path: /
+spring:
+  threads:
+    virtual:
+      enabled: true
+  application:
+    name: demo-api
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/demo}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+    pool:
+      initial-size: 5
+      max-size: 20
+      max-idle-time: PT30M
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    open-in-view: true
+  web:
+    error:
+      include-stacktrace: never
+      include-message: always
+      include-exception: true
+      include-binding-errors: always
+
+# OpenAPI / Swagger UI configuration
+springdoc:
+  show-actuator: false
+  show-login-endpoint: false
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+
+# Actuator endpoints
+management:
+  server:
+    port: ${server.port}
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,scheduledtasks,metrics"
+        exclude: auditevents, beans, conditions, configprops, env, flyway, loggers, threaddump, sbom, mappings, logfile, sessions, shutdown
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
+      show-components: always
+  info:
+    git:
+      mode: full
+
+logging:
+  level:
+    org.springframework.r2dbc: INFO

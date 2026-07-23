@@ -1,0 +1,179 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "mcp-atlassian": {
+      "type": "local",
+      "command": ["uvx","mcp-atlassian"],
+      "enabled": true,
+      "env": {
+        "JIRA_URL": "https://sjexpos.atlassian.net",
+        "JIRA_USERNAME": "{env:JIRA_USERNAME}",
+        "JIRA_API_TOKEN": "{env:JIRA_API_TOKEN}",
+        "CONFLUENCE_URL": "https://sjexpos.atlassian.net/wiki",
+        "CONFLUENCE_USERNAME": "{env:CONFLUENCE_USERNAME}",
+        "CONFLUENCE_API_TOKEN": "{env:CONFLUENCE_API_TOKEN}"
+      }
+    }
+  },
+  "permission": {
+    "bash": {
+      "*": "allow",
+      "git commit *": "ask",
+      "git push": "ask",
+      "git push *": "ask",
+      "git push --force *": "ask",
+      "git rebase *": "ask",
+      "git reset --hard *": "ask"
+    },
+    "read": {
+      "*": "allow",
+      "**/.env": "deny",
+      "**/.env.*": "deny",
+      "**/credentials.json": "deny",
+      "**/secrets/**": "deny",
+      "*.env": "deny",
+      "*.env.*": "deny"
+    }
+  },
+  "default_agent": "opsx-orchestrator",
+  "agent": {
+    "opsx-orchestrator": {
+      "description": "OPSX Orchestrator - coordinates sub-agents, never does work inline",
+      "mode": "primary",
+      "color": "#FF0000",
+      "tools": {
+        "bash": true,
+        "delegate": true,
+        "delegation_list": true,
+        "delegation_read": true,
+        "edit": true,
+        "read": true,
+        "write": true
+      },
+      "permission": {
+        "edit": "allow",
+        "read": "allow",
+        "write": "allow",
+        "bash": {
+          "git commit *": "ask",
+          "git push": "ask",
+          "git push *": "ask",
+          "git push --force *": "ask",
+          "git rebase *": "ask",
+          "git reset --hard *": "ask",
+          "*": "allow"
+        },
+        "task": {
+          "*": "deny",
+          "opsx-init": "allow",
+          "opsx-onboard": "allow",
+          "opsx-explore": "allow",
+          "opsx-propose": "allow",
+          "opsx-design": "allow",
+          "opsx-spec": "allow",
+          "opsx-tasks": "allow",
+          "opsx-apply": "allow",
+          "opsx-verify": "allow",
+          "opsx-archive": "allow"
+        }
+      },
+      "prompt": "{file:./../.agents/prompts/opsx-orchestrator.md}"
+    },
+    "opsx-explore": {
+      "description": "Investigate codebase and think through ideas",
+      "mode": "subagent",
+      "hidden": true,
+      "prompt": "{file:./../.agents/prompts/opsx/opsx-explore.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "read": true,
+        "write": true
+      }
+    },
+    "opsx-propose": {
+      "description": "Create change proposals from explorations",
+      "mode": "subagent",
+      "hidden": true,
+      "prompt": "{file:./../.agents/prompts/opsx/opsx-propose.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "read": true,
+        "write": true
+      }
+    },
+    "opsx-design": {
+      "description": "Create technical design from proposals",
+      "hidden": true,
+      "mode": "subagent",
+      "prompt": "{file:./../.agents/prompts/opsx/opsx-design.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "read": true,
+        "write": true
+      }
+    },
+    "opsx-spec": {
+      "description": "Write detailed specifications from proposals",
+      "mode": "subagent",
+      "hidden": true,
+      "prompt": "{file:./../.agents/prompts/opsx/opsx-spec.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "read": true,
+        "write": true
+      }
+    },
+    "opsx-tasks": {
+      "description": "Break down specs and designs into implementation tasks",
+      "mode": "subagent",
+      "hidden": true,
+      "prompt": "{file:./../.agents/prompts/opsx/opsx-tasks.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "read": true,
+        "write": true
+      }
+    },
+    "opsx-apply": {
+      "description": "Implement code changes from task definitions",
+      "mode": "subagent",
+      "hidden": true,
+      "prompt": "{file:./../.agents/prompts/opsx/opsx-apply.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "read": true,
+        "write": true
+      }
+    },
+    "opsx-verify": {
+      "description": "Validate implementation against specs",
+      "mode": "subagent",
+      "hidden": true,
+      "prompt": "{file:./../.agents/prompts/opsx/opsx-verify.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "read": true,
+        "write": true
+      }
+    },
+    "opsx-archive": {
+      "description": "Archive completed change artifacts",
+      "mode": "subagent",
+      "hidden": true,
+      "prompt": "{file:./../.agents/prompts/opsx/opsx-archive.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "read": true,
+        "write": true
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+spring:
+  # Datasource configuration (PostgreSQL via environment variables)
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tests
+    username: test
+    password: test
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://localhost:5432/tests
+    user: test
+    password: test
+    driver-class-name: org.postgresql.Driver
+    table: flyway_schema_history
+    locations:
+    - classpath:flyway/release*
+    fail-on-missing-locations: true
+    sql-migration-prefix: V
+    repeatable-sql-migration-prefix: R
+    sql-migration-separator: __
+    sql-migration-suffixes:
+    - .sql
+    encoding: UTF-8
+    validate-on-migrate: true
+    placeholder-replacement: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,scheduledtasks,metrics"
+        exclude: auditevents, beans, conditions, configprops, env, flyway, loggers, threaddump, sbom, mappings, logfile, sessions, shutdown
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
+      show-components: always
+  info:
+    git:
+      mode: full
