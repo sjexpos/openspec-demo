@@ -6,7 +6,7 @@ on:
 env:
   SONAR_PROJECT_KEY: "openspec-demo"
   SONAR_PROJECT_NAME: "Openspec Demo"
-  DOCKER_IMAGES: "['sjexpossdd/openspec-demo']"
+  DOCKER_IMAGES: '["sjexpossdd/openspec-demo"]'
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
   DEFAULT_BRANCH: "main"
 
@@ -321,7 +321,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        file: ${{ fromJSON(inputs.docker_images) }}
+        file: ${{ fromJSON(env.DOCKER_IMAGES) }}
     steps:
       - name: Download compiled sources
         if: ${{ matrix.file != '_' }}
@@ -358,7 +358,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        file: ${{ fromJSON(DOCKER_IMAGES) }}
+        file: ${{ fromJSON(env.DOCKER_IMAGES) }}
     steps:
       - uses: actions/checkout@v4
       - name: Split image name, context, dockerfile
