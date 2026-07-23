@@ -321,7 +321,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        file: ${{ fromJSON(env.DOCKER_IMAGES) }}
+        file: ${{ fromJSON(vars.DOCKER_IMAGES) }}
     steps:
       - name: Download compiled sources
         if: ${{ matrix.file != '_' }}
@@ -358,7 +358,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        file: ${{ fromJSON(env.DOCKER_IMAGES) }}
+        file: ${{ fromJSON(vars.DOCKER_IMAGES) }}
     steps:
       - uses: actions/checkout@v4
       - name: Split image name, context, dockerfile
