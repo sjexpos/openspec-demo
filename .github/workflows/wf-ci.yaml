@@ -389,7 +389,7 @@ jobs:
           echo "dockerfile=$dockerfile" >> $GITHUB_ENV
       - name: Docker build and publish
         if: ${{ matrix.file != '_' }}
-        uses: sjexpos/openspec-demo/.github/actions/docker-build-and-publish
+        uses: ./.github/actions/docker-build-and-publish
         with:
           registry_user: ${{ secrets.DOCKERHUB_USERNAME }}
           registry_token: ${{ secrets.DOCKERHUB_TOKEN }}
