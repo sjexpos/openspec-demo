@@ -59,7 +59,7 @@ runs:
         BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
       run: |
         echo "SANITIZED_BRANCH_NAME=$(echo "${{ env.BRANCH_NAME }}" | tr '/' '-' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-        if [ "${{ github.ref_name }}" = "main" ]; then TAG_NAME="latest"; else TAG_NAME="${{ env.SANITIZED_BRANCH_NAME }}"; fi
+        if [ "${{ github.ref_name }}" = "main" ]; then TAG_NAME="latest"; else TAG_NAME="$SANITIZED_BRANCH_NAME"; fi
         echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_ENV
     - name: Build and push
       uses: docker/build-push-action@v7.3.0

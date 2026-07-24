@@ -223,7 +223,7 @@ jobs:
     runs-on: ubuntu-24.04
     services:
       sonarqube:
-        image: sonarqube
+        image: sonarqube:26.7.0.124771-community
         ports:
           - 9000:9000
         credentials:
