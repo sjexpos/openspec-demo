@@ -279,6 +279,7 @@ jobs:
         with:
           name: static-code-analysis-report$-${{ env.SUFFIX }}
           path: ./sonar_report.txt
+          archive: false
 
   run-vulnerability-scan:
     name: Vulnerability Scan
@@ -342,7 +343,7 @@ jobs:
           name: site-sources-${{ env.SUFFIX }}
           path: ./
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v7.0.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
@@ -359,7 +360,7 @@ jobs:
           name: site-sources-${{ env.SUFFIX }}
           path: ./
       - name: Deploy site
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@v4.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./target/site
@@ -379,9 +380,6 @@ jobs:
         with:
           name: compiled-sources-${{ env.SUFFIX }}
           path: ./
-      - name: Show File System
-        run: |
-          ls -aRl
       - name: Split image name, context, dockerfile
         if: ${{ matrix.file != '_' }}
         run: |
