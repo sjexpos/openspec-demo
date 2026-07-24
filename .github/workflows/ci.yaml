@@ -11,6 +11,18 @@ env:
   DEFAULT_BRANCH: "main"
 
 jobs:
+
+  test-job:
+    name: Test job
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        file: ${{ fromJSON(vars.DOCKER_IMAGES) }}
+    steps:
+      - run: |
+          triple="${{ matrix.file }}"
+          echo $triple
+
   check-styling:
     name: Check styling
     runs-on: ubuntu-24.04
