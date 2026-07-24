@@ -1,0 +1,525 @@
+name: CI
+on:
+  workflow_call:
+    secrets:
+      DOCKERHUB_USERNAME:
+        required: true
+      DOCKERHUB_TOKEN:
+        required: true
+    inputs:
+      SONAR_PROJECT_KEY:
+        description: "Project key which will be used on SonarQube"
+        type: string
+        required: true
+      SONAR_PROJECT_NAME:
+        description: "Project name which will be used on SonarQube"
+        type: string
+        required: true
+      DOCKER_IMAGES:
+        description: "List of triple of docker image name, context and Dockerfile, in JSON list format. E.g. ['my-image-1;context-1;path-to-dockerfile-1','my-image-2;context-2;path-to-dockerfile-2']"
+        type: string
+        required: false
+        default: "['_']"
+      DEFAULT_BRANCH:
+        type: string
+        required: false
+        default: main
+
+env:
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+
+jobs:
+
+  check-styling:
+    name: Check styling
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-java@v5.6.0
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          # following lines are commented because they are caching maven folder, and bacause the pom.xml does not change, next step 
+          # does not update cache and installed dependencies on this step are not sent to maven cache, so test step will fail.
+          # cache: maven
+          # cache-dependency-path: pom.xml
+      - name: checking style
+        run: mvn spotless:check
+
+  build-app:
+    name: Build code
+    needs: [check-styling]
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "SUFFIX=$(echo "${{ env.BRANCH_NAME }}" | tr '/' '-' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-java@v5.6.0
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+          cache-dependency-path: pom.xml
+      - name: Extract maven groupId
+        run: |
+          groupId_value=$(mvn help:evaluate -Dexpression=project.groupId -q -DforceStdout)
+          echo "groupId=$groupId_value" >> $GITHUB_ENV
+      - name: Extract maven artifactId
+        run: |
+          artifactId_value=$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)
+          echo "artifactId=$artifactId_value" >> $GITHUB_ENV
+      - name: Extract maven version
+        run: |
+          version_value=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "version=$version_value" >> $GITHUB_ENV
+      - name: Building code
+        run: mvn -Dsurefire.skip=true -Dfailsafe.skip=true -Dpitest.skip=true --batch-mode --update-snapshots install
+      - name: Upload compilted sources
+        id: upload-compiled-sources
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: compiled-sources-${{ env.SUFFIX }}
+          path: ./
+    outputs:
+      project-version: ${{ env.version }}
+      compiled-sources-artifact-id: ${{ steps.upload-compiled-sources.outputs.artifact-id }}
+
+  run-unit-tests:
+    name: Run Unit Tests
+    needs: [build-app]
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "SUFFIX=$(echo "${{ env.BRANCH_NAME }}" | tr '/' '-' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+      - name: Download compiled sources
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: compiled-sources-${{ env.SUFFIX }}
+          path: ./
+      - uses: actions/setup-java@v5.6.0
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+          cache-dependency-path: pom.xml
+      - name: Testing code
+        run: mvn -Dsurefire.skip=false -Dfailsafe.skip=true -Dpitest.skip=true --batch-mode verify
+      - name: Upload unit tested sources
+        id: upload-unit-tested-sources
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: unit-tested-sources-${{ env.SUFFIX }}
+          path: ./
+    outputs:
+      unit-tested-sources-artifact-id: ${{ steps.upload-unit-tested-sources.outputs.artifact-id }}
+
+  run-int-tests:
+    name: Run Integration Tests
+    needs: [run-unit-tests]
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:14.4
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: tests
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - run: echo "SUFFIX=$(echo "${{ env.BRANCH_NAME }}" | tr '/' '-' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+      - name: Download unit tested sources
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: unit-tested-sources-${{ env.SUFFIX }}
+          path: ./
+      - uses: actions/setup-java@v5.6.0
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+          cache-dependency-path: pom.xml
+      - name: Testing code
+        run: mvn -Dsurefire.skip=true -Dfailsafe.skip=false -Dpitest.skip=true --batch-mode verify
+      - name: Upload integration tested sources
+        id: upload-int-tested-sources
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: int-tested-sources-${{ env.SUFFIX }}
+          path: ./
+    outputs:
+      int-tested-sources-artifact-id: ${{ steps.upload-int-tested-sources.outputs.artifact-id }}
+
+  run-pitest:
+    name: Run Mutation Tests
+    needs: [run-int-tests]
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "SUFFIX=$(echo "${{ env.BRANCH_NAME }}" | tr '/' '-' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+      - name: Download integration tested sources
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: int-tested-sources-${{ env.SUFFIX }}
+          path: ./
+      - uses: actions/setup-java@v5.6.0
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+          cache-dependency-path: pom.xml
+      - name: Testing code
+        run: mvn -Dsurefire.skip=true -Dfailsafe.skip=true -Dpitest.skip=false --batch-mode verify
+      - name: Upload pitested sources
+        id: upload-pitested-sources
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: pitested-sources-${{ env.SUFFIX }}
+          path: ./
+    outputs:
+      pitested-sources-artifact-id: ${{ steps.upload-pitested-sources.outputs.artifact-id }}
+
+  create-site:
+    name: Build reports
+    needs: [ run-pitest ]
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "SUFFIX=$(echo "${{ env.BRANCH_NAME }}" | tr '/' '-' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+      - name: Download pitested sources
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: pitested-sources-${{ env.SUFFIX }}
+          path: ./
+      - uses: actions/setup-java@v5.6.0
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+          cache-dependency-path: pom.xml
+      - name: Run maven site
+        run: mvn -Dsurefire.skip=true -Dfailsafe.skip=true -Dpitest.skip=true --batch-mode site
+      - name: Upload site sources
+        id: upload-site-sources
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: site-sources-${{ env.SUFFIX }}
+          path: ./
+    outputs:
+      site-sources-artifact-id: ${{ steps.upload-site-sources.outputs.artifact-id }}
+
+  run-sonarqube:
+    name: SonarQube Scan
+    needs: [ run-pitest ]
+    runs-on: ubuntu-24.04
+    services:
+      sonarqube:
+        image: sonarqube
+        ports:
+          - 9000:9000
+        credentials:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        options: --health-cmd "curl -v http://sonarqube:9000/api/system/status" --health-interval 10s --health-timeout 5s --health-retries 5
+    env:
+      # use localhost for the host here because we are running the job on the VM. If we were running the job on in a container this would be sonarqube (container mode is when the job define property "container")
+      SONARQUBE_HOST: localhost
+      SONARQUBE_PORT: 9000
+      SONARQUBE_USER: admin
+      SONARQUBE_PASSWORD: Admin123456!
+    steps:
+      - run: echo "SUFFIX=$(echo "${{ env.BRANCH_NAME }}" | tr '/' '-' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+      - name: Download pitested sources
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: pitested-sources-${{ env.SUFFIX }}
+          path: ./
+      - uses: actions/setup-java@v5.6.0
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+          cache-dependency-path: pom.xml
+      - name: Create sonar token
+        run: |
+          echo "Waiting SonarQube is started"
+          echo "http://$SONARQUBE_HOST:$SONARQUBE_PORT/api/system/status"
+          while true; do 
+            status=$(curl -s "http://localhost:9000/api/system/status" | jq -r '.status') 
+            if [ "$status" == "UP" ]; then 
+              echo "El servicio está UP." 
+              break 
+            fi 
+            echo "Esperando..." 
+            sleep 5 
+          done
+          echo "Change default password"
+          curl -v -u $SONARQUBE_USER:admin -X POST "http://$SONARQUBE_HOST:$SONARQUBE_PORT/api/users/change_password?login=$SONARQUBE_USER&previousPassword=admin&password=$SONARQUBE_PASSWORD"
+          echo "Create token"
+          sonar_token=$(curl -u $SONARQUBE_USER:$SONARQUBE_PASSWORD http://$SONARQUBE_HOST:$SONARQUBE_PORT/api/user_tokens/generate -d 'name=token' | jq -r '.token')
+          echo "sonar_token=$sonar_token"
+          echo "SONARQUBE_TOKEN=$sonar_token" >> $GITHUB_ENV
+      - name: Static Code Analysis
+        run: |
+          mvn sonar:sonar -Dsurefire.skip=true -Dfailsafe.skip=true -Dpitest.skip=true --batch-mode -Dsonar.login=${{ env.SONARQUBE_TOKEN }} -Dsonar.host.url=http://$SONARQUBE_HOST:$SONARQUBE_PORT -Dsonar.projectKey='${{ inputs.SONAR_PROJECT_KEY }}' -Dsonar.projectName='${{ inputs.SONAR_PROJECT_NAME }}'
+      - name: Generate Static Code Analysis report
+        run: |
+          curl -u $SONARQUBE_USER:$SONARQUBE_PASSWORD "http://$SONARQUBE_HOST:$SONARQUBE_PORT/api/measures/component?additionalFields=period%2Cmetrics&component=${{ inputs.SONAR_PROJECT_KEY }}&metricKeys=alert_status%2Cquality_gate_details%2Cnew_violations%2Caccepted_issues%2Cnew_accepted_issues%2Chigh_impact_accepted_issues%2Csoftware_quality_maintainability_issues%2Csoftware_quality_reliability_issues%2Csoftware_quality_security_issues%2Cbugs%2Cnew_bugs%2Creliability_rating%2Csoftware_quality_reliability_rating%2Cnew_reliability_rating%2Cnew_software_quality_reliability_rating%2Cvulnerabilities%2Cnew_vulnerabilities%2Csecurity_rating%2Csoftware_quality_security_rating%2Cnew_security_rating%2Cnew_software_quality_security_rating%2Csecurity_hotspots%2Cnew_security_hotspots%2Csecurity_hotspots_reviewed%2Cnew_security_hotspots_reviewed%2Csecurity_review_rating%2Cnew_security_review_rating%2Ccode_smells%2Cnew_code_smells%2Csqale_rating%2Csoftware_quality_maintainability_rating%2Cnew_maintainability_rating%2Cnew_software_quality_maintainability_rating%2Csqale_index%2Cnew_technical_debt%2Ccoverage%2Cnew_coverage%2Clines_to_cover%2Cnew_lines_to_cover%2Ctests%2Cduplicated_lines_density%2Cnew_duplicated_lines_density%2Cduplicated_blocks%2Cncloc%2Cncloc_language_distribution%2Cprojects%2Clines%2Cnew_lines%2Cviolations" > ./sonar_report.txt
+      - name: Publish Static Code Analysis report
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: static-code-analysis-report$-${{ env.SUFFIX }}
+          path: ./sonar_report.txt
+
+  run-vulnerability-scan:
+    name: Vulnerability Scan
+    needs: [run-pitest]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/maven-3-jdk-21@v1.0.0
+        continue-on-error: true # To make sure that SARIF upload gets called
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --sarif-file-output=snyk.sarif
+      - name: Check GitHub Code scanning alerts enabled
+        id: check_scanning
+        uses: actions/github-script@v9.0.0
+        continue-on-error: true
+        with:
+          result-encoding: string
+          script: |
+            const currentRepo = process.env.GITHUB_REPOSITORY;
+            const parts = currentRepo.split("/");
+            const repoOwner = parts[0];
+            const repoName = parts[1];
+            try {
+              const { data } = await github.rest.codeScanning.listAlertsForRepo({
+                owner: repoOwner,
+                repo: repoName,
+              });
+              if (data.length === 0) {
+                console.log('Code scanning are disabled in this repository.');
+                return 'false';
+              } else {
+                console.log('Code scanning are enabled in this repository.');
+                return 'true';
+              }
+            } catch (e) {
+              if (e.status === 200 || e.status === 304 || e.status === 404) {
+                console.log('Code scanning are enabled in this repository.');
+                return 'true';
+              }
+              console.log('Code scanning are disabled in this repository.');
+              return 'false';
+            }
+      - name: Upload result to GitHub Code Scanning
+        if: ${{ steps.check_scanning.outputs.result == 'true' }}
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk.sarif    
+
+  publish-coverage:
+    name: Publish coverage
+    needs: [create-site]
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "SUFFIX=$(echo "${{ env.BRANCH_NAME }}" | tr '/' '-' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+      - name: Download site sources
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: site-sources-${{ env.SUFFIX }}
+          path: ./
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  publish-reports:
+    name: Publish reports
+    needs: [create-site]
+    runs-on: ubuntu-24.04
+    if: ${{ github.ref_name == inputs.DEFAULT_BRANCH }}
+    steps:
+      - run: echo "SUFFIX=$(echo "${{ env.BRANCH_NAME }}" | tr '/' '-' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+      - name: Download site sources
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: site-sources-${{ env.SUFFIX }}
+          path: ./
+      - name: Deploy site
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./target/site
+
+  build-docker-image:
+    name: Create & publish docker image
+    needs: [run-sonarqube, run-vulnerability-scan]
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        file: ${{ fromJSON(inputs.DOCKER_IMAGES) }}
+    steps:
+      - run: echo "SUFFIX=$(echo "${{ env.BRANCH_NAME }}" | tr '/' '-' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+      - name: Download compiled sources
+        if: ${{ matrix.file != '_' }}
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: compiled-sources-${{ env.SUFFIX }}
+          path: ./
+      - name: Split image name, context, dockerfile
+        if: ${{ matrix.file != '_' }}
+        run: |
+          triple="${{ matrix.file }}"
+          image_name=$(echo $triple | awk -F ";" '{print $1}')
+          context=$(echo $triple | awk -F ";" '{if (NF >= 2) print $2; else print "./"}')
+          dockerfile=$(echo $triple | awk -F ";" '{if (NF >= 3) print $3; else print "./Dockerfile"}')
+          echo "image_name=$image_name"
+          echo "context=$context"
+          echo "dockerfile=$dockerfile"
+          echo "image_name=$image_name" >> $GITHUB_ENV
+          echo "context=$context" >> $GITHUB_ENV
+          echo "dockerfile=$dockerfile" >> $GITHUB_ENV
+      - name: Docker build and publish
+        if: ${{ matrix.file != '_' }}
+        uses: ./.github/actions/docker-build-and-publish
+        with:
+          registry_user: ${{ secrets.DOCKERHUB_USERNAME }}
+          registry_token: ${{ secrets.DOCKERHUB_TOKEN }}
+          image_name: ${{ env.image_name }}
+          context: ${{ env.context }}
+          dockerfile: ${{ env.dockerfile }}
+
+  run-docker-vulnerability-scan:
+    name: Docker vulnerability Scan
+    needs: [build-docker-image]
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        file: ${{ fromJSON(inputs.DOCKER_IMAGES) }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - name: Split image name, context, dockerfile
+        if: ${{ matrix.file != '_' }}
+        run: |
+          triple="${{ matrix.file }}"
+          image_name=$(echo $triple | awk -F ";" '{print $1}')
+          context=$(echo $triple | awk -F ";" '{if (NF >= 2) print $2; else print "./"}')
+          dockerfile=$(echo $triple | awk -F ";" '{if (NF >= 3) print $3; else print "./Dockerfile"}')
+          echo "image_name=$image_name"
+          echo "context=$context"
+          echo "dockerfile=$dockerfile"
+          echo "image_name=$image_name" >> $GITHUB_ENV
+          echo "context=$context" >> $GITHUB_ENV
+          echo "dockerfile=$dockerfile" >> $GITHUB_ENV
+      - name: Run Snyk to check Docker image for vulnerabilities
+        if: ${{ matrix.file != '_' }}
+        # Snyk can be used to break the build when it detects vulnerabilities.
+        # In this case we want to upload the issues to GitHub Code Scanning
+        continue-on-error: true
+        uses: snyk/actions/docker@v1.0.0
+        env:
+          # In order to use the Snyk Action you will need to have a Snyk API token.
+          # See https://docs.snyk.io/integrations/ci-cd-integrations/github-actions-integration#getting-your-snyk-token
+          # or you can sign up for free at https://snyk.io/login
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          image: ${{ env.image_name }}
+          args: --file=${{ env.dockerfile }}
+      - name: Check GitHub Code scanning alerts enabled
+        id: check_scanning
+        uses: actions/github-script@v9.0.0
+        continue-on-error: true
+        with:
+          result-encoding: string
+          script: |
+            const currentRepo = process.env.GITHUB_REPOSITORY;
+            const parts = currentRepo.split("/");
+            const repoOwner = parts[0];
+            const repoName = parts[1];
+            try {
+              const { data } = await github.rest.codeScanning.listAlertsForRepo({
+                owner: repoOwner,
+                repo: repoName,
+              });
+              if (data.length === 0) {
+                console.log('Code scanning are disabled in this repository.');
+                return 'false';
+              } else {
+                console.log('Code scanning are enabled in this repository.');
+                return 'true';
+              }
+            } catch (e) {
+              if (e.status === 200 || e.status === 304 || e.status === 404) {
+                console.log('Code scanning are enabled in this repository.');
+                return 'true';
+              }
+              console.log('Code scanning are disabled in this repository.');
+              return 'false';
+            }
+      - name: Upload result to GitHub Code Scanning
+        if: ${{ steps.check_scanning.outputs.result == 'true' }}
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk.sarif
+        
+  delete-unused-artifact:
+    name: Delete unused artifact
+    # build-app, run-unit-tests, run-int-tests, run-pitest and create-site are needed as dependencies because it is using outputs from those jobs
+    needs: [build-app, run-unit-tests, run-int-tests, run-pitest, create-site, publish-coverage, publish-reports, build-docker-image]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Delete compiled sources
+        id: delete-compiled-sources
+        uses: actions/github-script@v9.0.0
+        with:
+          script: |
+            github.rest.actions.deleteArtifact({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              artifact_id: ${{ needs.build-app.outputs.compiled-sources-artifact-id }}
+            });
+      - name: Delete unit tested sources
+        id: delete-unit-tested-sources
+        uses: actions/github-script@v9.0.0
+        with:
+          script: |
+            github.rest.actions.deleteArtifact({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              artifact_id: ${{ needs.run-unit-tests.outputs.unit-tested-sources-artifact-id }}
+            });
+      - name: Delete integration tested sources
+        id: delete-int-tested-sources
+        uses: actions/github-script@v9.0.0
+        with:
+          script: |
+            github.rest.actions.deleteArtifact({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              artifact_id: ${{ needs.run-int-tests.outputs.int-tested-sources-artifact-id }}
+            });
+      - name: Delete pitested sources
+        id: delete-pitested-sources
+        uses: actions/github-script@v9.0.0
+        with:
+          script: |
+            github.rest.actions.deleteArtifact({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              artifact_id: ${{ needs.run-pitest.outputs.pitested-sources-artifact-id }}
+            });
+      - name: Delete site sources
+        id: delete-site-sources
+        uses: actions/github-script@v9.0.0
+        with:
+          script: |
+            github.rest.actions.deleteArtifact({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              artifact_id: ${{ needs.create-site.outputs.site-sources-artifact-id }}
+            });
