@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        file: ${{ fromJSON(vars.DOCKER_IMAGES) }}
+        file: ${{ fromJSON(env.DOCKER_IMAGES) }}
     steps:
       - run: |
           triple="${{ matrix.file }}"
