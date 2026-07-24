@@ -25,6 +25,7 @@ jobs:
 
   check-styling:
     name: Check styling
+    needs: [test-job]
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7.0.1
