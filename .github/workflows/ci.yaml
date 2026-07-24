@@ -6,7 +6,7 @@ on:
 env:
   SONAR_PROJECT_KEY: "openspec-demo"
   SONAR_PROJECT_NAME: "Openspec Demo"
-#  DOCKER_IMAGES: '["sjexpossdd/openspec-demo"]'
+  DOCKER_IMAGES: '["sjexpossdd/openspec-demo"]'
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
   DEFAULT_BRANCH: "main"
 
@@ -15,15 +15,14 @@ jobs:
   test-job:
     name: Test job
     runs-on: ubuntu-24.04
-    env:
-      DOCKER_IMAGES: '["sjexpossdd/openspec-demo"]'
-    strategy:
-      matrix:
-        file: ${{ fromJSON( DOCKER_IMAGES ) }}
+#    strategy:
+#      matrix:
+#        file: ${{ fromJSON( DOCKER_IMAGES ) }}
     steps:
       - run: |
-          triple="${{ matrix.file }}"
-          echo $triple
+          echo " ${{ env.DOCKER_IMAGES }} "
+#          triple="${{ matrix.file }}"
+#          echo $triple
 
   check-styling:
     name: Check styling
