@@ -373,10 +373,7 @@ jobs:
           path: ./
       - name: Show File System
         run: |
-          ls -al
-          ls -al ./
-          ls -al ./.github/actions/docker-build-and-publish
-          ls -al ./.github/actions/docker-build-and-publish/action.yaml
+          ls -aRl
       - name: Split image name, context, dockerfile
         if: ${{ matrix.file != '_' }}
         run: |
@@ -392,7 +389,7 @@ jobs:
           echo "dockerfile=$dockerfile" >> $GITHUB_ENV
       - name: Docker build and publish
         if: ${{ matrix.file != '_' }}
-        uses: ./.github/actions/docker-build-and-publish
+        uses: sjexpos/openspec-demo/.github/actions/docker-build-and-publish
         with:
           registry_user: ${{ secrets.DOCKERHUB_USERNAME }}
           registry_token: ${{ secrets.DOCKERHUB_TOKEN }}
