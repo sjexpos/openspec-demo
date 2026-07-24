@@ -305,7 +305,7 @@ jobs:
 
   publish-coverage:
     name: Publish coverage
-    needs: [run-sonarqube]
+    needs: [create-site]
     runs-on: ubuntu-24.04
     steps:
       - run: echo "SUFFIX=$(echo "${{ env.BRANCH_NAME }}" | tr '/' '-' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
@@ -321,7 +321,7 @@ jobs:
 
   publish-reports:
     name: Publish reports
-    needs: [run-sonarqube]
+    needs: [create-site]
     runs-on: ubuntu-24.04
     if: github.ref_name == vars.DEFAULT_BRANCH
     steps:
