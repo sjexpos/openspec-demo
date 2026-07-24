@@ -15,8 +15,8 @@ jobs:
     name: Check styling
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4.2.2
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-java@v5.6.0
         with:
           java-version: '21'
           distribution: 'temurin'
@@ -32,8 +32,8 @@ jobs:
     needs: [check-styling]
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4.2.2
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-java@v5.6.0
         with:
           java-version: '21'
           distribution: 'temurin'
@@ -55,9 +55,9 @@ jobs:
         run: mvn -Dsurefire.skip=true -Dfailsafe.skip=true -Dpitest.skip=true --batch-mode --update-snapshots install
       - name: Upload compilted sources
         id: upload-compiled-sources
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v7.0.1
         with:
-          name: compiled-sources-$BRANCH_NAME
+          name: compiled-sources-${{ env.BRANCH_NAME }}
           path: ./
     outputs:
       project-version: ${{ env.version }}
@@ -69,11 +69,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Download compiled sources
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v8.0.1
         with:
-          name: compiled-sources-$BRANCH_NAME
+          name: compiled-sources-${{ env.BRANCH_NAME }}
           path: ./
-      - uses: actions/setup-java@v4.2.2
+      - uses: actions/setup-java@v5.6.0
         with:
           java-version: '21'
           distribution: 'temurin'
@@ -83,9 +83,9 @@ jobs:
         run: mvn -Dsurefire.skip=false -Dfailsafe.skip=true -Dpitest.skip=true --batch-mode verify
       - name: Upload unit tested sources
         id: upload-unit-tested-sources
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v7.0.1
         with:
-          name: unit-tested-sources-$BRANCH_NAME
+          name: unit-tested-sources-${{ env.BRANCH_NAME }}
           path: ./
     outputs:
       unit-tested-sources-artifact-id: ${{ steps.upload-unit-tested-sources.outputs.artifact-id }}
@@ -110,11 +110,11 @@ jobs:
           --health-retries 5
     steps:
       - name: Download unit tested sources
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v8.0.1
         with:
-          name: unit-tested-sources-$BRANCH_NAME
+          name: unit-tested-sources-${{ env.BRANCH_NAME }}
           path: ./
-      - uses: actions/setup-java@v4.2.2
+      - uses: actions/setup-java@v5.6.0
         with:
           java-version: '21'
           distribution: 'temurin'
@@ -124,9 +124,9 @@ jobs:
         run: mvn -Dsurefire.skip=true -Dfailsafe.skip=false -Dpitest.skip=true --batch-mode verify
       - name: Upload integration tested sources
         id: upload-int-tested-sources
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v7.0.1
         with:
-          name: int-tested-sources-$BRANCH_NAME
+          name: int-tested-sources-${{ env.BRANCH_NAME }}
           path: ./
     outputs:
       int-tested-sources-artifact-id: ${{ steps.upload-int-tested-sources.outputs.artifact-id }}
@@ -137,11 +137,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Download integration tested sources
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v8.0.1
         with:
-          name: int-tested-sources-$BRANCH_NAME
+          name: int-tested-sources-${{ env.BRANCH_NAME }}
           path: ./
-      - uses: actions/setup-java@v4.2.2
+      - uses: actions/setup-java@v5.6.0
         with:
           java-version: '21'
           distribution: 'temurin'
@@ -151,9 +151,9 @@ jobs:
         run: mvn -Dsurefire.skip=true -Dfailsafe.skip=true -Dpitest.skip=false --batch-mode verify
       - name: Upload pitested sources
         id: upload-pitested-sources
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v7.0.1
         with:
-          name: pitested-sources-$BRANCH_NAME
+          name: pitested-sources-${{ env.BRANCH_NAME }}
           path: ./
     outputs:
       pitested-sources-artifact-id: ${{ steps.upload-pitested-sources.outputs.artifact-id }}
@@ -164,11 +164,11 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Download pitested sources
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v8.0.1
         with:
-          name: pitested-sources-$BRANCH_NAME
+          name: pitested-sources-${{ env.BRANCH_NAME }}
           path: ./
-      - uses: actions/setup-java@v4.2.2
+      - uses: actions/setup-java@v5.6.0
         with:
           java-version: '21'
           distribution: 'temurin'
@@ -178,9 +178,9 @@ jobs:
         run: mvn -Dsurefire.skip=true -Dfailsafe.skip=true -Dpitest.skip=true --batch-mode site
       - name: Upload site sources
         id: upload-site-sources
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v7.0.1
         with:
-          name: site-sources-$BRANCH_NAME
+          name: site-sources-${{ env.BRANCH_NAME }}
           path: ./
     outputs:
       site-sources-artifact-id: ${{ steps.upload-site-sources.outputs.artifact-id }}
@@ -206,11 +206,11 @@ jobs:
       SONARQUBE_PASSWORD: Admin123456!
     steps:
       - name: Download pitested sources
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v8.0.1
         with:
-          name: pitested-sources-$BRANCH_NAME
+          name: pitested-sources-${{ env.BRANCH_NAME }}
           path: ./
-      - uses: actions/setup-java@v4.2.2
+      - uses: actions/setup-java@v5.6.0
         with:
           java-version: '21'
           distribution: 'temurin'
@@ -237,14 +237,14 @@ jobs:
           echo "SONARQUBE_TOKEN=$sonar_token" >> $GITHUB_ENV
       - name: Static Code Analysis
         run: |
-          mvn sonar:sonar -Dsurefire.skip=true -Dfailsafe.skip=true -Dpitest.skip=true --batch-mode -Dsonar.login=${{ env.SONARQUBE_TOKEN }} -Dsonar.host.url=http://$SONARQUBE_HOST:$SONARQUBE_PORT -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.projectName=$SONAR_PROJECT_NAME
+          mvn sonar:sonar -Dsurefire.skip=true -Dfailsafe.skip=true -Dpitest.skip=true --batch-mode -Dsonar.login=${{ env.SONARQUBE_TOKEN }} -Dsonar.host.url=http://$SONARQUBE_HOST:$SONARQUBE_PORT -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.projectName="$SONAR_PROJECT_NAME"
       - name: Generate Static Code Analysis report
         run: |
           curl -u $SONARQUBE_USER:$SONARQUBE_PASSWORD "http://$SONARQUBE_HOST:$SONARQUBE_PORT/api/measures/component?additionalFields=period%2Cmetrics&component=$SONAR_PROJECT_KEY&metricKeys=alert_status%2Cquality_gate_details%2Cnew_violations%2Caccepted_issues%2Cnew_accepted_issues%2Chigh_impact_accepted_issues%2Csoftware_quality_maintainability_issues%2Csoftware_quality_reliability_issues%2Csoftware_quality_security_issues%2Cbugs%2Cnew_bugs%2Creliability_rating%2Csoftware_quality_reliability_rating%2Cnew_reliability_rating%2Cnew_software_quality_reliability_rating%2Cvulnerabilities%2Cnew_vulnerabilities%2Csecurity_rating%2Csoftware_quality_security_rating%2Cnew_security_rating%2Cnew_software_quality_security_rating%2Csecurity_hotspots%2Cnew_security_hotspots%2Csecurity_hotspots_reviewed%2Cnew_security_hotspots_reviewed%2Csecurity_review_rating%2Cnew_security_review_rating%2Ccode_smells%2Cnew_code_smells%2Csqale_rating%2Csoftware_quality_maintainability_rating%2Cnew_maintainability_rating%2Cnew_software_quality_maintainability_rating%2Csqale_index%2Cnew_technical_debt%2Ccoverage%2Cnew_coverage%2Clines_to_cover%2Cnew_lines_to_cover%2Ctests%2Cduplicated_lines_density%2Cnew_duplicated_lines_density%2Cduplicated_blocks%2Cncloc%2Cncloc_language_distribution%2Cprojects%2Clines%2Cnew_lines%2Cviolations" > ./sonar_report.txt
       - name: Publish Static Code Analysis report
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v7.0.1
         with:
-          name: static-code-analysis-report$-$BRANCH_NAME
+          name: static-code-analysis-report$-${{ env.BRANCH_NAME }}
           path: ./sonar_report.txt
 
   run-vulnerability-scan:
@@ -252,9 +252,9 @@ jobs:
     needs: [run-pitest]
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7.0.1
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/maven-3-jdk-21@master
+        uses: snyk/actions/maven-3-jdk-21@v1.0.0
         continue-on-error: true # To make sure that SARIF upload gets called
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
@@ -262,7 +262,7 @@ jobs:
           args: --sarif-file-output=snyk.sarif
       - name: Check GitHub Code scanning alerts enabled
         id: check_scanning
-        uses: actions/github-script@v6
+        uses: actions/github-script@v9.0.0
         continue-on-error: true
         with:
           result-encoding: string
@@ -303,9 +303,9 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Download site sources
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v8.0.1
         with:
-          name: site-sources-$BRANCH_NAME
+          name: site-sources-${{ env.BRANCH_NAME }}
           path: ./
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
@@ -319,9 +319,9 @@ jobs:
     if: github.ref_name == vars.DEFAULT_BRANCH
     steps:
       - name: Download site sources
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v8.0.1
         with:
-          name: site-sources-$BRANCH_NAME
+          name: site-sources-${{ env.BRANCH_NAME }}
           path: ./
       - name: Deploy site
         uses: peaceiris/actions-gh-pages@v4
@@ -339,9 +339,9 @@ jobs:
     steps:
       - name: Download compiled sources
         if: ${{ matrix.file != '_' }}
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v8.0.1
         with:
-          name: compiled-sources-$BRANCH_NAME
+          name: compiled-sources-${{ env.BRANCH_NAME }}
           path: ./
       - name: Split image name, context, dockerfile
         if: ${{ matrix.file != '_' }}
@@ -374,7 +374,7 @@ jobs:
       matrix:
         file: ${{ fromJSON(vars.DOCKER_IMAGES) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7.0.1
       - name: Split image name, context, dockerfile
         if: ${{ matrix.file != '_' }}
         run: |
@@ -393,7 +393,7 @@ jobs:
         # Snyk can be used to break the build when it detects vulnerabilities.
         # In this case we want to upload the issues to GitHub Code Scanning
         continue-on-error: true
-        uses: snyk/actions/docker@master
+        uses: snyk/actions/docker@v1.0.0
         env:
           # In order to use the Snyk Action you will need to have a Snyk API token.
           # See https://docs.snyk.io/integrations/ci-cd-integrations/github-actions-integration#getting-your-snyk-token
@@ -404,7 +404,7 @@ jobs:
           args: --file=${{ env.dockerfile }}
       - name: Check GitHub Code scanning alerts enabled
         id: check_scanning
-        uses: actions/github-script@v6
+        uses: actions/github-script@v9.0.0
         continue-on-error: true
         with:
           result-encoding: string
@@ -447,7 +447,7 @@ jobs:
     steps:
       - name: Delete compiled sources
         id: delete-compiled-sources
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9.0.0
         with:
           script: |
             github.rest.actions.deleteArtifact({
@@ -457,7 +457,7 @@ jobs:
             });
       - name: Delete unit tested sources
         id: delete-unit-tested-sources
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9.0.0
         with:
           script: |
             github.rest.actions.deleteArtifact({
@@ -467,7 +467,7 @@ jobs:
             });
       - name: Delete integration tested sources
         id: delete-int-tested-sources
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9.0.0
         with:
           script: |
             github.rest.actions.deleteArtifact({
@@ -477,7 +477,7 @@ jobs:
             });
       - name: Delete pitested sources
         id: delete-pitested-sources
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9.0.0
         with:
           script: |
             github.rest.actions.deleteArtifact({
@@ -487,7 +487,7 @@ jobs:
             });
       - name: Delete site sources
         id: delete-site-sources
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9.0.0
         with:
           script: |
             github.rest.actions.deleteArtifact({
