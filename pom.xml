@@ -57,6 +57,7 @@
         <maven-failsafe-plugin.version>3.3.1</maven-failsafe-plugin.version>
         <pitest-maven.version>1.16.2</pitest-maven.version>
         <pitest-junit5-plugin.version>1.2.1</pitest-junit5-plugin.version>
+        <sonar-maven-plugin.version>4.0.1.6619</sonar-maven-plugin.version>
         <surefire.skip>false</surefire.skip>
         <failsafe.skip>false</failsafe.skip>
         <pitest.skip>false</pitest.skip>
@@ -510,6 +511,11 @@
                         <version>${pitest-junit5-plugin.version}</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar-maven-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
