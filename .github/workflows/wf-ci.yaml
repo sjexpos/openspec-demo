@@ -79,6 +79,7 @@ jobs:
         with:
           name: compiled-sources-${{ env.SUFFIX }}
           path: ./
+          include-hidden-files: true
     outputs:
       project-version: ${{ env.version }}
       compiled-sources-artifact-id: ${{ steps.upload-compiled-sources.outputs.artifact-id }}
@@ -108,6 +109,7 @@ jobs:
         with:
           name: unit-tested-sources-${{ env.SUFFIX }}
           path: ./
+          include-hidden-files: true
     outputs:
       unit-tested-sources-artifact-id: ${{ steps.upload-unit-tested-sources.outputs.artifact-id }}
 
@@ -120,6 +122,9 @@ jobs:
         image: postgres:14.4
         ports:
           - 5432:5432
+        credentials:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
         env:
           POSTGRES_USER: test
           POSTGRES_PASSWORD: test
@@ -150,6 +155,7 @@ jobs:
         with:
           name: int-tested-sources-${{ env.SUFFIX }}
           path: ./
+          include-hidden-files: true
     outputs:
       int-tested-sources-artifact-id: ${{ steps.upload-int-tested-sources.outputs.artifact-id }}
 
@@ -178,6 +184,7 @@ jobs:
         with:
           name: pitested-sources-${{ env.SUFFIX }}
           path: ./
+          include-hidden-files: true
     outputs:
       pitested-sources-artifact-id: ${{ steps.upload-pitested-sources.outputs.artifact-id }}
 
@@ -206,6 +213,7 @@ jobs:
         with:
           name: site-sources-${{ env.SUFFIX }}
           path: ./
+          include-hidden-files: true
     outputs:
       site-sources-artifact-id: ${{ steps.upload-site-sources.outputs.artifact-id }}
 
