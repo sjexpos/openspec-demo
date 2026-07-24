@@ -372,7 +372,11 @@ jobs:
           name: compiled-sources-${{ env.SUFFIX }}
           path: ./
       - name: Show File System
-        run: ls -l 
+        run: |
+          ls -al
+          ls -al ./
+          ls -al ./.github/actions/docker-build-and-publish
+          ls -al ./.github/actions/docker-build-and-publish/action.yaml
       - name: Split image name, context, dockerfile
         if: ${{ matrix.file != '_' }}
         run: |
