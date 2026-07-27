@@ -192,7 +192,7 @@ jobs:
 
   run-sonarqube:
     name: SonarQube Scan
-    needs: [ run-pitest ]
+    needs: [ check-styling, run-pitest ]
     runs-on: ubuntu-24.04
     services:
       sonarqube:
@@ -205,6 +205,8 @@ jobs:
         options: --health-cmd "curl -v http://sonarqube:9000/api/system/status" --health-interval 10s --health-timeout 5s --health-retries 5
     env:
       # use localhost for the host here because we are running the job on the VM. If we were running the job on in a container this would be sonarqube (container mode is when the job define property "container")
+      GROUP_ID: ${{ needs.check-styling.outputs.group-id }}
+      ARTIFACT_ID: ${{ needs.check-styling.outputs.artifact-id }}
       SONARQUBE_HOST: localhost
       SONARQUBE_PORT: 9000
       SONARQUBE_USER: admin
@@ -246,13 +248,19 @@ jobs:
           mvn sonar:sonar -Dsurefire.skip=true -Dfailsafe.skip=true -Dpitest.skip=true --batch-mode -Dsonar.login=${{ env.SONARQUBE_TOKEN }} -Dsonar.host.url=http://$SONARQUBE_HOST:$SONARQUBE_PORT -Dsonar.projectKey='${{ inputs.SONAR_PROJECT_KEY }}' -Dsonar.projectName='${{ inputs.SONAR_PROJECT_NAME }}'
       - name: Generate Static Code Analysis report
         run: |
+          curl -u $SONARQUBE_USER:$SONARQUBE_PASSWORD "http://$SONARQUBE_HOST:$SONARQUBE_PORT/api/issues/search?components=$GROUP_ID$%3A$ARTIFACT_ID$&s=FILE_LINE&issueStatuses=CONFIRMED%2COPEN&ps=100&facets=impactSoftwareQualities%2Cseverities%2Ctypes%2CimpactSeverities%2CcodeVariants&additionalFields=_all" > ./target/sonar_report.json
           curl -u $SONARQUBE_USER:$SONARQUBE_PASSWORD "http://$SONARQUBE_HOST:$SONARQUBE_PORT/api/measures/component?additionalFields=period%2Cmetrics&component=${{ inputs.SONAR_PROJECT_KEY }}&metricKeys=alert_status%2Cquality_gate_details%2Cnew_violations%2Caccepted_issues%2Cnew_accepted_issues%2Chigh_impact_accepted_issues%2Csoftware_quality_maintainability_issues%2Csoftware_quality_reliability_issues%2Csoftware_quality_security_issues%2Cbugs%2Cnew_bugs%2Creliability_rating%2Csoftware_quality_reliability_rating%2Cnew_reliability_rating%2Cnew_software_quality_reliability_rating%2Cvulnerabilities%2Cnew_vulnerabilities%2Csecurity_rating%2Csoftware_quality_security_rating%2Cnew_security_rating%2Cnew_software_quality_security_rating%2Csecurity_hotspots%2Cnew_security_hotspots%2Csecurity_hotspots_reviewed%2Cnew_security_hotspots_reviewed%2Csecurity_review_rating%2Cnew_security_review_rating%2Ccode_smells%2Cnew_code_smells%2Csqale_rating%2Csoftware_quality_maintainability_rating%2Cnew_maintainability_rating%2Cnew_software_quality_maintainability_rating%2Csqale_index%2Cnew_technical_debt%2Ccoverage%2Cnew_coverage%2Clines_to_cover%2Cnew_lines_to_cover%2Ctests%2Cduplicated_lines_density%2Cnew_duplicated_lines_density%2Cduplicated_blocks%2Cncloc%2Cncloc_language_distribution%2Cprojects%2Clines%2Cnew_lines%2Cviolations" > ./target/sonar_report2.json
-          curl -u $SONARQUBE_USER:$SONARQUBE_PASSWORD "http://$SONARQUBE_HOST:$SONARQUBE_PORT/api/measures/component?additionalFields=period%2Cmetrics&component=${{ inputs.SONAR_PROJECT_KEY }}&metricKeys=alert_status%2Cquality_gate_details%2Cnew_violations%2Caccepted_issues%2Cnew_accepted_issues%2Chigh_impact_accepted_issues%2Csoftware_quality_maintainability_issues%2Csoftware_quality_reliability_issues%2Csoftware_quality_security_issues%2Cbugs%2Cnew_bugs%2Creliability_rating%2Csoftware_quality_reliability_rating%2Cnew_reliability_rating%2Cnew_software_quality_reliability_rating%2Cvulnerabilities%2Cnew_vulnerabilities%2Csecurity_rating%2Csoftware_quality_security_rating%2Cnew_security_rating%2Cnew_software_quality_security_rating%2Csecurity_hotspots%2Cnew_security_hotspots%2Csecurity_hotspots_reviewed%2Cnew_security_hotspots_reviewed%2Csecurity_review_rating%2Cnew_security_review_rating%2Ccode_smells%2Cnew_code_smells%2Csqale_rating%2Csoftware_quality_maintainability_rating%2Cnew_maintainability_rating%2Cnew_software_quality_maintainability_rating%2Csqale_index%2Cnew_technical_debt%2Ccoverage%2Cnew_coverage%2Clines_to_cover%2Cnew_lines_to_cover%2Ctests%2Cduplicated_lines_density%2Cnew_duplicated_lines_density%2Cduplicated_blocks%2Cncloc%2Cncloc_language_distribution%2Cprojects%2Clines%2Cnew_lines%2Cviolations" > ./target/sonar_report2.json
+      - name: Publish Issues report
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: issues-report$-${{ env.SUFFIX }}
+          path: ./target/sonar_report.json
+          archive: false
       - name: Publish Static Code Analysis report
         uses: actions/upload-artifact@v7.0.1
         with:
           name: static-code-analysis-report$-${{ env.SUFFIX }}
-          path: ./target/sonar_report.json
+          path: ./target/sonar_report2.json
           archive: false
 
   create-site:
