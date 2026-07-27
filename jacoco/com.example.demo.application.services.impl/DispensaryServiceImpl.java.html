@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DispensaryServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo</a> &gt; <a href="index.source.html" class="el_package">com.example.demo.application.services.impl</a> &gt; <span class="el_source">DispensaryServiceImpl.java</span></div><h1>DispensaryServiceImpl.java</h1><pre class="source lang-java linenums">/**********
+ This project is free software; you can redistribute it and/or modify it under
+ the terms of the GNU General Public License as published by the
+ Free Software Foundation; either version 3.0 of the License, or (at your
+ option) any later version. (See &lt;https://www.gnu.org/licenses/gpl-3.0.html&gt;.)
+
+ This project is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this project; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+ **********/
+// Copyright (c) 2026-2027 Sergio Exposito.  All rights reserved.              
+
+package com.example.demo.application.services.impl;
+
+import com.example.demo.application.exceptions.NotFoundException;
+import com.example.demo.application.services.DispensaryService;
+import com.example.demo.domain.models.dispensary.Address;
+import com.example.demo.domain.models.dispensary.Dispensary;
+import com.example.demo.domain.models.dispensary.LicenseStatus;
+import com.example.demo.domain.repositories.AddressRepository;
+import com.example.demo.domain.repositories.DispensaryRepository;
+import com.example.demo.domain.repositories.LicenseStatusRepository;
+import java.math.BigDecimal;
+import java.util.Optional;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class DispensaryServiceImpl implements DispensaryService {
+
+  private DispensaryRepository dispensaryRepository;
+  private LicenseStatusRepository licenseStatusRepository;
+  private AddressRepository addressRepository;
+
+  public DispensaryServiceImpl(
+      DispensaryRepository dispensaryRepository,
+      LicenseStatusRepository licenseStatusRepository,
+<span class="fc" id="L44">      AddressRepository addressRepository) {</span>
+<span class="fc" id="L45">    this.dispensaryRepository = dispensaryRepository;</span>
+<span class="fc" id="L46">    this.licenseStatusRepository = licenseStatusRepository;</span>
+<span class="fc" id="L47">    this.addressRepository = addressRepository;</span>
+<span class="fc" id="L48">  }</span>
+
+  public Iterable&lt;Dispensary&gt; findAll() {
+<span class="fc" id="L51">    return this.dispensaryRepository.findAllByDeletedAtIsNull();</span>
+  }
+
+  @Override
+  @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+  public Dispensary create(
+      String name,
+      String logoImageURL,
+      String description,
+      String license,
+      String licenseStatus,
+      String phone,
+      String email,
+      String instagramURL,
+      String twitterURL,
+      String facebookURL,
+      String websiteURL,
+      String address,
+      BigDecimal commission,
+      Integer adminId,
+      Boolean enabled) {
+<span class="nc" id="L72">    LicenseStatus licenseStatusEntity =</span>
+        this.licenseStatusRepository
+<span class="nc" id="L74">            .findByState(licenseStatus)</span>
+<span class="nc" id="L75">            .orElseThrow(() -&gt; new NotFoundException(&quot;Invalid license status: &quot; + licenseStatus));</span>
+<span class="nc" id="L76">    var addressEntity = new Address();</span>
+<span class="nc" id="L77">    addressEntity.setAddress(address);</span>
+<span class="nc" id="L78">    addressEntity.setZipCodeId(0);</span>
+<span class="nc" id="L79">    addressEntity.setLongitude(BigDecimal.ZERO);</span>
+<span class="nc" id="L80">    addressEntity.setLatitude(BigDecimal.ZERO);</span>
+<span class="nc" id="L81">    this.addressRepository.save(addressEntity);</span>
+<span class="nc" id="L82">    var dispensary = new Dispensary();</span>
+<span class="nc" id="L83">    dispensary.setLicenseStatus(licenseStatusEntity);</span>
+<span class="nc" id="L84">    dispensary.setName(name);</span>
+<span class="nc" id="L85">    dispensary.setLogoImageUrl(logoImageURL);</span>
+<span class="nc" id="L86">    dispensary.setDescription(description);</span>
+<span class="nc" id="L87">    dispensary.setLicense(license);</span>
+<span class="nc" id="L88">    dispensary.setPhone(phone);</span>
+<span class="nc" id="L89">    dispensary.setEmail(email);</span>
+<span class="nc" id="L90">    dispensary.setInstagramUrl(instagramURL);</span>
+<span class="nc" id="L91">    dispensary.setTwitterUrl(twitterURL);</span>
+<span class="nc" id="L92">    dispensary.setFacebookUrl(facebookURL);</span>
+<span class="nc" id="L93">    dispensary.setWebsiteUrl(websiteURL);</span>
+<span class="nc" id="L94">    dispensary.setAddress(addressEntity);</span>
+<span class="nc" id="L95">    dispensary.setCommission(commission);</span>
+<span class="nc" id="L96">    dispensary.setAdminId(adminId);</span>
+<span class="nc" id="L97">    dispensary.setEnabled(enabled);</span>
+<span class="nc" id="L98">    return this.dispensaryRepository.save(dispensary);</span>
+  }
+
+  @Override
+  public Optional&lt;Dispensary&gt; getById(Long id) {
+<span class="nc" id="L103">    return this.dispensaryRepository</span>
+<span class="nc" id="L104">        .findById(id)</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">        .filter(dispensary -&gt; dispensary.getDeletedAt() == null);</span>
+  }
+
+  @Override
+  @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+  public Optional&lt;Dispensary&gt; deleteById(Long id) throws NotFoundException {
+<span class="nc" id="L111">    var dispensary =</span>
+        this.dispensaryRepository
+<span class="nc" id="L113">            .findById(id)</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">            .filter(d -&gt; d.getDeletedAt() == null)</span>
+<span class="nc" id="L115">            .orElseThrow(() -&gt; new NotFoundException(&quot;Dispensary not found&quot;));</span>
+<span class="nc" id="L116">    dispensary.setDeletedAt(java.time.LocalDateTime.now());</span>
+<span class="nc" id="L117">    dispensary = this.dispensaryRepository.save(dispensary);</span>
+<span class="nc" id="L118">    return Optional.of(dispensary);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
