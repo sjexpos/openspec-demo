@@ -1,0 +1,16 @@
+name: CI
+on:
+  pull_request:
+    branches: [ "**" ]
+
+jobs:
+
+  ci:
+    name: ''
+    uses: ./.github/workflows/wf-ci.yaml
+    secrets: inherit
+    with:
+      SONAR_PROJECT_KEY: openspec-demo
+      SONAR_PROJECT_NAME: Openspec Demo
+      DOCKER_IMAGES: '["sjexpossdd/openspec-demo"]'
+      DEFAULT_BRANCH: main

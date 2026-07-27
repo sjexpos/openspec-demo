@@ -55,8 +55,17 @@
         <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
         <maven-surefire-plugin.version>3.3.1</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>3.3.1</maven-failsafe-plugin.version>
+        <maven-surefire-report-plugin.version>3.3.1</maven-surefire-report-plugin.version>
         <pitest-maven.version>1.16.2</pitest-maven.version>
         <pitest-junit5-plugin.version>1.2.1</pitest-junit5-plugin.version>
+        <sonar-maven-plugin.version>4.0.1.6619</sonar-maven-plugin.version>
+        <maven-project-info-reports-plugin.version>3.6.2</maven-project-info-reports-plugin.version>
+        <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
+        <gmavenplus-plugin.version>3.0.2</gmavenplus-plugin.version>
+        <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
+
+        <surefire.skip>false</surefire.skip>
+        <failsafe.skip>false</failsafe.skip>
         <pitest.skip>false</pitest.skip>
     </properties>
 
@@ -170,6 +179,48 @@
                 <includes><include>**/*</include></includes>
             </testResource>
         </testResources>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>${maven-project-info-reports-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>${maven-site-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-report-plugin</artifactId>
+                    <version>${maven-surefire-report-plugin.version}</version>
+                    <configuration>
+                        <alwaysGenerateSurefireReport>true</alwaysGenerateSurefireReport>
+                        <alwaysGenerateFailsafeReport>true</alwaysGenerateFailsafeReport>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>unit-tests</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>report-only</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>integration-tests</id>
+                            <phase>integration-test</phase>
+                            <goals>
+                                <goal>report-only</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+
+        </pluginManagement>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -414,6 +465,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
+                    <skip>${surefire.skip}</skip>
                     <excludes>
                         <exclude>com/example/demo/integration/**/*</exclude>
                     </excludes>
@@ -424,6 +476,7 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${maven-failsafe-plugin.version}</version>
                 <configuration>
+                    <skip>${failsafe.skip}</skip>
                     <classesDirectory>${project.build.outputDirectory}</classesDirectory>
                     <argLine> <!-- it allows to override env vars using JUnit pioneer extension on Java 17 and later  -->
                         --add-opens java.base/java.util=ALL-UNNAMED
@@ -508,6 +561,11 @@
                 </dependencies>
             </plugin>
             <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar-maven-plugin.version}</version>
+            </plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
@@ -556,11 +614,86 @@
                     <placeholderReplacement>true</placeholderReplacement>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-reports</id>
+                        <phase>site</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <copy todir="${project.basedir}/target/site">
+                                    <fileset dir="target" includes="spotbugs.html" erroronmissingdir="false"/>
+                                </copy>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+                <version>${gmavenplus-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>pre-site</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <scripts>
+                                <script>file:///${project.basedir}/src/site/sonar-report.groovy</script>
+                            </scripts>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.groovy</groupId>
+                        <artifactId>groovy</artifactId>
+                        <version>4.0.22</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.groovy</groupId>
+                        <artifactId>groovy-json</artifactId>
+                        <version>4.0.22</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>${maven-site-plugin.version}</version>
+                <configuration>
+                    <generatedSiteDirectory>${project.basedir}/target/generated-site</generatedSiteDirectory>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
     <reporting>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>index</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -569,6 +702,17 @@
                         <reports>
                             <report>report</report>
                             <report>report-integration</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>report</report>
                         </reports>
                     </reportSet>
                 </reportSets>

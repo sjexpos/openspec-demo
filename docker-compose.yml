@@ -17,3 +17,31 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
+  sonarqube:
+    image: 'sonarqube:26.7.0.124771-community'
+    container_name: sonarqube
+    restart: unless-stopped
+    ports:
+      - ${SONAR_PORT:-9000}:9000
+    volumes:
+      - './docker-compose-sonar-init.sh:/init.sh'
+    healthcheck:
+      test: [ "CMD-SHELL", "http://localhost:9000/api/system/status" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  sonarqube-init:
+    image: 'dwdraju/alpine-curl-jq'
+    container_name: alpine-curl-jq
+    restart: none
+    depends_on:
+      - sonarqube
+    environment:
+      SONAR_USER: admin
+      SONAR_PASSWORD: admin
+      SONAR_NEW_PWD: Admin123456!
+    volumes:
+      - './docker-compose-sonar-init.sh:/init.sh'
+    command: ["/init.sh"]

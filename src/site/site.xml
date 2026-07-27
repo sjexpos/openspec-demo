@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+  <body>
+    <menu ref="parent"/>
+    <menu ref="reports"/>
+    <menu name="custom">
+      <item name="Surefire" href="surefire-report.html" />
+      <item name="Failsafe" href="failsafe-report.html" />
+      <item name="JaCoCo" href="jacoco/index.html" />
+      <item name="PIT Test Report" href="pit-reports/index.html" />
+      <item name="Spotbugs" href="spotbugs.html"/>
+      <item name="Sonar" href="sonar-metrics.html"/>
+    </menu>
+  </body>
+</project>
