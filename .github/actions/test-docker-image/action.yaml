@@ -59,16 +59,14 @@ runs:
         echo "Waiting for service localhost:8080..."
         attempts=0
         max_attempts=10
-        echo "Waiting for service is started"
-        echo "http://localhost:8080/actuator/health"
+        curl -v "http://localhost:8080/actuator/health
         while [ $attempts -lt $max_attempts ]; do
           ((attempts++))
-          echo "Checking service..."
           status=$(curl -s "http://localhost:8080/actuator/health" | jq -r '.status') 
           if [ "$status" == "UP" ]; then 
             echo "El servicio está UP." 
             break 
-          fi 
+          fi
           echo "Waiting... (tries $attempts/$max_attempts)"
           sleep 10
         done
