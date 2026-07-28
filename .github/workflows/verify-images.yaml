@@ -20,6 +20,7 @@ on:
 
 jobs:
   prepare-matrix:
+    name: Prepara docker images matrix
     runs-on: ubuntu-24.04
     steps:
       - name: Convert platforms input parameter to JSON
@@ -33,6 +34,7 @@ jobs:
       platforms: ${{ steps.convert-platforms.outputs.platforms }}
 
   test-docker-images:
+    name: Test docker images
     needs: prepare-matrix
     runs-on: ubuntu-latest
     services:
@@ -71,10 +73,11 @@ jobs:
           echo "image_name=$image_name" >> $GITHUB_ENV
           echo "context=$context" >> $GITHUB_ENV
           echo "dockerfile=$dockerfile" >> $GITHUB_ENV
-      - name: Run test
+      - name: Test docker image ${{ env.image_name }}
         uses: ./.github/actions/test-docker-image
         with:
           registry_user: ${{ secrets.DOCKERHUB_USERNAME }}
           registry_token: ${{ secrets.DOCKERHUB_TOKEN }}
           image: ${{ env.image_name }}
+          tag: ${{  }}
           platform: ${{ matrix.platform }}

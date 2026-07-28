@@ -15,6 +15,10 @@ inputs:
     description: ""
     type: string
     required: true
+  tag:
+    description: ""
+    type: string
+    required: true
   platform:
     description: "Platform"
     type: string
@@ -33,11 +37,13 @@ runs:
       uses: docker/setup-qemu-action@v3
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
-    - name: Descargar imagen
+    - name: Download image ${{ inputs.image }}:${{ inputs.tag }} ${{ inputs.platform }}
+      shell: bash
       run: |
         echo "Downloading ${{ inputs.image }} in platform ${{ inputs.platform }}..."
-        docker pull --platform ${{ inputs.platform }} ${{ inputs.image }}
-    - name: Probar imagen
+        docker pull --platform ${{ inputs.platform }} ${{ inputs.image }}:${{ inputs.tag }}
+    - name: Test image ${{ inputs.image }}:${{ inputs.tag }} ${{ inputs.platform }}
+      shell: bash
       run: |
         echo "Run test in ${{ inputs.image }}..."
-        docker run --rm --platform ${{ inputs.platform }} ${{ inputs.image }} uname -m
+        docker run --rm --platform ${{ inputs.platform }} ${{ inputs.image }}:${{ inputs.tag }} uname -m
