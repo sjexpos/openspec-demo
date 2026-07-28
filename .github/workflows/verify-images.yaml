@@ -11,7 +11,7 @@ on:
         description: "List of docker image names in JSON list format. E.g. ['my-image-1','my-image-2']"
         type: string
         required: false
-        default: "['_']"
+        default: '["_"]'
       platforms:
         description: 'List of platforms'
         required: false
@@ -35,6 +35,23 @@ jobs:
   test-docker-images:
     needs: prepare-matrix
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14.4
+        ports:
+          - 5432:5432
+        credentials:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: demo
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     strategy:
       matrix:
         file: ${{ fromJSON( inputs.images ) }}
