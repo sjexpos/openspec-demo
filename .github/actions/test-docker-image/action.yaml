@@ -46,7 +46,7 @@ runs:
       shell: bash
       run: |
         echo "Run test in ${{ inputs.image }}..."
-        docker run -d --rm --network host --platform ${{ inputs.platform }} -p 8080:8080 \
+        docker run -d --rm --name tested-service --network host --platform ${{ inputs.platform }} \
                -e JAVA_XMS=256m \
                -e JAVA_XMX=1g \
                -e PORT=8080 -e MANAGEMENT_PORT=8080 \
@@ -55,13 +55,22 @@ runs:
                -e DATABASE_SCHEMA=openspec \
                -e DATABASE_USER=admin \
                -e DATABASE_PASSWORD=secret \
-              ${{ inputs.image }}:${{ inputs.tag }} uname -m
+              ${{ inputs.image }}:${{ inputs.tag }}
+        echo "Waiting for service localhost:8080..."
+        attempts=0
+        max_attempts=10
+        until curl -s http://localhost:8080 > /dev/null; do
+          ((attempts++))
+          if [ $max_attempts -lt $attempts ]; then break fi
+          sleep 5
+        done
+        echo "Container is ready!"
     - name: Health check
       shell: bash
       run: |
         attempts=0
         max_attempts=10
-        echo "Waiting SonarQube is started"
+        echo "Waiting service is started"
         echo "http://localhost:8080/actuator/health"
         while [ $attempts -lt $max_attempts ]; do
           ((attempts++))
@@ -77,3 +86,10 @@ runs:
           echo "Timeout: service is not responding."
           exit 1
         fi
+    - name: Show logs if failure
+      if: failure()
+      run: |
+        echo "----------------------------------------------------------"
+        echo "ERROR. Show container logs"
+        echo "----------------------------------------------------------"
+        docker logs tested-service
