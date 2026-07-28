@@ -59,11 +59,15 @@ runs:
         echo "Waiting for service localhost:8080..."
         attempts=0
         max_attempts=10
-        until curl -s http://localhost:8080 > /dev/null; do
-          ((attempts++))
-          if [ $max_attempts -lt $attempts ]; then break fi
-          sleep 5
+        until curl -s --fail http://localhost:8080 > /dev/null || [ $attempts -eq $max_attempts ]; do
+          attempts=$((attempts + 1))
+          echo "Intento $RETRY_COUNT/$MAX_RETRIES fallido. Esperando 1s..."
+          sleep 1
         done
+        if [ $attempts -eq $max_attempts ]; then
+          echo "::error:: service is not responding"
+          exit 1
+        fi
         echo "Container is ready!"
     - name: Health check
       shell: bash
