@@ -27,7 +27,7 @@ jobs:
         env:
           RAW_PLATFORMS: ${{ inputs.platforms }}
         run: |
-          JSON_ARRAY=$(echo "$RAW_PLATFORMS" | jq -c 'split(",") | map(gsub("^\\s+|\\s+$"; ""))')
+          JSON_ARRAY=$(echo "$RAW_PLATFORMS" | jq -Rc 'split(",") | map(gsub("^\\s+|\\s+$"; ""))')
           echo "platforms=$JSON_ARRAY" >> $GITHUB_OUTPUT
     outputs:
       platforms: ${{ steps.convert-platforms.outputs.platforms }}
