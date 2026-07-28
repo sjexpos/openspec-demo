@@ -74,7 +74,9 @@ jobs:
           # cache: maven
           # cache-dependency-path: pom.xml
       - name: Database setup
-        run: mvn flyway:migrate -Dflyway.url=jdbc:postgresql://localhost:5432/openspec -Dflyway.user=admin -Dflyway.password=secret
+        run: |
+          mvn flyway:migrate -Dflyway.url=jdbc:postgresql://localhost:5432/openspec -Dflyway.user=admin -Dflyway.password=secret
+          mvn flyway:info -Dflyway.url=jdbc:postgresql://localhost:5432/openspec -Dflyway.user=admin -Dflyway.password=secret
       - name: Split image name, context, dockerfile
         if: ${{ matrix.file != '_' }}
         run: |

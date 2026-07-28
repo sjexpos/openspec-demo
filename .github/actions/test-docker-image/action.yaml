@@ -46,4 +46,17 @@ runs:
       shell: bash
       run: |
         echo "Run test in ${{ inputs.image }}..."
-        docker run -e JAVA_XMS=256m -e JAVA_XMX=1g -e PORT=8080 -e MANAGEMENT_PORT=8080 -e DATABASE_HOST=localhost -e DATABASE_PORT=5432 -e DATABASE_SCHEMA=openspec -e DATABASE_USER=admin -e DATABASE_PASSWORD=secret --rm --platform ${{ inputs.platform }} ${{ inputs.image }}:${{ inputs.tag }} uname -m
+        docker run --network host --rm --platform ${{ inputs.platform }} -p 8080:8080 \
+               -e JAVA_XMS=256m \
+               -e JAVA_XMX=1g \
+               -e PORT=8080 -e MANAGEMENT_PORT=8080 \
+               -e DATABASE_HOST=localhost \
+               -e DATABASE_PORT=5432 \
+               -e DATABASE_SCHEMA=openspec \
+               -e DATABASE_USER=admin \
+               -e DATABASE_PASSWORD=secret \
+              ${{ inputs.image }}:${{ inputs.tag }} uname -m
+    - name: Health check
+      shell: bash
+      run: |
+        curl -v http://localhost:8080/actuator/health
