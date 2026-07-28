@@ -61,8 +61,8 @@ runs:
         max_attempts=10
         until curl -s --fail http://localhost:8080 > /dev/null || [ $attempts -eq $max_attempts ]; do
           attempts=$((attempts + 1))
-          echo "Intento $RETRY_COUNT/$MAX_RETRIES fallido. Esperando 1s..."
-          sleep 1
+          echo "Tries $attempts/$max_attempts failure. Waiting 5s..."
+          sleep 5
         done
         if [ $attempts -eq $max_attempts ]; then
           echo "::error:: service is not responding"
@@ -95,6 +95,6 @@ runs:
       shell: bash
       run: |
         echo "----------------------------------------------------------"
-        echo "ERROR. Show container logs"
+        echo "::error:: Show container logs"
         echo "----------------------------------------------------------"
         docker logs tested-service
