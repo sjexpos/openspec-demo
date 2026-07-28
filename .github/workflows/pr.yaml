@@ -7,7 +7,6 @@ jobs:
 
   test-docker-image:
     name: Test docker images
-    needs: [ build-docker-image ]
     uses: ./.github/workflows/verify-images.yaml
     secrets: inherit
     with:
