@@ -17,6 +17,11 @@ on:
         required: false
         type: string
         default: linux/amd64, linux/arm64
+      tag:
+        description: 'Images tag'
+        required: false
+        type: string
+        default: latest
 
 jobs:
   prepare-matrix:
@@ -79,5 +84,5 @@ jobs:
           registry_user: ${{ secrets.DOCKERHUB_USERNAME }}
           registry_token: ${{ secrets.DOCKERHUB_TOKEN }}
           image: ${{ env.image_name }}
-          tag: ${{  }}
+          tag: ${{ inputs.tag }}
           platform: ${{ matrix.platform }}

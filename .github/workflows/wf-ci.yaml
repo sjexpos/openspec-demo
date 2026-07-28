@@ -422,6 +422,7 @@ jobs:
           if [ "${{ github.ref_name }}" = "main" ]; then TAG_NAME="latest"; else TAG_NAME=$(echo "${{ env.BRANCH_NAME }}" | tr '/' '-' | tr '[:upper:]' '[:lower:]'); fi
           echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_ENV
       - name: Docker build and publish
+        id: build-and-publish
         if: ${{ matrix.file != '_'}}
         uses: ./.github/actions/docker-build-and-publish
         with:
@@ -432,6 +433,8 @@ jobs:
           context: ${{ env.context }}
           dockerfile: ${{ env.dockerfile }}
           platforms: ${{ inputs.PLATFORMS }}
+    outputs:
+      image_tag: ${{ env.TAG_NAME }}
 
   run-docker-vulnerability-scan:
     name: Docker vulnerability Scan
@@ -571,3 +574,4 @@ jobs:
     with:
       images: ${{ inputs.DOCKER_IMAGES }}
       platforms: ${{ inputs.PLATFORMS }}
+      tag: ${{ needs.build-docker-image.outputs.image_tag }}
