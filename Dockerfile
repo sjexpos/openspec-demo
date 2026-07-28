@@ -37,7 +37,7 @@ RUN echo "#!/usr/bin/env bash" > /opt/entrypoint.sh && \
         -Dmanagement.server.port=\$MANAGEMENT_PORT \
         -Dspring.datasource.host=\$DATABASE_HOST \
         -Dspring.datasource.port=\$DATABASE_PORT \
-        -Dspring.datasource.schemaName=\$DATABASE_SCHEMA \
+        -Dspring.datasource.schema=\$DATABASE_SCHEMA \
         -Dspring.datasource.username=\$DATABASE_USER \
         -Dspring.datasource.password=\$DATABASE_PASSWORD \
         -jar /opt/openspec-demo.jar" >> /opt/entrypoint.sh

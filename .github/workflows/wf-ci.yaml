@@ -419,7 +419,13 @@ jobs:
       - name: Resolving tag name
         shell: bash
         run: |
-          if [ "${{ github.ref_name }}" = "main" ]; then TAG_NAME="latest"; else TAG_NAME=$(echo "${{ env.BRANCH_NAME }}" | tr '/' '-' | tr '[:upper:]' '[:lower:]'); fi
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            TAG_NAME="pr-${{ github.event.number }}"
+          elif [ "${{ github.ref_name }}" = "main" ]; then
+            TAG_NAME="latest"
+          else
+            TAG_NAME=$(echo "${{ env.BRANCH_NAME }}" | tr '/' '-' | tr '[:upper:]' '[:lower:]')
+          fi
           echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_ENV
       - name: Docker build and publish
         id: build-and-publish
