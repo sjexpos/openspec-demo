@@ -25,7 +25,7 @@ on:
 
 jobs:
   prepare-matrix:
-    name: Prepara docker images matrix
+    name: Prepare docker images matrix
     runs-on: ubuntu-24.04
     steps:
       - name: Convert platforms input parameter to JSON
@@ -51,9 +51,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: demo
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: openspec
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -64,7 +64,17 @@ jobs:
         file: ${{ fromJSON( inputs.images ) }}
         platform: ${{ fromJSON( needs.prepare-matrix.outputs.platforms ) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-java@v5.6.0
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          # following lines are commented because they are caching maven folder, and bacause the pom.xml does not change, next step 
+          # does not update cache and installed dependencies on this step are not sent to maven cache, so test step will fail.
+          # cache: maven
+          # cache-dependency-path: pom.xml
+      - name: Database setup
+        run: mvn flyway:migrate -Dflyway.url=jdbc:postgresql://localhost:5432/openspec -Dflyway.user=admin -Dflyway.password=secret
       - name: Split image name, context, dockerfile
         if: ${{ matrix.file != '_' }}
         run: |

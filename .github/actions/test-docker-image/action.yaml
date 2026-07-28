@@ -46,4 +46,4 @@ runs:
       shell: bash
       run: |
         echo "Run test in ${{ inputs.image }}..."
-        docker run --rm --platform ${{ inputs.platform }} ${{ inputs.image }}:${{ inputs.tag }} uname -m
+        docker run -e JAVA_XMS=256m -e JAVA_XMX=1g -e PORT=8080 -e MANAGEMENT_PORT=8080 -e DATABASE_HOST=localhost -e DATABASE_PORT=5432 -e DATABASE_SCHEMA=openspec -e DATABASE_USER=admin -e DATABASE_PASSWORD=secret --rm --platform ${{ inputs.platform }} ${{ inputs.image }}:${{ inputs.tag }} uname -m
