@@ -1,0 +1,43 @@
+name: "Test single docker image"
+description: "A reusable action to download and test Docker image"
+inputs:
+  registry_name:
+    type: string
+    required: false
+    default: '' # Use docker.io for Docker Hub if empty
+  registry_user:
+    type: string
+    required: true
+  registry_token:
+    type: string
+    required: true
+  image:
+    description: ""
+    type: string
+    required: true
+  platform:
+    description: "Platform"
+    type: string
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Log into registry ${{ inputs.registry_name }}
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ inputs.registry_name }}
+        username: ${{ inputs.registry_user }}
+        password: ${{ inputs.registry_token }}
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    - name: Descargar imagen
+      run: |
+        echo "Downloading ${{ inputs.image }} in platform ${{ inputs.platform }}..."
+        docker pull --platform ${{ inputs.platform }} ${{ inputs.image }}
+    - name: Probar imagen
+      run: |
+        echo "Run test in ${{ inputs.image }}..."
+        docker run --rm --platform ${{ inputs.platform }} ${{ inputs.image }} uname -m

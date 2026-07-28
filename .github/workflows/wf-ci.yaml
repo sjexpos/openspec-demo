@@ -20,6 +20,10 @@ on:
         type: string
         required: false
         default: "['_']"
+      PLATFORMS:
+        type: string
+        required: false
+        default: linux/amd64, linux/arm64
       DEFAULT_BRANCH:
         type: string
         required: false
@@ -404,15 +408,22 @@ jobs:
           echo "image_name=$image_name" >> $GITHUB_ENV
           echo "context=$context" >> $GITHUB_ENV
           echo "dockerfile=$dockerfile" >> $GITHUB_ENV
+      - name: Resolving tag name
+        shell: bash
+        run: |
+          if [ "${{ github.ref_name }}" = "main" ]; then TAG_NAME="latest"; else TAG_NAME=$(echo "${{ env.BRANCH_NAME }}" | tr '/' '-' | tr '[:upper:]' '[:lower:]'); fi
+          echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_ENV
       - name: Docker build and publish
-        if: ${{ matrix.file != '_' }}
+        if: ${{ matrix.file != '_'}}
         uses: ./.github/actions/docker-build-and-publish
         with:
           registry_user: ${{ secrets.DOCKERHUB_USERNAME }}
           registry_token: ${{ secrets.DOCKERHUB_TOKEN }}
           image_name: ${{ env.image_name }}
+          image_tag: ${{ env.TAG_NAME }}
           context: ${{ env.context }}
           dockerfile: ${{ env.dockerfile }}
+          platforms: ${{ inputs.PLATFORMS }}
 
   run-docker-vulnerability-scan:
     name: Docker vulnerability Scan
@@ -543,3 +554,30 @@ jobs:
               repo: context.repo.repo,
               artifact_id: ${{ needs.create-site.outputs.site-sources-artifact-id }}
             });
+
+  test-docker-image:
+    name: Docker vulnerability Scan
+    needs: [build-docker-image, run-docker-vulnerability-scan]
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:14.4
+        ports:
+          - 5432:5432
+        credentials:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: demo
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: ./.github/workflows/verify-images.yaml
+        with:
+          images: ${{ inputs.DOCKER_IMAGES }}
+          platforms: ${{ inputs.PLATFORMS }}
