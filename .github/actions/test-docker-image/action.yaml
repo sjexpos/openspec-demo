@@ -46,7 +46,7 @@ runs:
       shell: bash
       run: |
         echo "Run test in ${{ inputs.image }}..."
-        docker run --network host --rm --platform ${{ inputs.platform }} -p 8080:8080 \
+        docker run -d --rm --network host --platform ${{ inputs.platform }} -p 8080:8080 \
                -e JAVA_XMS=256m \
                -e JAVA_XMX=1g \
                -e PORT=8080 -e MANAGEMENT_PORT=8080 \
@@ -59,4 +59,21 @@ runs:
     - name: Health check
       shell: bash
       run: |
-        curl -v http://localhost:8080/actuator/health
+        attempts=0
+        max_attempts=10
+        echo "Waiting SonarQube is started"
+        echo "http://localhost:8080/actuator/health"
+        while [ $attempts -lt $max_attempts ]; do
+          ((attempts++))
+          status=$(curl -s "http://localhost:8080/actuator/health" | jq -r '.status') 
+          if [ "$status" == "UP" ]; then 
+            echo "El servicio está UP." 
+            break 
+          fi 
+          echo "Waiting... (tries $attempts/$max_attempts)"
+          sleep 5 
+        done
+        if [ "$status" != "UP" ]; then
+          echo "Timeout: service is not responding."
+          exit 1
+        fi

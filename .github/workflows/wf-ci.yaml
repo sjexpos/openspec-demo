@@ -238,7 +238,7 @@ jobs:
               echo "El servicio está UP." 
               break 
             fi 
-            echo "Esperando..." 
+            echo "Waiting..." 
             sleep 5 
           done
           echo "Change default password"
