@@ -4,23 +4,12 @@ on:
     branches: [ "**" ]
 
 jobs:
-
-  test-docker-image:
-    name: Test docker images
-    uses: ./.github/workflows/verify-images.yaml
+  pr:
+    name: ''
+    uses: ./.github/workflows/wf-ci.yaml
     secrets: inherit
     with:
-      images: '["sjexpossdd/openspec-demo"]'
-      platforms: 'linux/amd64'
-      tag: 'pr-5'
-
-
-#  pr:
-#    name: ''
-#    uses: ./.github/workflows/wf-ci.yaml
-#    secrets: inherit
-#    with:
-#      SONAR_PROJECT_KEY: openspec-demo
-#      SONAR_PROJECT_NAME: Openspec Demo
-#      DOCKER_IMAGES: '["sjexpossdd/openspec-demo"]'
-#      DEFAULT_BRANCH: main
+      SONAR_PROJECT_KEY: openspec-demo
+      SONAR_PROJECT_NAME: Openspec Demo
+      DOCKER_IMAGES: '["sjexpossdd/openspec-demo"]'
+      DEFAULT_BRANCH: main

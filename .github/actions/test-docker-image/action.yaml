@@ -64,7 +64,7 @@ runs:
       run: |
         status=$(curl -s "http://localhost:8080/actuator/health" | jq -r '.status') 
         if [ "$status" == "UP" ]; then 
-          echo "El servicio está UP." 
+          echo "Service is up and running." 
           exit 0
         fi
         echo "Health check failed"
