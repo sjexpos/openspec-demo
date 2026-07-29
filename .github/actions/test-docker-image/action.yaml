@@ -57,12 +57,23 @@ runs:
                -e DATABASE_PASSWORD=secret \
               ${{ inputs.image }}:${{ inputs.tag }}
         echo "Waiting for service localhost:8080..."
-        sleep 10
-        curl -v "http://localhost:8080/actuator/health
-        sleep 10
-        curl -v "http://localhost:8080/actuator/health
-        sleep 10
-        curl -v "http://localhost:8080/actuator/health
+        attempts=0
+        max_attempts=10
+        curl -v "http://localhost:8080/actuator/health"
+        while [ $attempts -lt $max_attempts ]; do
+          attempts=$((attempts + 1))
+          status=$(curl -s "http://localhost:8080/actuator/health" | jq -r '.status') 
+          if [ "$status" == "UP" ]; then 
+            echo "El servicio está UP." 
+            break 
+          fi
+          echo "Waiting... (tries $attempts/$max_attempts)"
+          sleep 10
+        done
+        if [ "$status" != "UP" ]; then
+          echo "Timeout: service is not responding."
+          exit 1
+        fi
         echo "Container is ready!"
     - name: Health check
       shell: bash
