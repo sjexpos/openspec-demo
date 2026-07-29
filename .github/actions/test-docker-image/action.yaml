@@ -67,7 +67,7 @@ runs:
             echo "El servicio está UP." 
             break 
           fi
-          echo "Waiting... (tries $attempts/$max_attempts)"
+          echo "Waiting... $attempts/$max_attempts"
           sleep 10
         done
         if [ "$status" != "UP" ]; then
