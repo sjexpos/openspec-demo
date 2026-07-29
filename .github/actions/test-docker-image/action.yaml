@@ -57,24 +57,27 @@ runs:
                -e DATABASE_PASSWORD=secret \
               ${{ inputs.image }}:${{ inputs.tag }}
         echo "Waiting for service localhost:8080..."
-        attempts=0
-        max_attempts=10
-        while [ $attempts -lt $max_attempts ]; do
-          attempts=$((attempts + 1))
-          echo "Checking..."
-          status=$(curl -s "http://localhost:8080/actuator/health" | jq -r '.status') 
-          if [ "$status" == "UP" ]; then 
-            echo "El servicio está UP." 
-            break 
+        MAX_RETRIES=30
+        RETRY_COUNT=0
+        SUCCESS=0
+        echo "Esperando a que el servicio responda en localhost:8080..."
+        while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+          if curl -s --fail http://localhost:8080 > /dev/null 2>&1; then
+            SUCCESS=1
+            break
           fi
-          echo "Waiting... (tries $attempts/$max_attempts)"
-          sleep 10
+          RETRY_COUNT=$((RETRY_COUNT + 1))
+          echo "Intento $RETRY_COUNT/$MAX_RETRIES fallido. Esperando 1s..."
+          sleep 1
         done
-        if [ "$status" != "UP" ]; then
-          echo "Timeout: service is not responding."
+        # Si terminaron los reintentos y no tuvo éxito, lanzamos el fallo manual
+        if [ $SUCCESS -eq 0 ]; then
+          echo "::error::El servicio no respondió dentro del tiempo esperado ($MAX_RETRIES segundos)."
+          echo "--- Logs del contenedor ---"
+          docker logs mi-servicio
           exit 1
         fi
-        echo "Container is ready!"
+        echo "¡El contenedor ya está listo y respondiendo!"
     - name: Health check
       shell: bash
       run: |
