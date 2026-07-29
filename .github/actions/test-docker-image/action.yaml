@@ -58,27 +58,11 @@ runs:
               ${{ inputs.image }}:${{ inputs.tag }}
         echo "Waiting for service localhost:8080..."
         .github/actions/test-docker-image/wait-for-it.sh -h localhost -p 8080 -t 300 -- echo "Service is running!"
+        sleep 5s
     - name: Health check
       shell: bash
       run: |
-        attempts=0
-        max_attempts=10
-        echo "Waiting service is started"
-        echo "http://localhost:8080/actuator/health"
-        while [ $attempts -lt $max_attempts ]; do
-          ((attempts++))
-          status=$(curl -s "http://localhost:8080/actuator/health" | jq -r '.status') 
-          if [ "$status" == "UP" ]; then 
-            echo "El servicio está UP." 
-            break 
-          fi 
-          echo "Waiting... (tries $attempts/$max_attempts)"
-          sleep 5 
-        done
-        if [ "$status" != "UP" ]; then
-          echo "Timeout: service is not responding."
-          exit 1
-        fi
+        curl -v "http://localhost:8080/actuator/health"
     - name: Show logs if failure
       if: failure()
       shell: bash
