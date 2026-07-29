@@ -62,7 +62,13 @@ runs:
     - name: Health check
       shell: bash
       run: |
-        curl -v "http://localhost:8080/actuator/health"
+        status=$(curl -s "http://localhost:8080/actuator/health" | jq -r '.status') 
+        if [ "$status" == "UP" ]; then 
+          echo "El servicio está UP." 
+          exit 0
+        fi
+        echo "Health check failed"
+        exit 1
     - name: Show logs if failure
       if: failure()
       shell: bash
