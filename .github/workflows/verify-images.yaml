@@ -1,0 +1,100 @@
+name: Docker Test
+on:
+  workflow_call:
+    secrets:
+      DOCKERHUB_USERNAME:
+        required: true
+      DOCKERHUB_TOKEN:
+        required: true
+    inputs:
+      images:
+        description: "List of docker image names in JSON list format. E.g. ['my-image-1','my-image-2']"
+        type: string
+        required: false
+        default: '["_"]'
+      platforms:
+        description: 'List of platforms'
+        required: false
+        type: string
+        default: linux/amd64, linux/arm64
+      tag:
+        description: 'Images tag'
+        required: false
+        type: string
+        default: latest
+
+jobs:
+  prepare-matrix:
+    name: Prepare docker images matrix
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Convert platforms input parameter to JSON
+        id: convert-platforms
+        env:
+          RAW_PLATFORMS: ${{ inputs.platforms }}
+        run: |
+          JSON_ARRAY=$(echo "$RAW_PLATFORMS" | jq -Rc 'split(",") | map(gsub("^\\s+|\\s+$"; ""))')
+          echo "platforms=$JSON_ARRAY" >> $GITHUB_OUTPUT
+    outputs:
+      platforms: ${{ steps.convert-platforms.outputs.platforms }}
+
+  test-docker-images:
+    name: Test docker images
+    needs: prepare-matrix
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14.4
+        ports:
+          - 5432:5432
+        credentials:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        env:
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: openspec
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    strategy:
+      matrix:
+        file: ${{ fromJSON( inputs.images ) }}
+        platform: ${{ fromJSON( needs.prepare-matrix.outputs.platforms ) }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-java@v5.6.0
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          # following lines are commented because they are caching maven folder, and bacause the pom.xml does not change, next step 
+          # does not update cache and installed dependencies on this step are not sent to maven cache, so test step will fail.
+          # cache: maven
+          # cache-dependency-path: pom.xml
+      - name: Database setup
+        run: |
+          mvn flyway:migrate -Dflyway.url=jdbc:postgresql://localhost:5432/openspec -Dflyway.user=admin -Dflyway.password=secret
+          mvn flyway:info -Dflyway.url=jdbc:postgresql://localhost:5432/openspec -Dflyway.user=admin -Dflyway.password=secret
+      - name: Split image name, context, dockerfile
+        if: ${{ matrix.file != '_' }}
+        run: |
+          triple="${{ matrix.file }}"
+          image_name=$(echo $triple | awk -F ";" '{print $1}')
+          context=$(echo $triple | awk -F ";" '{if (NF >= 2) print $2; else print "./"}')
+          dockerfile=$(echo $triple | awk -F ";" '{if (NF >= 3) print $3; else print "./Dockerfile"}')
+          echo "image_name=$image_name"
+          echo "context=$context"
+          echo "dockerfile=$dockerfile"
+          echo "image_name=$image_name" >> $GITHUB_ENV
+          echo "context=$context" >> $GITHUB_ENV
+          echo "dockerfile=$dockerfile" >> $GITHUB_ENV
+      - name: Test docker image ${{ env.image_name }}
+        uses: ./.github/actions/test-docker-image
+        with:
+          registry_user: ${{ secrets.DOCKERHUB_USERNAME }}
+          registry_token: ${{ secrets.DOCKERHUB_TOKEN }}
+          image: ${{ env.image_name }}
+          tag: ${{ inputs.tag }}
+          platform: ${{ matrix.platform }}
