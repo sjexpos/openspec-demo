@@ -57,27 +57,7 @@ runs:
                -e DATABASE_PASSWORD=secret \
               ${{ inputs.image }}:${{ inputs.tag }}
         echo "Waiting for service localhost:8080..."
-        MAX_RETRIES=30
-        RETRY_COUNT=0
-        SUCCESS=0
-        echo "Esperando a que el servicio responda en localhost:8080..."
-        while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-          if curl -s --fail http://localhost:8080 > /dev/null 2>&1; then
-            SUCCESS=1
-            break
-          fi
-          RETRY_COUNT=$((RETRY_COUNT + 1))
-          echo "Intento $RETRY_COUNT/$MAX_RETRIES fallido. Esperando 1s..."
-          sleep 1
-        done
-        # Si terminaron los reintentos y no tuvo éxito, lanzamos el fallo manual
-        if [ $SUCCESS -eq 0 ]; then
-          echo "::error::El servicio no respondió dentro del tiempo esperado ($MAX_RETRIES segundos)."
-          echo "--- Logs del contenedor ---"
-          docker logs mi-servicio
-          exit 1
-        fi
-        echo "¡El contenedor ya está listo y respondiendo!"
+        .github/actions/test-docker-image/wait-for-it.sh -h localhost -p 8080 -t 300 -- echo "Service is running!"
     - name: Health check
       shell: bash
       run: |
