@@ -69,6 +69,18 @@ runs:
         fi
         echo "Health check failed"
         exit 1
+    - name: Check hash commit build
+      shell: bash
+      env:
+        COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      run: |
+        img_commit_build=$(curl -s "http://localhost:8080/actuator/info" | jq -r '.git.commit.id.full') 
+        if [ "$img_commit_build" == "$COMMIT_SHA" ]; then 
+          echo "Image commit hash build is correct" 
+          exit 0
+        fi
+        echo "Image has a different commit bash than this PR / merge"
+        exit 1
     - name: Show logs if failure
       if: failure()
       shell: bash

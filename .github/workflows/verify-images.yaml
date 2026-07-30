@@ -90,7 +90,7 @@ jobs:
           echo "image_name=$image_name" >> $GITHUB_ENV
           echo "context=$context" >> $GITHUB_ENV
           echo "dockerfile=$dockerfile" >> $GITHUB_ENV
-      - name: Test docker image ${{ env.image_name }}
+      - name: Test docker image ${{ env.image_name }} ${{ matrix.platform }}
         uses: ./.github/actions/test-docker-image
         with:
           registry_user: ${{ secrets.DOCKERHUB_USERNAME }}
