@@ -74,7 +74,7 @@ runs:
       env:
         COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
       run: |
-        curl -s "http://localhost:8080/actuator/info
+        curl -s "http://localhost:8080/actuator/info"
         img_commit_build=$(curl -s "http://localhost:8080/actuator/info" | jq -r '.git.commit.id.full') 
         if [ "$img_commit_build" == "$COMMIT_SHA" ]; then 
           echo "Image commit hash build is correct" 
