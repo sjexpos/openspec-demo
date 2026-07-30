@@ -80,6 +80,8 @@ runs:
           exit 0
         fi
         echo "Image has a different commit bash than this PR / merge"
+        echo "COMMIT_SHA = $COMMIT_SHA"
+        echo "img_commit_build = $img_commit_build"
         exit 1
     - name: Show logs if failure
       if: failure()
