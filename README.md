@@ -121,6 +121,8 @@ openspec-demo/
 |   |   └── 📁 skills                     # These skill must be replaced by symlink in subfolder skills in Opencode configuration
 |   ├── 📁 openspec
 |   ├── 📁 prompts                        # Agent prompts to be used in SDD agentic flow
+|   |   ├── 📁 opsx                       # Subagent to be triggered by opsx-orchestrator when it wants to run each OpenSpec step
+|   |   └── opsx-orchestrator.md          # Main agent to orchestrate OpenSpec flow. It can run step by step or full automatic
 |   ├── 📁 skills                         # All available skills in the project
 |   └── opencode.json                     # Opencode configuration file
 │
