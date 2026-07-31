@@ -8,7 +8,7 @@
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='0'><tests>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='setMockitoInterceptor(Lorg/mockito/internal/creation/bytebuddy/access/MockMethodInterceptor;)V' number='0'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
@@ -20,39 +20,11 @@
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='32'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;init&gt;()V' number='1'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='30'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='31'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='28'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='29'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='26'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='27'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='24'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='25'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;init&gt;()V' number='0'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
@@ -64,15 +36,7 @@
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='22'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
 <block classname='com.example.demo.application.services.DispensaryServiceTests' method='&lt;init&gt;()V' number='0'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='23'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
@@ -80,15 +44,7 @@
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='20'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
 <block classname='com.example.demo.application.services.DispensaryServiceTests' method='testFindAll()V' number='5'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='21'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
@@ -96,171 +52,19 @@
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='18'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
 <block classname='com.example.demo.application.services.DispensaryServiceTests' method='testFindAll()V' number='3'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='19'><tests>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='0'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='28'><tests>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='1'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='16'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='27'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='17'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='26'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='14'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='25'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='15'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='32'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='12'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='setMockitoInterceptor(Lorg/mockito/internal/creation/bytebuddy/access/MockMethodInterceptor;)V' number='0'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='31'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='13'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='30'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='10'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='29'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='11'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='20'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;init&gt;()V' number='1'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='8'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='19'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='9'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='18'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='6'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='17'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='7'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='24'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='4'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='23'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='5'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='22'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='2'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='21'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;init&gt;()V' number='0'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='3'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='12'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='0'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='11'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;clinit&gt;()V' number='1'><tests>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='setMockitoInterceptor(Lorg/mockito/internal/creation/bytebuddy/access/MockMethodInterceptor;)V' number='0'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
@@ -268,75 +72,23 @@
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='10'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
 <block classname='com.example.demo.application.services.DispensaryServiceTests$TestConfig' method='&lt;init&gt;()V' number='0'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='9'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='findAllByDeletedAtIsNull()Ljava/lang/Iterable;' number='1'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='16'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='findAllByDeletedAtIsNull()Ljava/lang/Iterable;' number='0'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='15'><tests>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;init&gt;()V' number='1'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='14'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='13'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='4'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='3'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='2'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='1'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='8'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='7'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='6'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='5'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='findAllByDeletedAtIsNull()Ljava/lang/Iterable;' number='0'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;clinit&gt;()V' number='33'><tests>
-<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='setMockitoInterceptor(Lorg/mockito/internal/creation/bytebuddy/access/MockMethodInterceptor;)V' number='0'><tests>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;init&gt;()V' number='0'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
@@ -348,91 +100,119 @@
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='8'><tests>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;init&gt;()V' number='0'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='9'><tests>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;init&gt;()V' number='1'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='6'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='4'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='7'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='5'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='12'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='6'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='13'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='7'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='10'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='0'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='11'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='1'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='0'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='2'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='1'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='3'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='4'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='12'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='5'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='13'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='2'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='14'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='3'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='15'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='24'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='8'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='25'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='9'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='22'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='10'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='23'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='11'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='28'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='20'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='29'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='21'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='26'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='22'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='27'><tests>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='31'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='23'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='32'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='16'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='17'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='18'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='19'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='28'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
@@ -440,39 +220,59 @@
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='16'><tests>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='25'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='17'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='29'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='14'><tests>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='26'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='15'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='30'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;init&gt;()V' number='1'><tests>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='23'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='20'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='31'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='&lt;init&gt;()V' number='0'><tests>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='24'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='21'><tests>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='24'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='18'><tests>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='29'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='25'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='30'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='26'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='27'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='27'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
@@ -480,39 +280,239 @@
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='19'><tests>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='28'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='32'><tests>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='17'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='33'><tests>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='18'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='30'><tests>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='15'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='&lt;clinit&gt;()V' number='31'><tests>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='16'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$nViXe2LZ' method='findAllByDeletedAtIsNull()Ljava/lang/Iterable;' number='1'><tests>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='21'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;init&gt;()V' number='1'><tests>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='22'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$2dkbX7RW' method='&lt;init&gt;()V' number='0'><tests>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='19'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$HTCRrfI2' method='setMockitoInterceptor(Lorg/mockito/internal/creation/bytebuddy/access/MockMethodInterceptor;)V' number='0'><tests>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='20'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='9'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='10'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='7'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='8'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='13'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='14'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='11'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='12'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='1'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='2'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='0'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='5'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='6'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='3'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.AddressRepository$MockitoMock$sMbFf2Hp' method='&lt;clinit&gt;()V' number='4'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='30'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='31'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='32'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='33'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='26'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='27'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='28'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='29'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='22'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='23'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='24'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='25'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='18'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='19'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='20'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='21'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='14'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='15'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='16'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='setMockitoInterceptor(Lorg/mockito/internal/creation/bytebuddy/access/MockMethodInterceptor;)V' number='0'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='17'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='10'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='11'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='12'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='13'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='6'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='7'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='8'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='9'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='2'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='3'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='4'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.LicenseStatusRepository$MockitoMock$02XPvtkO' method='&lt;clinit&gt;()V' number='5'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='32'><tests>
+<test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
+</tests>
+</block>
+<block classname='com.example.demo.domain.repositories.DispensaryRepository$MockitoMock$jAZO4526' method='&lt;clinit&gt;()V' number='33'><tests>
 <test name='com.example.demo.application.services.DispensaryServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.DispensaryServiceTests]/[method:testFindAll()]'/>
 </tests>
 </block>
@@ -720,7 +720,7 @@
 <test name='com.example.demo.presentation.controllers.GlobalExceptionHandlerTest.[engine:junit-jupiter]/[class:com.example.demo.presentation.controllers.GlobalExceptionHandlerTest]/[method:handleGeneric_shouldReturn500()]'/>
 </tests>
 </block>
-<block classname='com.example.demo.presentation.controllers.GlobalExceptionHandlerTest$TestConfig$$SpringCGLIB$$FastClass$$1' method='invoke(ILjava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;' number='17'><tests>
+<block classname='com.example.demo.presentation.controllers.GlobalExceptionHandlerTest$TestConfig$$SpringCGLIB$$FastClass$$1' method='invoke(ILjava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;' number='13'><tests>
 <test name='com.example.demo.presentation.controllers.GlobalExceptionHandlerTest.[engine:junit-jupiter]/[class:com.example.demo.presentation.controllers.GlobalExceptionHandlerTest]/[method:handleGeneric_shouldReturn500()]'/>
 </tests>
 </block>
@@ -736,6 +736,10 @@
 <test name='com.example.demo.presentation.controllers.GlobalExceptionHandlerTest.[engine:junit-jupiter]/[class:com.example.demo.presentation.controllers.GlobalExceptionHandlerTest]/[method:handleValidation_shouldReturn400()]'/>
 </tests>
 </block>
+<block classname='com.example.demo.presentation.controllers.GlobalExceptionHandlerTest$TestConfig$$SpringCGLIB$$FastClass$$1' method='invoke(ILjava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;' number='14'><tests>
+<test name='com.example.demo.presentation.controllers.GlobalExceptionHandlerTest.[engine:junit-jupiter]/[class:com.example.demo.presentation.controllers.GlobalExceptionHandlerTest]/[method:handleGeneric_shouldReturn500()]'/>
+</tests>
+</block>
 <block classname='com.example.demo.presentation.api.FieldError' method='&lt;init&gt;(Ljava/lang/String;Ljava/lang/String;)V' number='0'><tests>
 <test name='com.example.demo.presentation.controllers.GlobalExceptionHandlerTest.[engine:junit-jupiter]/[class:com.example.demo.presentation.controllers.GlobalExceptionHandlerTest]/[method:handleGeneric_shouldReturn500()]'/>
 <test name='com.example.demo.presentation.controllers.GlobalExceptionHandlerTest.[engine:junit-jupiter]/[class:com.example.demo.presentation.controllers.GlobalExceptionHandlerTest]/[method:handleNotFound_shouldReturn404()]'/>
@@ -749,10 +753,6 @@
 </tests>
 </block>
 <block classname='com.example.demo.presentation.controllers.GlobalExceptionHandlerTest$TestConfig$$SpringCGLIB$$FastClass$$1' method='getIndex(Lorg/springframework/cglib/core/Signature;)I' number='23'><tests>
-<test name='com.example.demo.presentation.controllers.GlobalExceptionHandlerTest.[engine:junit-jupiter]/[class:com.example.demo.presentation.controllers.GlobalExceptionHandlerTest]/[method:handleGeneric_shouldReturn500()]'/>
-</tests>
-</block>
-<block classname='com.example.demo.presentation.controllers.GlobalExceptionHandlerTest$TestConfig$$SpringCGLIB$$FastClass$$1' method='invoke(ILjava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;' number='18'><tests>
 <test name='com.example.demo.presentation.controllers.GlobalExceptionHandlerTest.[engine:junit-jupiter]/[class:com.example.demo.presentation.controllers.GlobalExceptionHandlerTest]/[method:handleGeneric_shouldReturn500()]'/>
 </tests>
 </block>
