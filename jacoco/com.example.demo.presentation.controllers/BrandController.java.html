@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BrandController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo</a> &gt; <a href="index.source.html" class="el_package">com.example.demo.presentation.controllers</a> &gt; <span class="el_source">BrandController.java</span></div><h1>BrandController.java</h1><pre class="source lang-java linenums">/**********
+ This project is free software; you can redistribute it and/or modify it under
+ the terms of the GNU General Public License as published by the
+ Free Software Foundation; either version 3.0 of the License, or (at your
+ option) any later version. (See &lt;https://www.gnu.org/licenses/gpl-3.0.html&gt;.)
+
+ This project is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this project; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+ **********/
+// Copyright (c) 2026-2027 Sergio Exposito.  All rights reserved.              
+
+package com.example.demo.presentation.controllers;
+
+import com.example.demo.application.exceptions.NotFoundException;
+import com.example.demo.application.services.BrandService;
+import com.example.demo.domain.models.brand.Brand;
+import com.example.demo.presentation.api.BrandApi;
+import com.example.demo.presentation.api.DataResponse;
+import com.example.demo.presentation.api.model.CreateBrandRequest;
+import com.example.demo.presentation.api.model.CreateBrandResponse;
+import com.example.demo.presentation.api.model.GetAllBrandsResponse;
+import com.example.demo.presentation.api.model.GetBrandResponse;
+import com.example.demo.presentation.api.model.UpdateBrandRequest;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class BrandController implements BrandApi {
+
+  private final BrandService brandService;
+
+<span class="fc" id="L40">  public BrandController(BrandService brandService) {</span>
+<span class="fc" id="L41">    this.brandService = brandService;</span>
+<span class="fc" id="L42">  }</span>
+
+  @Override
+  public DataResponse&lt;List&lt;GetAllBrandsResponse&gt;&gt; getAll() {
+<span class="fc" id="L46">    return StreamSupport.stream(this.brandService.findAll().spliterator(), false)</span>
+<span class="fc" id="L47">        .map(</span>
+            brand -&gt;
+<span class="fc" id="L49">                new GetAllBrandsResponse(</span>
+<span class="fc" id="L50">                    brand.getId(),</span>
+<span class="fc" id="L51">                    brand.getName(),</span>
+<span class="fc" id="L52">                    brand.getDescription(),</span>
+<span class="fc" id="L53">                    brand.getEmail(),</span>
+<span class="fc" id="L54">                    brand.getStateLicense(),</span>
+<span class="fc" id="L55">                    brand.getBrandType().getName(),</span>
+<span class="fc" id="L56">                    brand.getLogoImageUrl(),</span>
+<span class="fc" id="L57">                    brand.getEnabled()))</span>
+<span class="fc" id="L58">        .collect(Collectors.collectingAndThen(Collectors.toList(), DataResponse::new));</span>
+  }
+
+  @Override
+  public DataResponse&lt;CreateBrandResponse&gt; create(CreateBrandRequest request) {
+<span class="fc" id="L63">    Brand brand =</span>
+<span class="fc" id="L64">        this.brandService.create(</span>
+<span class="fc" id="L65">            request.getName(),</span>
+<span class="fc" id="L66">            request.getDescription(),</span>
+<span class="fc" id="L67">            request.getEmail(),</span>
+<span class="fc" id="L68">            request.getStateLicense(),</span>
+<span class="fc" id="L69">            request.getBrandTypeName(),</span>
+<span class="fc" id="L70">            request.getLogoImageUrl(),</span>
+<span class="fc" id="L71">            request.getInstagramUrl(),</span>
+<span class="fc" id="L72">            request.getTwitterUrl(),</span>
+<span class="fc" id="L73">            request.getFacebookUrl(),</span>
+<span class="fc" id="L74">            request.getWebsiteUrl(),</span>
+<span class="fc" id="L75">            request.getAdminId(),</span>
+<span class="fc" id="L76">            request.getEnabled());</span>
+<span class="fc" id="L77">    return new DataResponse&lt;&gt;(</span>
+        new CreateBrandResponse(
+<span class="fc" id="L79">            brand.getId(),</span>
+<span class="fc" id="L80">            brand.getName(),</span>
+<span class="fc" id="L81">            brand.getDescription(),</span>
+<span class="fc" id="L82">            brand.getEmail(),</span>
+<span class="fc" id="L83">            brand.getStateLicense(),</span>
+<span class="fc" id="L84">            brand.getBrandType().getName(),</span>
+<span class="fc" id="L85">            brand.getLogoImageUrl(),</span>
+<span class="fc" id="L86">            brand.getInstagramUrl(),</span>
+<span class="fc" id="L87">            brand.getTwitterUrl(),</span>
+<span class="fc" id="L88">            brand.getFacebookUrl(),</span>
+<span class="fc" id="L89">            brand.getWebsiteUrl(),</span>
+<span class="fc" id="L90">            brand.getAdminId(),</span>
+<span class="fc" id="L91">            brand.getEnabled()));</span>
+  }
+
+  @Override
+  public DataResponse&lt;GetBrandResponse&gt; getById(Long id) {
+<span class="fc" id="L96">    Brand brand =</span>
+        this.brandService
+<span class="fc" id="L98">            .getById(id)</span>
+<span class="fc" id="L99">            .orElseThrow(() -&gt; new NotFoundException(&quot;Brand not found with ID: &quot; + id));</span>
+<span class="fc" id="L100">    return new DataResponse&lt;&gt;(toGetBrandResponse(brand));</span>
+  }
+
+  @Override
+  public DataResponse&lt;GetBrandResponse&gt; update(Long id, UpdateBrandRequest request) {
+<span class="fc" id="L105">    Brand brand =</span>
+<span class="fc" id="L106">        this.brandService.update(</span>
+            id,
+<span class="fc" id="L108">            request.getName(),</span>
+<span class="fc" id="L109">            request.getDescription(),</span>
+<span class="fc" id="L110">            request.getEmail(),</span>
+<span class="fc" id="L111">            request.getStateLicense(),</span>
+<span class="fc" id="L112">            request.getBrandTypeName(),</span>
+<span class="fc" id="L113">            request.getLogoImageUrl(),</span>
+<span class="fc" id="L114">            request.getInstagramUrl(),</span>
+<span class="fc" id="L115">            request.getTwitterUrl(),</span>
+<span class="fc" id="L116">            request.getFacebookUrl(),</span>
+<span class="fc" id="L117">            request.getWebsiteUrl(),</span>
+<span class="fc" id="L118">            request.getAdminId(),</span>
+<span class="fc" id="L119">            request.getEnabled());</span>
+<span class="fc" id="L120">    return new DataResponse&lt;&gt;(toGetBrandResponse(brand));</span>
+  }
+
+  private GetBrandResponse toGetBrandResponse(Brand brand) {
+<span class="fc" id="L124">    return new GetBrandResponse(</span>
+<span class="fc" id="L125">        brand.getId(),</span>
+<span class="fc" id="L126">        brand.getName(),</span>
+<span class="fc" id="L127">        brand.getDescription(),</span>
+<span class="fc" id="L128">        brand.getEmail(),</span>
+<span class="fc" id="L129">        brand.getStateLicense(),</span>
+<span class="fc" id="L130">        brand.getBrandType().getName(),</span>
+<span class="fc" id="L131">        brand.getLogoImageUrl(),</span>
+<span class="fc" id="L132">        brand.getInstagramUrl(),</span>
+<span class="fc" id="L133">        brand.getTwitterUrl(),</span>
+<span class="fc" id="L134">        brand.getFacebookUrl(),</span>
+<span class="fc" id="L135">        brand.getWebsiteUrl(),</span>
+<span class="fc" id="L136">        brand.getAdminId(),</span>
+<span class="fc" id="L137">        brand.getEnabled());</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

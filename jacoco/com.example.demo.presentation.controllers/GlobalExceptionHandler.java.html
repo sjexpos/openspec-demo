@@ -40,8 +40,8 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
   @ExceptionHandler(NotFoundException.class)
   public ResponseEntity&lt;ErrorResponse&gt; handleNotFound(
       NotFoundException ex, HttpServletRequest request) {
-<span class="nc" id="L43">    List&lt;FieldError&gt; fieldErrors = List.of(new FieldError(&quot;general&quot;, ex.getMessage()));</span>
-<span class="nc" id="L44">    return build(HttpStatus.NOT_FOUND, request, fieldErrors);</span>
+<span class="fc" id="L43">    List&lt;FieldError&gt; fieldErrors = List.of(new FieldError(&quot;general&quot;, ex.getMessage()));</span>
+<span class="fc" id="L44">    return build(HttpStatus.NOT_FOUND, request, fieldErrors);</span>
   }
 
   @ExceptionHandler(DataIntegrityViolationException.class)
