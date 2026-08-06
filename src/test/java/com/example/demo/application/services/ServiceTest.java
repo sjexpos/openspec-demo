@@ -18,6 +18,8 @@
 package com.example.demo.application.services;
 
 import com.example.demo.domain.repositories.AddressRepository;
+import com.example.demo.domain.repositories.BrandRepository;
+import com.example.demo.domain.repositories.BrandTypeRepository;
 import com.example.demo.domain.repositories.DispensaryRepository;
 import com.example.demo.domain.repositories.LicenseStatusRepository;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,4 +32,6 @@ class ServiceTest {
   @MockitoBean DispensaryRepository dispensaryRepository;
   @MockitoBean LicenseStatusRepository licenseStatusRepository;
   @MockitoBean AddressRepository addressRepository;
+  @MockitoBean BrandRepository brandRepository;
+  @MockitoBean BrandTypeRepository brandTypeRepository;
 }
