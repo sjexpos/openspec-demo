@@ -147,7 +147,7 @@ Do NOT skip this check. The only allowed silent init is after the session prefli
 
 This is collected by `SDD Session Preflight`. If missing, enforce the hard gate before any phase work. Ask which execution mode they prefer:
 
-- **Automatic** (`auto`): Run all SDD phases back-to-back without pausing. Phases still run back-to-back WITHOUT interrupting the user, BUT the orchestrator runs a gatekeeper validation after every phase before launching the next delegated phase (all SDD phases must be delegated to a subagent, `opsx-new`, `opsx-ff`, `opsx-continue`, `opsx-explore`, `opsx-apply`, `opsx-verify`) — the user only sees an interruption when the gatekeeper catches a real problem. Show the final result only.
+- **Automatic** (`auto`): Run all SDD phases back-to-back without pausing. Phases still run back-to-back WITHOUT interrupting the user, BUT the orchestrator runs a gatekeeper validation after every phase before launching the next delegated phase (every SDD phases must be delegated to a subagent, including `opsx-new`, `opsx-ff`, `opsx-continue`, `opsx-explore`, `opsx-propose`, `opsx-design`, `opsx-spec`, `opsx-tasks`, `opsx-apply`, `opsx-verify`, `opsx-archive`; the orchestrator may run only gatekeeper validation inline) — the user only sees an interruption when the gatekeeper catches a real problem. Show the final result only.
 - **Interactive** (`interactive`): After each phase completes, show the result summary and present the proceed/adjust/stop options via the `question` tool before proceeding.
 
 In **Interactive** mode, between phases:
