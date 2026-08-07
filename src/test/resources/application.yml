@@ -5,6 +5,11 @@ spring:
     username: test
     password: test
     driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
   flyway:
     enabled: true
     url: jdbc:postgresql://localhost:5432/tests
@@ -38,3 +43,7 @@ management:
   info:
     git:
       mode: full
+#logging:
+#  level:
+#    org.hibernate.orm.jdbc.bind: trace
+#    org.hibernate.SQL: debug

@@ -22,7 +22,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DispensaryRepository extends JpaRepository<Dispensary, Long> {
-
-  Iterable<Dispensary> findAllByDeletedAtIsNull();
-}
+public interface DispensaryRepository extends JpaRepository<Dispensary, Long> {}

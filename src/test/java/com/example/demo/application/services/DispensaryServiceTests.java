@@ -39,7 +39,7 @@ class DispensaryServiceTests extends ServiceTest {
   void testFindAll() {
     // Given
     Iterable<Dispensary> expectedDispensaries = List.of();
-    given(dispensaryRepository.findAllByDeletedAtIsNull()).willReturn(expectedDispensaries);
+    given(dispensaryRepository.findAll()).willReturn((List<Dispensary>) expectedDispensaries);
 
     // When
     var result = dispensaryService.findAll();

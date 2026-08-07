@@ -73,7 +73,7 @@ class BrandRepositoryTests extends RepositoryTest {
     this.entityManager.persistAndFlush(deprecatedBrand);
 
     // When
-    Iterable<Brand> brands = brandRepository.findAllByDeletedAtIsNull();
+    Iterable<Brand> brands = brandRepository.findAll();
 
     // Then
     assertNotNull(brands);
@@ -92,7 +92,7 @@ class BrandRepositoryTests extends RepositoryTest {
     Brand brand = createBrand("live");
 
     // When
-    Optional<Brand> result = brandRepository.findByIdAndDeletedAtIsNull(brand.getId());
+    Optional<Brand> result = brandRepository.findById(brand.getId());
 
     // Then
     assertTrue(result.isPresent());
@@ -104,10 +104,14 @@ class BrandRepositoryTests extends RepositoryTest {
     // Given
     Brand brand = createBrand("deleted");
     brand.setDeletedAt(LocalDateTime.now());
-    this.entityManager.persistAndFlush(brand);
+    brand = this.entityManager.persistAndFlush(brand);
+
+    // Simulate a clean session. If not, hibernate holds on the "brand" in cache and retrieve it
+    // from there instead of load from DB
+    this.entityManager.clear();
 
     // When
-    Optional<Brand> result = brandRepository.findByIdAndDeletedAtIsNull(brand.getId());
+    Optional<Brand> result = brandRepository.findById(brand.getId());
 
     // Then
     assertTrue(result.isEmpty());
@@ -144,11 +148,12 @@ class BrandRepositoryTests extends RepositoryTest {
 
     // When
     boolean exists =
-        this.entityManager
-                .getEntityManager()
-                .createQuery("SELECT COUNT(b) FROM Brand b WHERE b.id = :id", Long.class)
-                .setParameter("id", brand.getId())
-                .getSingleResult()
+        (Long)
+                this.entityManager
+                    .getEntityManager()
+                    .createNativeQuery("SELECT COUNT(b) FROM brands b WHERE b.id = :id", Long.class)
+                    .setParameter("id", brand.getId())
+                    .getSingleResult()
             > 0;
 
     // Then — row must remain physically present

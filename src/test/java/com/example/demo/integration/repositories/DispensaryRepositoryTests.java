@@ -77,7 +77,7 @@ class DispensaryRepositoryTests extends RepositoryTest {
     // When
     disp2.setDeletedAt(LocalDateTime.now());
     this.entityManager.persistAndFlush(disp2);
-    var dispensaries = dispensaryRepository.findAllByDeletedAtIsNull();
+    var dispensaries = dispensaryRepository.findAll();
 
     // Then
     Assertions.assertNotNull(dispensaries);
