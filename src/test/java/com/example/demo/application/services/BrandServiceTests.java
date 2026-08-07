@@ -80,7 +80,7 @@ class BrandServiceTests extends ServiceTest {
     // Given
     Brand deleted = liveBrand(1L, "deleted");
     Brand live = liveBrand(2L, "live");
-    given(brandRepository.findAllByDeletedAtIsNull()).willReturn(List.of(live));
+    given(brandRepository.findAll()).willReturn(List.of(live));
 
     // When
     Iterable<Brand> result = brandService.findAll();
@@ -154,7 +154,7 @@ class BrandServiceTests extends ServiceTest {
   void getById_shouldReturnBrand_when_live() {
     // Given
     Brand brand = liveBrand(5L, "brand");
-    given(brandRepository.findByIdAndDeletedAtIsNull(5L)).willReturn(Optional.of(brand));
+    given(brandRepository.findById(5L)).willReturn(Optional.of(brand));
 
     // When
     Optional<Brand> result = brandService.getById(5L);
@@ -168,7 +168,7 @@ class BrandServiceTests extends ServiceTest {
   @DisplayName("getById returns empty for soft-deleted or non-existent id")
   void getById_shouldReturnEmpty_when_softDeletedOrNonExistent() {
     // Given
-    given(brandRepository.findByIdAndDeletedAtIsNull(99L)).willReturn(Optional.empty());
+    given(brandRepository.findById(99L)).willReturn(Optional.empty());
 
     // When
     Optional<Brand> result = brandService.getById(99L);
@@ -183,7 +183,7 @@ class BrandServiceTests extends ServiceTest {
     // Given
     Brand brand = liveBrand(1L, "original");
     given(brandTypeRepository.findByName("processor")).willReturn(Optional.of(resolvedBrandType));
-    given(brandRepository.findByIdAndDeletedAtIsNull(1L)).willReturn(Optional.of(brand));
+    given(brandRepository.findById(1L)).willReturn(Optional.of(brand));
     given(brandRepository.save(any(Brand.class))).willAnswer(inv -> inv.getArgument(0));
 
     // When
@@ -224,7 +224,7 @@ class BrandServiceTests extends ServiceTest {
   void update_shouldApplyPartial_andSaveOnce() {
     // Given
     Brand brand = liveBrand(1L, "original");
-    given(brandRepository.findByIdAndDeletedAtIsNull(1L)).willReturn(Optional.of(brand));
+    given(brandRepository.findById(1L)).willReturn(Optional.of(brand));
     given(brandRepository.save(any(Brand.class))).willAnswer(inv -> inv.getArgument(0));
 
     // When
@@ -257,7 +257,7 @@ class BrandServiceTests extends ServiceTest {
   @DisplayName("update with a non-existent id throws NotFoundException and does not save")
   void update_shouldThrow_when_nonexistent_andDoNotSave() {
     // Given
-    given(brandRepository.findByIdAndDeletedAtIsNull(77L)).willReturn(Optional.empty());
+    given(brandRepository.findById(77L)).willReturn(Optional.empty());
 
     // When / Then
     assertThrows(
@@ -273,7 +273,7 @@ class BrandServiceTests extends ServiceTest {
   @DisplayName("update on a soft-deleted brand throws NotFoundException")
   void update_shouldThrow_when_softDeleted() {
     // Given
-    given(brandRepository.findByIdAndDeletedAtIsNull(2L)).willReturn(Optional.empty());
+    given(brandRepository.findById(2L)).willReturn(Optional.empty());
 
     // When / Then
     assertThrows(
@@ -291,7 +291,7 @@ class BrandServiceTests extends ServiceTest {
     // Given / When
     Brand brand = liveBrand(1L, "original");
     given(brandTypeRepository.findByName("invalid")).willReturn(Optional.empty());
-    given(brandRepository.findByIdAndDeletedAtIsNull(1L)).willReturn(Optional.of(brand));
+    given(brandRepository.findById(1L)).willReturn(Optional.of(brand));
 
     // Then
     assertThrows(
@@ -308,7 +308,7 @@ class BrandServiceTests extends ServiceTest {
   void update_shouldLeaveEnabled_when_omitted() {
     // Given
     Brand brand = liveBrand(1L, "brand");
-    given(brandRepository.findByIdAndDeletedAtIsNull(1L)).willReturn(Optional.of(brand));
+    given(brandRepository.findById(1L)).willReturn(Optional.of(brand));
     given(brandRepository.save(any(Brand.class))).willAnswer(inv -> inv.getArgument(0));
 
     // When
@@ -325,7 +325,7 @@ class BrandServiceTests extends ServiceTest {
   void update_shouldApplyFalse_when_enabledFalse() {
     // Given
     Brand brand = liveBrand(1L, "brand");
-    given(brandRepository.findByIdAndDeletedAtIsNull(1L)).willReturn(Optional.of(brand));
+    given(brandRepository.findById(1L)).willReturn(Optional.of(brand));
     given(brandRepository.save(any(Brand.class))).willAnswer(inv -> inv.getArgument(0));
 
     // When
