@@ -99,7 +99,7 @@ public class DispensaryServiceImpl implements DispensaryService {
   }
 
   @Override
-  public Optional<Dispensary> getById(Integer id) {
+  public Optional<Dispensary> getById(Long id) {
     return this.dispensaryRepository
         .findById(id)
         .filter(dispensary -> dispensary.getDeletedAt() == null);
@@ -107,7 +107,7 @@ public class DispensaryServiceImpl implements DispensaryService {
 
   @Override
   @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-  public Optional<Dispensary> deleteById(Integer id) throws NotFoundException {
+  public Optional<Dispensary> deleteById(Long id) throws NotFoundException {
     var dispensary =
         this.dispensaryRepository
             .findById(id)

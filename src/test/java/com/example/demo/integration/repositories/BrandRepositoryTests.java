@@ -159,7 +159,8 @@ class BrandRepositoryTests extends RepositoryTest {
                 .getSingleResult();
     assertEquals(1, physicalCount);
 
-    // And — entity must be hidden from normal repository queries (proving @SQLRestriction filters it out)
+    // And — entity must be hidden from normal repository queries (proving @SQLRestriction filters
+    // it out)
     Optional<Brand> result = brandRepository.findById(brand.getId());
     assertTrue(result.isEmpty());
   }

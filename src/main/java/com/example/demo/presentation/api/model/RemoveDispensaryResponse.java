@@ -18,7 +18,7 @@
 package com.example.demo.presentation.api.model;
 
 public record RemoveDispensaryResponse(
-    Integer id,
+    Long id,
     String name,
     String description,
     String license,

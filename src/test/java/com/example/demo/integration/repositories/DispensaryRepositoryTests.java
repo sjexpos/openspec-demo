@@ -22,7 +22,6 @@ import com.example.demo.domain.models.dispensary.Dispensary;
 import com.example.demo.domain.models.dispensary.LicenseStatus;
 import com.example.demo.domain.repositories.DispensaryRepository;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -90,7 +89,8 @@ class DispensaryRepositoryTests extends RepositoryTest {
                 .getSingleResult();
     Assertions.assertEquals(1, physicalCount);
 
-    // And — entity must be hidden from normal repository queries (proving @SQLRestriction filters it out)
+    // And — entity must be hidden from normal repository queries (proving @SQLRestriction filters
+    // it out)
     var dispensaries = dispensaryRepository.findAll();
     Assertions.assertNotNull(dispensaries);
     Assertions.assertEquals(2, Lists.newArrayList(dispensaries).size());

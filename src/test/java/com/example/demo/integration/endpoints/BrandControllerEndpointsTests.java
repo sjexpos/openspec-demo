@@ -64,7 +64,8 @@ class BrandControllerEndpointsTests extends EndpointIntegrationTest {
 
   @AfterEach
   void tearDown() {
-    // Method deleteAll invokes @SQLDelete in Brand entity, which soft-deletes entities instead of hard-deleting them.
+    // Method deleteAll invokes @SQLDelete in Brand entity, which soft-deletes entities instead of
+    // hard-deleting them.
     // @SQLRestriction then filters out soft-deleted rows from subsequent queries.
     // It is needed to remove them using native query for cleanup.
     // brandRepository.deleteAll();
@@ -82,7 +83,8 @@ class BrandControllerEndpointsTests extends EndpointIntegrationTest {
       }
     }
     brandTypeRepository
-        .deleteAll(); // BrandType doesn't have @SQLDelete or @SQLRestriction because it doesn't have soft-delete
+        .deleteAll(); // BrandType doesn't have @SQLDelete or @SQLRestriction because it doesn't
+    // have soft-delete
   }
 
   private ObjectNode validBody(String name, String brandTypeName) {

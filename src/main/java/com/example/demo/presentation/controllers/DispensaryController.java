@@ -112,7 +112,7 @@ public class DispensaryController implements DispensaryApi {
   }
 
   @Override
-  public DataResponse<GetDispensaryResponse> getById(Integer id) {
+  public DataResponse<GetDispensaryResponse> getById(Long id) {
     Dispensary dispensary =
         this.dispensaryService
             .getById(id)
@@ -140,7 +140,7 @@ public class DispensaryController implements DispensaryApi {
   }
 
   @Override
-  public DataResponse<RemoveDispensaryResponse> delete(Integer id) {
+  public DataResponse<RemoveDispensaryResponse> delete(Long id) {
     Dispensary dispensary =
         this.dispensaryService
             .deleteById(id)
