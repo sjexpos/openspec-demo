@@ -72,7 +72,7 @@ public interface DispensaryApi {
     @ApiResponse(responseCode = "404", description = "Dispensary not found")
   })
   DataResponse<GetDispensaryResponse> getById(
-      @Parameter(description = "Dispensary ID", required = true) @PathVariable Long id);
+      @Parameter(description = "Dispensary ID", required = true) @PathVariable Integer id);
 
   @DeleteMapping("/{id}")
   @ResponseStatus(value = HttpStatus.OK)
@@ -82,5 +82,5 @@ public interface DispensaryApi {
     @ApiResponse(responseCode = "404", description = "Dispensary not found")
   })
   DataResponse<RemoveDispensaryResponse> delete(
-      @Parameter(description = "Dispensary ID", required = true) @PathVariable Long id);
+      @Parameter(description = "Dispensary ID", required = true) @PathVariable Integer id);
 }

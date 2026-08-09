@@ -43,7 +43,7 @@ public interface DispensaryService {
       Integer adminId,
       Boolean enabled);
 
-  Optional<Dispensary> getById(Long id);
+  Optional<Dispensary> getById(Integer id);
 
-  Optional<Dispensary> deleteById(Long id) throws NotFoundException;
+  Optional<Dispensary> deleteById(Integer id) throws NotFoundException;
 }

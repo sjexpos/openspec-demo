@@ -74,12 +74,24 @@ class DispensaryRepositoryTests extends RepositoryTest {
     var disp2 = createDispensaryWithPendingLicenseStatus();
     var disp3 = createDispensaryWithPendingLicenseStatus();
 
-    // When
-    disp2.setDeletedAt(LocalDateTime.now());
-    this.entityManager.persistAndFlush(disp2);
-    var dispensaries = dispensaryRepository.findAll();
+    // When — invoke repository delete to trigger @SQLDelete
+    dispensaryRepository.delete(disp2);
+    this.entityManager.flush();
+    this.entityManager.clear();
 
-    // Then
+    // Then — row must remain physically present (proving soft-delete, not hard-delete)
+    long physicalCount =
+        (Long)
+            this.entityManager
+                .getEntityManager()
+                .createNativeQuery(
+                    "SELECT COUNT(d) FROM dispensaries d WHERE d.id = :id", Long.class)
+                .setParameter("id", disp2.getId())
+                .getSingleResult();
+    Assertions.assertEquals(1, physicalCount);
+
+    // And — entity must be hidden from normal repository queries (proving @SQLRestriction filters it out)
+    var dispensaries = dispensaryRepository.findAll();
     Assertions.assertNotNull(dispensaries);
     Assertions.assertEquals(2, Lists.newArrayList(dispensaries).size());
     Assertions.assertTrue(

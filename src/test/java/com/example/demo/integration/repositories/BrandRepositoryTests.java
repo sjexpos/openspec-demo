@@ -143,20 +143,24 @@ class BrandRepositoryTests extends RepositoryTest {
   void softDeletedBrand_when_deleted_rowStillPresentPhysically() {
     // Given
     Brand brand = createBrand("persistent");
-    brand.setDeletedAt(LocalDateTime.now());
-    this.entityManager.persistAndFlush(brand);
 
-    // When
-    boolean exists =
+    // When — invoke repository delete to trigger @SQLDelete
+    brandRepository.delete(brand);
+    this.entityManager.flush();
+    this.entityManager.clear();
+
+    // Then — row must remain physically present (proving soft-delete, not hard-delete)
+    long physicalCount =
         (Long)
-                this.entityManager
-                    .getEntityManager()
-                    .createNativeQuery("SELECT COUNT(b) FROM brands b WHERE b.id = :id", Long.class)
-                    .setParameter("id", brand.getId())
-                    .getSingleResult()
-            > 0;
+            this.entityManager
+                .getEntityManager()
+                .createNativeQuery("SELECT COUNT(b) FROM brands b WHERE b.id = :id", Long.class)
+                .setParameter("id", brand.getId())
+                .getSingleResult();
+    assertEquals(1, physicalCount);
 
-    // Then — row must remain physically present
-    assertTrue(exists);
+    // And — entity must be hidden from normal repository queries (proving @SQLRestriction filters it out)
+    Optional<Brand> result = brandRepository.findById(brand.getId());
+    assertTrue(result.isEmpty());
   }
 }

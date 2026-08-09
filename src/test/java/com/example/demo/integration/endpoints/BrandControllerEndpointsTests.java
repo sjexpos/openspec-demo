@@ -64,8 +64,9 @@ class BrandControllerEndpointsTests extends EndpointIntegrationTest {
 
   @AfterEach
   void tearDown() {
-    // Method deleteAll processes @SQLRestriction in Brand entity, so it is not deleting entities.
-    // It is needed to remove them using native query
+    // Method deleteAll invokes @SQLDelete in Brand entity, which soft-deletes entities instead of hard-deleting them.
+    // @SQLRestriction then filters out soft-deleted rows from subsequent queries.
+    // It is needed to remove them using native query for cleanup.
     // brandRepository.deleteAll();
     try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
       EntityTransaction tx = entityManager.getTransaction();
@@ -81,7 +82,7 @@ class BrandControllerEndpointsTests extends EndpointIntegrationTest {
       }
     }
     brandTypeRepository
-        .deleteAll(); // BrandType doesn't have @SQLRestriction because it doesn't have soft-delete
+        .deleteAll(); // BrandType doesn't have @SQLDelete or @SQLRestriction because it doesn't have soft-delete
   }
 
   private ObjectNode validBody(String name, String brandTypeName) {
