@@ -48,7 +48,7 @@ public class DispensaryServiceImpl implements DispensaryService {
 <span class="fc" id="L48">  }</span>
 
   public Iterable&lt;Dispensary&gt; findAll() {
-<span class="fc" id="L51">    return this.dispensaryRepository.findAllByDeletedAtIsNull();</span>
+<span class="fc" id="L51">    return this.dispensaryRepository.findAll();</span>
   }
 
   @Override

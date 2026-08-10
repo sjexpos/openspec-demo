@@ -44,7 +44,7 @@ public class BrandServiceImpl implements BrandService {
 
   @Override
   public Iterable&lt;Brand&gt; findAll() {
-<span class="fc" id="L47">    return this.brandRepository.findAllByDeletedAtIsNull();</span>
+<span class="fc" id="L47">    return this.brandRepository.findAll();</span>
   }
 
   @Override
@@ -84,7 +84,7 @@ public class BrandServiceImpl implements BrandService {
 
   @Override
   public Optional&lt;Brand&gt; getById(Long id) {
-<span class="fc" id="L87">    return this.brandRepository.findByIdAndDeletedAtIsNull(id);</span>
+<span class="fc" id="L87">    return this.brandRepository.findById(id);</span>
   }
 
   @Override
@@ -106,7 +106,7 @@ public class BrandServiceImpl implements BrandService {
       throws NotFoundException {
 <span class="fc" id="L107">    Brand brand =</span>
         this.brandRepository
-<span class="fc" id="L109">            .findByIdAndDeletedAtIsNull(id)</span>
+<span class="fc" id="L109">            .findById(id)</span>
 <span class="fc" id="L110">            .orElseThrow(() -&gt; new NotFoundException(&quot;Brand not found with ID: &quot; + id));</span>
 <span class="fc bfc" id="L111" title="All 2 branches covered.">    if (brandTypeName != null) {</span>
 <span class="fc" id="L112">      BrandType brandType =</span>
