@@ -48,7 +48,7 @@ public class DispensaryServiceImpl implements DispensaryService {
   }
 
   public Iterable<Dispensary> findAll() {
-    return this.dispensaryRepository.findAllByDeletedAtIsNull();
+    return this.dispensaryRepository.findAll();
   }
 
   @Override

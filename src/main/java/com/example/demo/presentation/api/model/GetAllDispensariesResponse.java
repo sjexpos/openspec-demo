@@ -18,7 +18,7 @@
 package com.example.demo.presentation.api.model;
 
 public record GetAllDispensariesResponse(
-    Integer id,
+    Long id,
     String name,
     String license,
     String phone,

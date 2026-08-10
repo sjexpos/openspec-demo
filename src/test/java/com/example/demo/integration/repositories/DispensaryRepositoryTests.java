@@ -22,7 +22,6 @@ import com.example.demo.domain.models.dispensary.Dispensary;
 import com.example.demo.domain.models.dispensary.LicenseStatus;
 import com.example.demo.domain.repositories.DispensaryRepository;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -74,12 +73,25 @@ class DispensaryRepositoryTests extends RepositoryTest {
     var disp2 = createDispensaryWithPendingLicenseStatus();
     var disp3 = createDispensaryWithPendingLicenseStatus();
 
-    // When
-    disp2.setDeletedAt(LocalDateTime.now());
-    this.entityManager.persistAndFlush(disp2);
-    var dispensaries = dispensaryRepository.findAllByDeletedAtIsNull();
+    // When — invoke repository delete to trigger @SQLDelete
+    dispensaryRepository.delete(disp2);
+    this.entityManager.flush();
+    this.entityManager.clear();
 
-    // Then
+    // Then — row must remain physically present (proving soft-delete, not hard-delete)
+    long physicalCount =
+        (Long)
+            this.entityManager
+                .getEntityManager()
+                .createNativeQuery(
+                    "SELECT COUNT(d) FROM dispensaries d WHERE d.id = :id", Long.class)
+                .setParameter("id", disp2.getId())
+                .getSingleResult();
+    Assertions.assertEquals(1, physicalCount);
+
+    // And — entity must be hidden from normal repository queries (proving @SQLRestriction filters
+    // it out)
+    var dispensaries = dispensaryRepository.findAll();
     Assertions.assertNotNull(dispensaries);
     Assertions.assertEquals(2, Lists.newArrayList(dispensaries).size());
     Assertions.assertTrue(

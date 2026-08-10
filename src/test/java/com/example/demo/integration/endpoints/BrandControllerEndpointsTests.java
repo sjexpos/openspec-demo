@@ -29,6 +29,9 @@ import com.example.demo.domain.repositories.BrandRepository;
 import com.example.demo.domain.repositories.BrandTypeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,6 +51,8 @@ class BrandControllerEndpointsTests extends EndpointIntegrationTest {
 
   @Autowired private BrandRepository brandRepository;
 
+  @Autowired private EntityManagerFactory entityManagerFactory;
+
   private BrandType seededBrandType;
 
   @BeforeEach
@@ -59,8 +64,27 @@ class BrandControllerEndpointsTests extends EndpointIntegrationTest {
 
   @AfterEach
   void tearDown() {
-    brandRepository.deleteAll();
-    brandTypeRepository.deleteAll();
+    // Method deleteAll invokes @SQLDelete in Brand entity, which soft-deletes entities instead of
+    // hard-deleting them.
+    // @SQLRestriction then filters out soft-deleted rows from subsequent queries.
+    // It is needed to remove them using native query for cleanup.
+    // brandRepository.deleteAll();
+    try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+      EntityTransaction tx = entityManager.getTransaction();
+      try {
+        tx.begin();
+        entityManager.createNativeQuery("DELETE FROM brands").executeUpdate();
+        tx.commit();
+      } catch (Exception e) {
+        if (tx.isActive()) {
+          tx.rollback();
+        }
+        throw e;
+      }
+    }
+    brandTypeRepository
+        .deleteAll(); // BrandType doesn't have @SQLDelete or @SQLRestriction because it doesn't
+    // have soft-delete
   }
 
   private ObjectNode validBody(String name, String brandTypeName) {

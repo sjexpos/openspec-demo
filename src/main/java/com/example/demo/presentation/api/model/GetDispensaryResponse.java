@@ -20,7 +20,7 @@ package com.example.demo.presentation.api.model;
 import java.math.BigDecimal;
 
 public record GetDispensaryResponse(
-    Integer id,
+    Long id,
     String name,
     String logoImageURL,
     String description,

@@ -18,14 +18,8 @@
 package com.example.demo.domain.repositories;
 
 import com.example.demo.domain.models.brand.Brand;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BrandRepository extends JpaRepository<Brand, Long> {
-
-  Iterable<Brand> findAllByDeletedAtIsNull();
-
-  Optional<Brand> findByIdAndDeletedAtIsNull(Long id);
-}
+public interface BrandRepository extends JpaRepository<Brand, Long> {}
