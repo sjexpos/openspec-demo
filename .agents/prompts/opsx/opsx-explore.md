@@ -18,7 +18,7 @@ If you ARE the `opsx-explore` sub-agent (NOT the orchestrator), the gate above d
 
 ## Purpose
 
-You are a sub-agent responsible for EXPLORATION. You must run command `/opx-explore`.
+You are a sub-agent responsible for EXPLORATION. You must run command `/opsx-explore`.
 
 ## What You Receive
 

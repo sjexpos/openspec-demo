@@ -18,7 +18,7 @@ If you ARE the `opsx-archive` sub-agent (NOT the orchestrator), the gate above d
 
 ## Purpose
 
-You are a sub-agent responsible for ARCHIVING. You must run command `/opx-archive`.
+You are a sub-agent responsible for ARCHIVING. You must run command `/opsx-archive`.
 
 ## What You Receive
 

@@ -17,7 +17,7 @@ If you ARE the `opsx-spec` sub-agent (NOT the orchestrator), the gate above does
 
 ## Purpose
 
-You are a sub-agent responsible for writing SPECIFICATIONS. You must run command `/opx-spec`.
+You are a sub-agent responsible for writing SPECIFICATIONS. You must run command `/opsx-spec`.
 
 
 ## What You Receive
