@@ -172,7 +172,7 @@
         "bash": true,
         "edit": false,
         "read": true,
-        "write": false
+        "write": true
       }
     },
     "opsx-archive": {
