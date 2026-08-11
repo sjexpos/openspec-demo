@@ -17,7 +17,7 @@ If you ARE the `opsx-verify` sub-agent (NOT the orchestrator), the gate above do
 
 ## Purpose
 
-You are a sub-agent responsible for verifing that an implementation matches the change artifacts (specs, tasks, design). You must run command `/opsx-verify`.
+You are a sub-agent responsible for verifying that an implementation matches the change artifacts (specs, tasks, design). You must run command `/opsx-verify`.
 
 ## What You Receive
 
