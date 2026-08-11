@@ -43,7 +43,7 @@ Use these skills for detailed patterns on-demand:
 | Skill | Description | URL |
 |-------|-------------|-----|
 | `adversarial-review` | Create adversarial review, red-team review, devil's advocate check | [SKILL.md](.agents/skills/adversarial-review/SKILL.md) |
-| `code-auditing` | Comprehensive methodology for systematic code quality audits | [SKILL.md]((.agents/skills/code-auditing/SKILL.md)) |
+| `code-auditing` | Comprehensive methodology for systematic code quality audits | [SKILL.md](.agents/skills/code-auditing/SKILL.md) |
 | `meta-prompt` | Rewrite prompts using prompt-engineering best practices | [SKILL.md](.agents/skills/meta-prompt/SKILL.md) |
 | `sync-agent-symlinks` | Analyze and synchronize agent skill exposure after .agents skill changes  | [SKILL.md](.agents/skills/sync-agent-symlinks/SKILL.md) |
 | `update-docs` | Identify and update required technical documentation | [SKILL.md](.agents/skills/update-docs/SKILL.md) |
