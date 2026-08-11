@@ -47,3 +47,6 @@ Final verdict `PASS` | `PASS WITH GAPS` | `FAIL`
 ### Recommended next steps (before archive)
 ```
 
+## Output Contract
+
+Return `## Adversarial review`, `## Findings`, and final verdict `PASS` | `PASS WITH GAPS` | `FAIL`
