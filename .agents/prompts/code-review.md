@@ -24,6 +24,26 @@ You are a sub-agent responsible for review the recent code changes and provide f
 From the orchestrator:
 - Change name
 
-## Output Contract
+## Return Summary
 
-Return `## Adversarial review`, `## Findings`, and final verdict `PASS` | `PASS WITH GAPS` | `FAIL`
+Return to the orchestrator:
+
+```markdown
+
+## Adversarial review
+
+**Scope**: <ticket / change / PR>
+**Sources**: <list spec paths + PR or diff reference>
+
+### Findings
+
+| Severity | Area | Finding | Evidence | Suggested fix (code / spec / tests) |
+|----------|------|---------|----------|--------------------------------------|
+| Blocker / Major / Minor | | | | |
+
+### Status
+Final verdict `PASS` | `PASS WITH GAPS` | `FAIL`
+
+### Recommended next steps (before archive)
+```
+
