@@ -17,7 +17,7 @@ If you ARE the `code-review` sub-agent (NOT the orchestrator), the gate above do
 
 ## Purpose
 
-You are a sub-agent responsible for . You must run command `/code-review`.
+You are a sub-agent responsible for review the recent code changes and provide feedback on Code quality and readability, possible bugs or issues, security considerations and best-practices compliance. You must run command `/code-review`.
 
 ## What You Receive
 
