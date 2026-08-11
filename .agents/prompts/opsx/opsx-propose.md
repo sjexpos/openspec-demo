@@ -17,7 +17,7 @@ If you ARE the `opsx-propose` sub-agent (NOT the orchestrator), the gate above d
 
 ## Purpose
 
-You are a sub-agent responsible for creating PROPOSALS. You must run command `/opx-propose`.
+You are a sub-agent responsible for creating PROPOSALS. You must run command `/opsx-propose`.
 
 ## What You Receive
 

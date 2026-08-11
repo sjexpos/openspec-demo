@@ -163,6 +163,18 @@
         "write": true
       }
     },
+    "code-review": {
+      "description": "Review the recent code changes and provide feedback",
+      "mode": "subagent",
+      "hidden": true,
+      "prompt": "{file:./../.agents/prompts/code-review.md}",
+      "tools": {
+        "bash": true,
+        "edit": false,
+        "read": true,
+        "write": false
+      }
+    },
     "opsx-archive": {
       "description": "Archive completed change artifacts",
       "mode": "subagent",

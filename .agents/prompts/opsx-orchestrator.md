@@ -65,6 +65,7 @@ Skills (appear in autocomplete):
 - `/opsx-explore <topic>` -> investigate an idea; reads codebase, compares approaches; no files created
 - `/opsx-apply [change]` -> implement tasks in batches; checks off items as it goes
 - `/opsx-verify [change]` -> validate implementation against specs; reports CRITICAL / WARNING / SUGGESTION
+. `/code-review [change]` -> Review the recent code changes and provide feedback; reports PASS / PASS WITH GAPS / FAIL
 - `/opsx-archive [change]` -> close a change and persist final state in the artifact store
 - `/opsx-onboard` -> guided end-to-end walkthrough of SDD using your real codebase
 
@@ -80,7 +81,7 @@ Meta-commands (type directly - orchestrator handles them, won't appear in autoco
 
 Before executing ANY SDD command or natural-language SDD request, ensure this session has an explicit `SDD Session Preflight` decision block.
 
-This applies to `/opsx-new`, `/opsx-ff`, `/opsx-continue`, `/opsx-explore`, `/opsx-apply`, `/opsx-verify`, `/opsx-archive`, and natural-language equivalents such as \"use SDD to add dark mode\" / \"do it with SDD\".
+This applies to `/opsx-new`, `/opsx-ff`, `/opsx-continue`, `/opsx-explore`, `/opsx-apply`, `/opsx-verify`, `/code-review`, `/opsx-archive`, and natural-language equivalents such as \"use SDD to add dark mode\" / \"do it with SDD\".
 
 Required preflight choices:
 
@@ -129,7 +130,7 @@ If any dependency is missing, STOP and propose `/opsx-new` or `/opsx-ff`; do not
 
 ### SDD Init Guard (MANDATORY)
 
-After the SDD Session Preflight is complete and before executing ANY SDD command (`/opsx-new`, `/opsx-ff`, `/opsx-continue`, `/opsx-explore`, `/opsx-apply`, `/opsx-verify`, `/opsx-archive`), check if `openspec init` has been run for this project:
+After the SDD Session Preflight is complete and before executing ANY SDD command (`/opsx-new`, `/opsx-ff`, `/opsx-continue`, `/opsx-explore`, `/opsx-apply`, `/opsx-verify`, `/code-review`, `/opsx-archive`), check if `openspec init` has been run for this project:
 
 1. Search file `openspec/config.yaml`, it can be a symbolic link (check it)
 2. If found -> init was done, proceed normally
@@ -147,7 +148,7 @@ Do NOT skip this check. The only allowed silent init is after the session prefli
 
 This is collected by `SDD Session Preflight`. If missing, enforce the hard gate before any phase work. Ask which execution mode they prefer:
 
-- **Automatic** (`auto`): Run all SDD phases back-to-back without pausing. Phases still run back-to-back WITHOUT interrupting the user, BUT the orchestrator runs a gatekeeper validation after every phase before launching the next delegated phase (every SDD phases must be delegated to a subagent, including `opsx-new`, `opsx-ff`, `opsx-continue`, `opsx-explore`, `opsx-propose`, `opsx-design`, `opsx-spec`, `opsx-tasks`, `opsx-apply`, `opsx-verify`, `opsx-archive`; the orchestrator may run only gatekeeper validation inline) — the user only sees an interruption when the gatekeeper catches a real problem. Show the final result only.
+- **Automatic** (`auto`): Run all SDD phases back-to-back without pausing. Phases still run back-to-back WITHOUT interrupting the user, BUT the orchestrator runs a gatekeeper validation after every phase before launching the next delegated phase (every SDD phases must be delegated to a subagent, including `opsx-new`, `opsx-ff`, `opsx-continue`, `opsx-explore`, `opsx-propose`, `opsx-design`, `opsx-spec`, `opsx-tasks`, `opsx-apply`, `opsx-verify`, `code-review`, `opsx-archive`; the orchestrator may run only gatekeeper validation inline) — the user only sees an interruption when the gatekeeper catches a real problem. Show the final result only.
 - **Interactive** (`interactive`): After each phase completes, show the result summary and present the proceed/adjust/stop options via the `question` tool before proceeding.
 
 In **Interactive** mode, between phases:
@@ -176,7 +177,7 @@ In **Automatic** mode the orchestrator is the gatekeeper between phases. The gat
 - **Artifact existence:** the declared artifact actually exists and is readable in the active backend — read it back (openspec: read the file path). A phase that reports success but produced no retrievable artifact FAILS the gate.
 - **No hallucination:** every file path, symbol, command, or artifact the phase claims it created or referenced must actually exist; spot-check the concrete claims. A referenced path that does not resolve FAILS the gate.
 - **No drift from inputs:** the output is consistent with the phase's required inputs per the Dependency Graph — spec stays within the proposal's scope, design answers the proposal, tasks cover spec and design, apply implements the tasks. Invented requirements, scope creep, or dropped requirements FAIL the gate.
-- **Routing coherence:** `next_recommended` follows the Dependency Graph and `risks` are within tolerance (no unaddressed CRITICAL).
+- **Routing coherence:** `next_recommended` follows the Dependency Graph and `risks` are within tolerance (no unaddressed CRITICAL OR FAIL).
 
 **Hybrid validation mechanism (cost-aware):**
 - **Inline for low-risk phases** (`opsx-explore`, `opsx-spec`, `opsx-tasks`, `opsx-archive`): the orchestrator runs the checks itself by reading the artifact back. No extra sub-agent.
@@ -192,7 +193,7 @@ The gatekeeper runs in addition to the the Mandatory Delegation Triggers; it nev
 ### Dependency Graph
 
 ```
-proposal -> specs --> tasks -> apply -> verify -> archive
+proposal -> specs --> tasks -> apply -> verify -> code-review -> archive
              ^
              |
            design
@@ -264,6 +265,7 @@ Each phase has explicit read/write rules:
 | `opsx-tasks`   | spec + design (required)                                | `tasks`          |
 | `opsx-apply`   | tasks + spec + design + `apply-progress` (if it exists) | `apply-progress` |
 | `opsx-verify`  | spec + tasks + `apply-progress`                         | `verify-report`  |
+| `code-review`  | review code changes (required)                          | `code-review`    |
 | `opsx-archive` | all artifacts                                           | `archive-report` |
 
 For phases with required dependencies, sub-agents read directly from the backend - orchestrator passes artifact references (topic keys or file paths), NOT the content itself.

@@ -17,7 +17,7 @@ If you ARE the `opsx-design` sub-agent (NOT the orchestrator), the gate above do
 
 ## Purpose
 
-You are a sub-agent responsible for TECHNICAL DESIGN. You must run command `/opx-design`.
+You are a sub-agent responsible for TECHNICAL DESIGN. You must run command `/opsx-design`.
 
 ## What You Receive
 

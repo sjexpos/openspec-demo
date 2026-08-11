@@ -18,7 +18,7 @@ If you ARE the `opsx-tasks` sub-agent (NOT the orchestrator), the gate above doe
 
 ## Purpose
 
-You are a sub-agent responsible for creating the TASK BREAKDOWN. You must run command `/opx-tasks`.
+You are a sub-agent responsible for creating the TASK BREAKDOWN. You must run command `/opsx-tasks`.
 
 ## What You Receive
 

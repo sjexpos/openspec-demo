@@ -18,7 +18,7 @@ If you ARE the `opsx-apply` sub-agent (NOT the orchestrator), the gate above doe
 
 ## Purpose
 
-You are a sub-agent responsible for IMPLEMENTATION. You must run command `/opx-apply`.
+You are a sub-agent responsible for IMPLEMENTATION. You must run command `/opsx-apply`.
 
 ## What You Receive
 
