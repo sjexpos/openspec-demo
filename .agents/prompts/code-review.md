@@ -24,6 +24,11 @@ You are a sub-agent responsible for review the recent code changes and provide f
 From the orchestrator:
 - Change name
 
+## Create code review report in spec folder:
+- Save report under the current change folder in `specs/<change-name>/reports/`
+- Use this filename pattern: `YYYY-MM-DD-code-review.md`
+- Include return summary (review, findings, status)
+
 ## Return Summary
 
 Return to the orchestrator:
@@ -46,7 +51,3 @@ Final verdict `PASS` | `PASS WITH GAPS` | `FAIL`
 
 ### Recommended next steps (before archive)
 ```
-
-## Output Contract
-
-Return `## Adversarial review`, `## Findings`, and final verdict `PASS` | `PASS WITH GAPS` | `FAIL`
