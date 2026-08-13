@@ -358,12 +358,64 @@ artifacts:
          - Test with unauthorized access (if applicable)
          - Verify error response format matches API specification
       
-      7. **Mark Task as Completed**: Only after all curl tests pass and database state is restored, mark the task as completed in `tasks.md`
+      7. **Create Manual Endpoint Testing Report in Spec Folder**:
+         - Save report under the current change folder in `specs/<change-name>/reports/`
+         - Use this filename pattern: `YYYY-MM-DD-step-N+1-manual-curl-verification.md`
+         - Include executed commands, response, and cleanup action
+      
+      8. **Mark Task as Completed**: Only after all curl tests pass, database state is restored, and the report file is created, mark the task as completed in `tasks.md`
+      
+      **Report Template** (store in `specs/<change-name>/reports/`):
+      ```markdown
+      # Step N+2 Report - Manual Endpoint Testing with curl
+      
+      - Date: YYYY-MM-DD
+      - Change: <change-name>
+      - Agent: <agent-name>
+      
+      ## Pre-test state (before seeding)
+      - database used and table states
+      
+      ## N+2.1 - <tested endpoint
+      ```bash
+      <curl command>
+      ```
+      - Response: <curl response, status and body response
+      - DB after: <database state summary>
+      - Restored: <cleanup action>
+
+      ## N+2.2 - <tested endpoint
+      ```bash
+      <curl command>
+      ```
+      - Response: <curl response, status and body response
+      - DB after: <database state summary>
+      - Restored: <cleanup action>
+      
+      ## N+2.M-1 - <tested endpoint
+      ```bash
+      <curl command>
+      ```
+      - Response: <curl response, status and body response
+      - DB after: <database state summary>
+      - Restored: <cleanup action>
+      
+      ## N+2.M - Restoration / post-test state
+      <final cleanup action>
+      | Table | Pre-test baseline | Post-test |
+      |---|---|---|
+      | `<table>` | <row count> | <row count> |
+      | `<table>` | <row count> | <row count> |
+      - <Database state>
+      - <Flyway state>
+      - <Backend server state>
+      ```
       
       **Dependencies**:
       - Backend server running (agent must start if needed)
-      - Database access for state restoration
+      - Database access for state verification/restoration
       - curl command-line tool
+      - Permission to create report files in `specs/<change-name>/reports/`
       
       **Notes**:
       - This step is MANDATORY for all new endpoints

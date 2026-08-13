@@ -363,7 +363,7 @@ artifacts:
          - Use this filename pattern: `YYYY-MM-DD-step-N+1-manual-curl-verification.md`
          - Include executed commands, response, and cleanup action
       
-      8. **Mark Task as Completed**: Only after all curl tests pass and database state is restored, mark the task as completed in `tasks.md`
+      8. **Mark Task as Completed**: Only after all curl tests pass, database state is restored, and the report file is created, mark the task as completed in `tasks.md`
       
       **Report Template** (store in `specs/<change-name>/reports/`):
       ```markdown
@@ -401,14 +401,14 @@ artifacts:
       - Restored: <cleanup action>
       
       ## N+2.M - Restoration / post-test state
-      <final <cleanup action>
+      <final cleanup action>
       | Table | Pre-test baseline | Post-test |
       |---|---|---|
       | `<table>` | <row count> | <row count> |
       | `<table>` | <row count> | <row count> |
       - <Database state>
       - <Flyway state>
-      - <Backend serer state>
+      - <Backend server state>
       ```
       
       **Dependencies**:

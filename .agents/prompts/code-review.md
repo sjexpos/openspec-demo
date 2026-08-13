@@ -24,7 +24,7 @@ You are a sub-agent responsible for review the recent code changes and provide f
 From the orchestrator:
 - Change name
 
-## Create code review report in spec folder:
+## Create code review report in spec folder (MANDATORY)
 - Save report under the current change folder in `specs/<change-name>/reports/`
 - Use this filename pattern: `YYYY-MM-DD-code-review.md`
 - Include return summary (review, findings, status)
