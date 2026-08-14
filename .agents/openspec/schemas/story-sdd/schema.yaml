@@ -224,7 +224,7 @@ artifacts:
       
       ### Step 0: Create Feature Branch (MUST BE FIRST)
       - **Location**: Must be the very first step (Step 0)
-      - **Branch naming**: `feature/[ticket-id]` or `feature/[change-name]`
+      - **Branch naming**: `feat/[ticket-id]` or `feat/[change-name]`
       - **Action**: Create and switch to feature branch before any code changes
       
       ### Mandatory Steps (Must Be Included):
@@ -436,7 +436,7 @@ artifacts:
       - [ ] All mandatory steps from config.yaml are included
       - [ ] Steps are numbered sequentially
       - [ ] Mandatory steps are clearly marked with "(MANDATORY)" label
-      - [ ] Branch naming follows the convention: `feature/[name]-backend`
+      - [ ] Branch naming follows the convention: `feat/[name]`
       - [ ] Step N+1 includes report path and naming convention in `specs/<change-name>/reports/`
       - [ ] Manual testing steps explicitly state "AGENT MUST EXECUTE"
       - [ ] Tasks include database state restoration steps
@@ -455,7 +455,7 @@ artifacts:
       ```markdown
       ## 0. Setup: Create Feature Branch (MANDATORY - FIRST STEP)
       
-      - [ ] 0.1 Create feature branch `feature/update-position-backend` from main/master branch
+      - [ ] 0.1 Create feature branch `feat/update-position` from main/master branch
       - [ ] 0.2 Verify branch creation and current branch status
       
       ## 1. Backend: Validator Tests (TDD)

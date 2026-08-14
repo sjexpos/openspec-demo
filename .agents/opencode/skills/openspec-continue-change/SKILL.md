@@ -99,7 +99,6 @@ Continue working on a change by creating the next artifact.
        - Review and Update Existing Unit Tests (MANDATORY)
        - Run Unit Tests and Verify Database State (MANDATORY)
        - Manual Endpoint Testing with curl (MANDATORY - AGENT MUST EXECUTE)
-       - E2E Testing with Playwright MCP (MANDATORY if applicable - AGENT MUST EXECUTE)
        - Update Technical Documentation (MANDATORY)
      - **For manual testing tasks**: Include sub-tasks that make it clear the agent must execute tests (e.g., "Test GET endpoints with curl", "Restore database state", etc.)
      - Write to the output path specified in instructions
