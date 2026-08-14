@@ -74,6 +74,7 @@
           "opsx-tasks": "allow",
           "opsx-apply": "allow",
           "opsx-verify": "allow",
+          "code-review": "allow",
           "opsx-archive": "allow"
         }
       },
