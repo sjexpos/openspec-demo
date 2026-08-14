@@ -103,7 +103,6 @@ Fast-forward through artifact creation - generate everything needed to start imp
         - Review and Update Existing Unit Tests (MANDATORY)
         - Run Unit Tests and Verify Database State (MANDATORY)
         - Manual Endpoint Testing with curl (MANDATORY - AGENT MUST EXECUTE)
-        - E2E Testing with Playwright MCP (MANDATORY if applicable - AGENT MUST EXECUTE)
         - Update Technical Documentation (MANDATORY)
       - **For manual testing tasks**: Include sub-tasks that make it clear the agent must execute tests (e.g., "Test GET endpoints with curl", "Restore database state", etc.)
       - Show brief progress: "✓ Created <artifact-id>"
