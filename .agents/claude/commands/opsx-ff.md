@@ -1,5 +1,9 @@
 ---
+name: "OPSX: Fast Forward"
 description: "Create a change and generate all artifacts needed for implementation in one go"
+allowed-tools: Bash(openspec:*)
+category: "Workflow"
+tags: ["workflow", "artifacts", "experimental"]
 ---
 
 Fast-forward through artifact creation - generate everything needed to start implementation.
@@ -40,7 +44,7 @@ Fast-forward through artifact creation - generate everything needed to start imp
       - Derive a kebab-case name (e.g., "add user authentication" → `add-user-auth`)
 
    d. **If no input provided**:
-      - Use the **question tool** (open-ended, no preset options) to ask:
+      - Use the **AskUserQuestion tool** (open-ended, no preset options) to ask:
         > "What change do you want to work on? Provide a Jira ticket ID (e.g., SCRUM-123), change name, or describe what you want to build."
 
    **IMPORTANT**: Do NOT proceed without understanding what the user wants to build.
@@ -116,7 +120,7 @@ Fast-forward through artifact creation - generate everything needed to start imp
       - Stop when every artifact in the required set is `done`, `skipped`, or was deliberately skipped
 
    c. **If an artifact requires user input** (unclear context):
-      - Use **question tool** to clarify
+      - Use **AskUserQuestion tool** to clarify
       - Then continue with creation
 
 5. **Show final status**

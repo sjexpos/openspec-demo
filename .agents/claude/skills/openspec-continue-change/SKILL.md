@@ -1,14 +1,22 @@
 ---
-description: "Continue working on a change - create the next artifact (Experimental)"
+name: openspec-continue-change
+description: Continue working on an OpenSpec change by creating the next artifact. Use when the user wants to progress their change, create the next artifact, or continue their workflow.
+allowed-tools: Bash(openspec:*)
+license: MIT
+compatibility: Requires openspec CLI.
+metadata:
+  author: openspec
+  version: "1.0"
+  generatedBy: "1.10.0"
 ---
 
 Continue working on a change by creating the next artifact.
 
 **Store selection:** If the user names a store (a store is a standalone OpenSpec repo registered on this machine) or the work lives in one, run `openspec store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `schemas`, `view`). Once selected, treat `--store <id>` as sticky for the rest of the workflow. Every unscoped example of those commands below is shorthand: before running it, append the flag. For example, run `openspec status --change "<name>" --json --store "<id>"`, not the unscoped form shown below. Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
 
-**Input**: Optionally specify after `/opsx-continue`:
+**Input**: Optionally specify:
 - A Jira ticket ID (e.g., `SCRUM-123`) - will fetch ticket content and find/create associated change
-- A change name (e.g., `add-auth`) - will use that change directly
+- A change name - will use that change directly
 - If omitted, check if it can be inferred from conversation context. If vague or ambiguous you MUST prompt for available changes.
 
 **Steps**
@@ -34,7 +42,7 @@ Continue working on a change by creating the next artifact.
    b. **If input is a change name or no input provided**:
       - Proceed with existing logic (prompt for selection if needed)
 
-   Run `openspec list --json` to get available changes sorted by most recently modified. Then use the **question tool** to let the user select which change to work on.
+   Run `openspec list --json` to get available changes sorted by most recently modified. Then use the **AskUserQuestion tool** to let the user select which change to work on.
 
    When prompting, present the top 3-4 most recently modified changes as options, showing:
    - Change name
@@ -65,7 +73,7 @@ Continue working on a change by creating the next artifact.
    **If all planning artifacts are complete (`isPlanningComplete: true`, or legacy `isComplete: true`)**:
    - Congratulate the user
    - Show final status including the schema used
-   - Suggest: "Planning is complete! You can now implement this change with `/opsx-apply`. Once implementation and any tracked work are complete, archive it with `/opsx-archive`."
+   - Suggest: "Planning is complete! You can now implement this change. Once implementation and any tracked work are complete, archive it."
    - STOP
 
    ---
@@ -85,8 +93,8 @@ Continue working on a change by creating the next artifact.
      - `dependencies`: Completed artifacts to read for context (entries with `skipped: true` have no files - do not look for them)
      - `skipped`/`warning`: present when the change declares skip_specs and this artifact must NOT be created - pick another artifact
    - **Create the artifact file**:
-     - **CRITICAL for tasks artifact**: If creating `tasks.md`, read `openspec/config.yaml` to get:
-       - Backend-specific rules (mandatory steps, branch naming, etc.)
+     - **CRITICAL for tasks artifact**: If creating `tasks.md`:
+       - Read `openspec/config.yaml` to get backend-specific rules (mandatory steps, branch naming, etc.)
        - Task structure requirements
        - All mandatory steps that MUST be included (e.g., Step 0: Create Feature Branch)
      - **If Jira ticket was provided**: Use ticket content to inform artifact creation
@@ -95,12 +103,13 @@ Continue working on a change by creating the next artifact.
      - Otherwise use `template` as the structure - fill in its sections
      - Apply `context` and `rules` as constraints when writing - but do NOT copy them into the file
      - Write to the `resolvedOutputPath` specified in instructions. If it is a glob pattern, choose the concrete file path using the schema instruction and the change's context
-     - **For tasks artifact**: Ensure all mandatory steps from `config.yaml` are included:
+     - **For tasks artifact**: Ensure all mandatory steps from `config.yaml` and the rule file are included:
        - Step 0: Create Feature Branch (MUST be first step for backend changes)
        - Review and Update Existing Unit Tests (MANDATORY)
        - Run Unit Tests and Verify Database State (MANDATORY)
-       - Manual Endpoint Testing with curl (MANDATORY)
+       - Manual Endpoint Testing with curl (MANDATORY - AGENT MUST EXECUTE)
        - Update Technical Documentation (MANDATORY)
+     - **For manual testing tasks**: Include sub-tasks that make it clear the agent must execute tests (e.g., "Test GET endpoints with curl", "Restore database state", etc.)
      - Write to the output path specified in instructions
    - Show what was created and what's now unlocked
    - STOP after creating ONE artifact
@@ -123,7 +132,7 @@ After each invocation, show:
 - Schema workflow being used
 - Current progress (N/M complete)
 - What artifacts are now unlocked
-- Prompt: "Run `/opsx-continue` to create the next artifact"
+- Prompt: "Want to continue? Just ask me to continue or tell me what to do next."
 
 **Artifact Creation Guidelines**
 

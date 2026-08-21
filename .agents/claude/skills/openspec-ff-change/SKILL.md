@@ -1,16 +1,23 @@
 ---
-description: "Create a change and generate all artifacts needed for implementation in one go"
+name: openspec-ff-change
+description: Fast-forward through OpenSpec artifact creation. Use when the user wants to quickly create all artifacts needed for implementation without stepping through each one individually.
+allowed-tools: Bash(openspec:*)
+license: MIT
+compatibility: Requires openspec CLI.
+metadata:
+  author: openspec
+  version: "1.0"
+  generatedBy: "1.10.0"
 ---
 
-Fast-forward through artifact creation - generate everything needed to start implementation.
+Fast-forward through artifact creation - generate everything needed to start implementation in one go.
 
 **Store selection:** If the user names a store (a store is a standalone OpenSpec repo registered on this machine) or the work lives in one, run `openspec store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `schemas`, `view`). Once selected, treat `--store <id>` as sticky for the rest of the workflow. Every unscoped example of those commands below is shorthand: before running it, append the flag. For example, run `openspec status --change "<name>" --json --store "<id>"`, not the unscoped form shown below. Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
 
-**Input**: The argument after `/opsx-ff` can be:
+**Input**: The user's request should include:
 - A Jira ticket ID (e.g., `SCRUM-123`) - will fetch ticket content using Jira MCP
 - A change name (kebab-case) - will use that name directly
-- A description of what the user wants to build - will derive a kebab-case name
-**Provided arguments**: $ARGUMENTS
+- A description of what they want to build - will derive a kebab-case name
 
 **Steps**
 
@@ -40,7 +47,7 @@ Fast-forward through artifact creation - generate everything needed to start imp
       - Derive a kebab-case name (e.g., "add user authentication" → `add-user-auth`)
 
    d. **If no input provided**:
-      - Use the **question tool** (open-ended, no preset options) to ask:
+      - Use the **AskUserQuestion tool** (open-ended, no preset options) to ask:
         > "What change do you want to work on? Provide a Jira ticket ID (e.g., SCRUM-123), change name, or describe what you want to build."
 
    **IMPORTANT**: Do NOT proceed without understanding what the user wants to build.
@@ -88,8 +95,8 @@ Fast-forward through artifact creation - generate everything needed to start imp
         - `skipped`/`warning`: present when the change declares skip_specs and this artifact must NOT be created - stop and pick another artifact
         - `resolvedOutputPath`: Resolved path or pattern to write the artifact
         - `dependencies`: Completed artifacts to read for context
-      - **CRITICAL for tasks artifact**: If creating `tasks.md`, read `openspec/config.yaml` to get:
-        - Backend-specific rules (mandatory steps, branch naming, etc.)
+      - **CRITICAL for tasks artifact**: If creating `tasks.md`:
+        - Read `openspec/config.yaml` to get backend-specific rules (mandatory steps, branch naming, etc.)
         - Task structure requirements
         - All mandatory steps that MUST be included (e.g., Step 0: Create Feature Branch)
       - **If Jira ticket was provided**: Use ticket content to inform artifact creation (especially proposal and tasks)
@@ -97,12 +104,13 @@ Fast-forward through artifact creation - generate everything needed to start imp
       - If the `instruction` field delegates creation to a specific skill or command, invoke it to produce the artifact instead of writing the file yourself, then verify the artifact file exists at `resolvedOutputPath`
       - Otherwise create the artifact file using `template` as the structure and write it to `resolvedOutputPath`. If `resolvedOutputPath` is a glob, follow `instruction` to choose the concrete file path
       - Apply `context` and `rules` as constraints - but do NOT copy them into the file
-      - **For tasks artifact**: Ensure all mandatory steps from `config.yaml` are included:
+      - **For tasks artifact**: Ensure all mandatory steps from `config.yaml` and the rule file are included:
         - Step 0: Create Feature Branch (MUST be first step for backend changes)
         - Review and Update Existing Unit Tests (MANDATORY)
         - Run Unit Tests and Verify Database State (MANDATORY)
-        - Manual Endpoint Testing with curl (MANDATORY)
+        - Manual Endpoint Testing with curl (MANDATORY - AGENT MUST EXECUTE)
         - Update Technical Documentation (MANDATORY)
+      - **For manual testing tasks**: Include sub-tasks that make it clear the agent must execute tests (e.g., "Test GET endpoints with curl", "Restore database state", etc.)
       - Show brief progress: "✓ Created <artifact-id>"
 
    b. **Continue until every artifact in the required set exists (not just `apply.requires`)**
@@ -116,7 +124,7 @@ Fast-forward through artifact creation - generate everything needed to start imp
       - Stop when every artifact in the required set is `done`, `skipped`, or was deliberately skipped
 
    c. **If an artifact requires user input** (unclear context):
-      - Use **question tool** to clarify
+      - Use **AskUserQuestion tool** to clarify
       - Then continue with creation
 
 5. **Show final status**
@@ -130,7 +138,7 @@ After completing all artifacts, summarize:
 - Change name and location
 - List of artifacts created with brief descriptions, plus any conditional artifact you skipped and why
 - What's ready: "All artifacts needed for implementation are ready."
-- Prompt: "Run `/opsx-apply` to start implementing."
+- Prompt: "Run `/opsx-apply` or ask me to implement to start working on the tasks."
 
 **Artifact Creation Guidelines**
 
@@ -147,5 +155,5 @@ After completing all artifacts, summarize:
 - Create every artifact the apply phase transitively depends on, not just the ids listed in `apply.requires`
 - Always read dependency artifacts before creating a new one - re-read from disk, not from conversation memory (files may have changed since you last saw them)
 - If context is critically unclear, ask the user - but prefer making reasonable decisions to keep momentum
-- If a change with that name already exists, ask if user wants to continue it or create a new one
+- If a change with that name already exists, suggest continuing that change instead
 - Verify each artifact file exists after writing before proceeding to next

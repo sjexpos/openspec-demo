@@ -1,5 +1,13 @@
 ---
-description: "Implement tasks from an OpenSpec change (Experimental)"
+name: openspec-apply-change
+description: Implement tasks from an OpenSpec change. Use when the user wants to start implementing, continue implementation, or work through tasks.
+allowed-tools: Bash(openspec:*)
+license: MIT
+compatibility: Requires openspec CLI.
+metadata:
+  author: openspec
+  version: "1.0"
+  generatedBy: "1.10.0"
 ---
 
 Implement tasks from an OpenSpec change.
@@ -7,7 +15,6 @@ Implement tasks from an OpenSpec change.
 **Store selection:** If the user names a store (a store is a standalone OpenSpec repo registered on this machine) or the work lives in one, run `openspec store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `schemas`, `view`). Once selected, treat `--store <id>` as sticky for the rest of the workflow. Every unscoped example of those commands below is shorthand: before running it, append the flag. For example, run `openspec status --change "<name>" --json --store "<id>"`, not the unscoped form shown below. Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
 
 **Input**: Optionally specify a change name (e.g., `/opsx-apply add-auth`). If omitted, check if it can be inferred from conversation context. If vague or ambiguous you MUST prompt for available changes.
-**Provided arguments**: $ARGUMENTS
 
 **Steps**
 
@@ -16,7 +23,7 @@ Implement tasks from an OpenSpec change.
    If a name is provided, use it. Otherwise:
    - Infer from conversation context if the user mentioned a change
    - Auto-select if only one active change exists
-   - If ambiguous, run `openspec list --json` to get available changes and ask the user to select one
+   - If ambiguous, run `openspec list --json` to get available changes and use the **AskUserQuestion tool** to let the user select
 
    Always announce: "Using change: <name>" and how to override (e.g., `/opsx-apply <other>`).
 
@@ -87,7 +94,24 @@ Implement tasks from an OpenSpec change.
    - Show which task is being worked on
    - Make the code changes required
    - Keep changes minimal and focused
-   - Mark task complete in the tasks file: `- [ ]` → `- [x]`
+   
+   **For Manual Testing Tasks (MANDATORY - AGENT MUST EXECUTE)**:
+   - **Manual Endpoint Testing with curl**: If the task involves testing endpoints:
+     - Start backend server if needed
+     - Execute all curl commands yourself (GET, POST, PUT/PATCH, DELETE)
+     - Test error cases (validation errors, 404, etc.)
+     - Verify all responses
+     - Restore database state after CREATE/UPDATE/DELETE operations
+     - Document all curl commands and responses
+     - **NEVER ask the user to run curl commands** - you must execute them yourself
+   
+   - **Mark task complete**: Only mark task as complete (`- [ ]` → `- [x]`) AFTER:
+     - All code changes are complete
+     - All required manual tests have been executed by you (the agent)
+     - All test results have been verified
+     - Database state has been restored (if applicable)
+     - All test outcomes have been documented
+   
    - Continue to next task
 
    **Pause if:**
@@ -162,7 +186,9 @@ What would you like to do?
 - If task is ambiguous, pause and ask before implementing
 - If implementation reveals issues, pause and suggest artifact updates
 - Keep code changes minimal and scoped to each task
-- Update task checkbox immediately after completing each task
+- **For manual testing tasks**: Execute all tests yourself (curl for endpoints) - NEVER delegate to user
+- **Mark tasks complete**: Only mark tasks as complete AFTER executing all required manual tests and verifying results
+- Update task checkbox immediately after completing each task AND verifying all tests pass
 - Pause on errors, blockers, or unclear requirements - don't guess
 - When a task needs work beyond what the spec describes, surface the added scope and pause - never silently narrow, defer, or simplify away specified behavior
 - Only mark a task `- [x]` when its specified behavior is fully implemented, not when it is partially done or deferred
@@ -172,6 +198,7 @@ What would you like to do?
 - Consider every guidance entry; explain any inapplicable or conflicting advice
 - Do not copy runtime context or operation guidance into implementation files or planning artifacts
 - Preserve CLI-controlled blocked/ready/all-done behavior and completion criteria
+- **Never ask user to run tests** - you must execute curl commands yourself
 
 **Fluid Workflow Integration**
 
