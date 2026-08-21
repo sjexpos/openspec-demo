@@ -1,5 +1,9 @@
 ---
+name: "OPSX: Continue"
 description: "Continue working on a change - create the next artifact (Experimental)"
+allowed-tools: Bash(openspec:*)
+category: "Workflow"
+tags: ["workflow", "artifacts", "experimental"]
 ---
 
 Continue working on a change by creating the next artifact.
@@ -34,7 +38,7 @@ Continue working on a change by creating the next artifact.
    b. **If input is a change name or no input provided**:
       - Proceed with existing logic (prompt for selection if needed)
 
-   Run `openspec list --json` to get available changes sorted by most recently modified. Then use the **question tool** to let the user select which change to work on.
+   Run `openspec list --json` to get available changes sorted by most recently modified. Then use the **AskUserQuestion tool** to let the user select which change to work on.
 
    When prompting, present the top 3-4 most recently modified changes as options, showing:
    - Change name

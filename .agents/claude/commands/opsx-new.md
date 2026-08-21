@@ -1,5 +1,9 @@
 ---
+name: "OPSX: New"
 description: "Start a new change using the experimental artifact workflow (OPSX)"
+allowed-tools: Bash(openspec:*)
+category: "Workflow"
+tags: ["workflow", "artifacts", "experimental"]
 ---
 
 Start a new change using the experimental artifact-driven approach.
@@ -13,7 +17,7 @@ Start a new change using the experimental artifact-driven approach.
 
 1. **If no input provided, ask what they want to build**
 
-   Ask the user (open-ended, no preset options), use the **question tool** to ask:
+   Ask the user (open-ended, no preset options), use the **AskUserQuestion tool** to ask:
    > "What change do you want to work on? Describe what you want to build or fix."
 
    From their description, derive a kebab-case name (e.g., "add user authentication" → `add-user-auth`).

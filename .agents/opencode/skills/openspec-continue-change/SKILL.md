@@ -1,15 +1,18 @@
 ---
 name: openspec-continue-change
 description: Continue working on an OpenSpec change by creating the next artifact. Use when the user wants to progress their change, create the next artifact, or continue their workflow.
+allowed-tools: Bash(openspec:*)
 license: MIT
 compatibility: Requires openspec CLI.
 metadata:
   author: openspec
   version: "1.0"
-  generatedBy: "1.3.1"
+  generatedBy: "1.10.0"
 ---
 
 Continue working on a change by creating the next artifact.
+
+**Store selection:** If the user names a store (a store is a standalone OpenSpec repo registered on this machine) or the work lives in one, run `openspec store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `schemas`, `view`). Once selected, treat `--store <id>` as sticky for the rest of the workflow. Every unscoped example of those commands below is shorthand: before running it, append the flag. For example, run `openspec status --change "<name>" --json --store "<id>"`, not the unscoped form shown below. Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
 
 **Input**: Optionally specify:
 - A Jira ticket ID (e.g., `SCRUM-123`) - will fetch ticket content and find/create associated change
@@ -39,15 +42,17 @@ Continue working on a change by creating the next artifact.
    b. **If input is a change name or no input provided**:
       - Proceed with existing logic (prompt for selection if needed)
 
-   Run `openspec list --json` to get available changes sorted by most recently modified. Then use the **AskUserQuestion tool** to let the user select which change to work on.
+   Run `openspec list --json` to get available changes sorted by most recently modified. Then use the **question tool** to let the user select which change to work on.
 
-   Present the top 3-4 most recently modified changes as options, showing:
+   When prompting, present the top 3-4 most recently modified changes as options, showing:
    - Change name
    - Schema (from `schema` field if present, otherwise "spec-driven")
    - Status (e.g., "0/5 tasks", "complete", "no tasks")
    - How recently it was modified (from `lastModified` field)
 
    Mark the most recently modified change as "(Recommended)" since it's likely what the user wants to continue.
+
+   Always announce: "Using change: <name>" and how to override (e.g., `/opsx-continue <other>`).
 
    **IMPORTANT**: Do NOT guess or auto-select a change. Always let the user choose.
 
@@ -57,17 +62,18 @@ Continue working on a change by creating the next artifact.
    ```
    Parse the JSON to understand current state. The response includes:
    - `schemaName`: The workflow schema being used (e.g., "spec-driven")
-   - `artifacts`: Array of artifacts with their status ("done", "ready", "blocked")
-   - `isComplete`: Boolean indicating if all artifacts are complete
+   - `artifacts`: Array of artifacts with their status ("done", "skipped", "ready", "blocked")
+   - `isPlanningComplete`: Boolean indicating if all planning artifacts are complete. Older CLI versions expose the same value as `isComplete`.
+   - `planningHome`, `changeRoot`, `artifactPaths`, and `actionContext`: path and scope context. Use these instead of assuming repo-local paths.
 
 3. **Act based on status**:
 
    ---
 
-   **If all artifacts are complete (`isComplete: true`)**:
+   **If all planning artifacts are complete (`isPlanningComplete: true`, or legacy `isComplete: true`)**:
    - Congratulate the user
    - Show final status including the schema used
-   - Suggest: "All artifacts created! You can now implement this change or archive it."
+   - Suggest: "Planning is complete! You can now implement this change. Once implementation and any tracked work are complete, archive it."
    - STOP
 
    ---
@@ -83,17 +89,20 @@ Continue working on a change by creating the next artifact.
      - `rules`: Artifact-specific rules (constraints for you - do NOT include in output)
      - `template`: The structure to use for your output file
      - `instruction`: Schema-specific guidance
-     - `outputPath`: Where to write the artifact
-     - `dependencies`: Completed artifacts to read for context
+     - `resolvedOutputPath`: Resolved path or pattern to write the artifact
+     - `dependencies`: Completed artifacts to read for context (entries with `skipped: true` have no files - do not look for them)
+     - `skipped`/`warning`: present when the change declares skip_specs and this artifact must NOT be created - pick another artifact
    - **Create the artifact file**:
      - **CRITICAL for tasks artifact**: If creating `tasks.md`:
        - Read `openspec/config.yaml` to get backend-specific rules (mandatory steps, branch naming, etc.)
        - Task structure requirements
        - All mandatory steps that MUST be included (e.g., Step 0: Create Feature Branch)
      - **If Jira ticket was provided**: Use ticket content to inform artifact creation
-     - Read any completed dependency files for context
-     - Use `template` as the structure - fill in its sections
+     - Read any completed dependency files for context - always re-read them from disk, even if you saw them earlier in the conversation (the user may have edited them)
+     - If the `instruction` field delegates creation to a specific skill or command, invoke it to produce the artifact instead of writing the file yourself, then verify the artifact file exists at `resolvedOutputPath`
+     - Otherwise use `template` as the structure - fill in its sections
      - Apply `context` and `rules` as constraints when writing - but do NOT copy them into the file
+     - Write to the `resolvedOutputPath` specified in instructions. If it is a glob pattern, choose the concrete file path using the schema instruction and the change's context
      - **For tasks artifact**: Ensure all mandatory steps from `config.yaml` and the rule file are included:
        - Step 0: Create Feature Branch (MUST be first step for backend changes)
        - Review and Update Existing Unit Tests (MANDATORY)
@@ -127,7 +136,9 @@ After each invocation, show:
 
 **Artifact Creation Guidelines**
 
-The artifact types and their purpose depend on the schema. Use the `instruction` field from the instructions output to understand what to create.
+The artifact types and their purpose depend on the schema. The `instruction` field from the instructions output is the authoritative guidance for each artifact - follow it even when the artifact has a familiar name (proposal.md, tasks.md, etc.), since custom schemas may define different content or a different process for the same file names.
+
+If the `instruction` field directs you to use a specific skill or command to create the artifact, invoke it instead of writing the artifact directly.
 
 Common artifact patterns:
 
@@ -142,7 +153,7 @@ For other schemas, follow the `instruction` field from the CLI output.
 
 **Guardrails**
 - Create ONE artifact per invocation
-- Always read dependency artifacts before creating a new one
+- Always read dependency artifacts before creating a new one - re-read from disk, not from conversation memory (files may have changed since you last saw them)
 - Never skip artifacts or create out of order
 - If context is unclear, ask the user before creating
 - Verify the artifact file exists after writing before marking progress
