@@ -109,7 +109,7 @@ Map answers to canonical values:
 
 - Pace: Interactive -> `interactive`; Automatic -> `auto`.
 
-Hard gate rules:
+### SDD Hard gate rules
 
 - `openspec/config.yaml`, existing SDD artifacts or installed SDD assets do NOT satisfy session preflight.
 - If the session has no preflight block, ask the single grouped `question` tool preflight above. Do not run init, delegate phases, edit files, or apply tasks until all four choices are collected.
@@ -148,7 +148,7 @@ Do NOT skip this check. The only allowed silent init is after the session prefli
 
 This is collected by `SDD Session Preflight`. If missing, enforce the hard gate before any phase work. Ask which execution mode they prefer:
 
-- **Automatic** (`auto`): Run all SDD phases back-to-back without pausing. Phases still run back-to-back WITHOUT interrupting the user, BUT the orchestrator runs a gatekeeper validation after every phase before launching the next delegated phase (every SDD phases must be delegated to a subagent, including `opsx-new`, `opsx-ff`, `opsx-continue`, `opsx-explore`, `opsx-propose`, `opsx-design`, `opsx-spec`, `opsx-tasks`, `opsx-apply`, `opsx-verify`, `code-review`, `opsx-archive`; the orchestrator may run only gatekeeper validation inline) — the user only sees an interruption when the gatekeeper catches a real problem. Show the final result only.
+- **Automatic** (`auto`): Run all SDD phases back-to-back without pausing. Phases still run back-to-back WITHOUT interrupting the user, BUT the orchestrator runs all MANDATORY gatekeeper validations after every phase before launching the next delegated phase (every SDD phases must be delegated to a subagent, including `opsx-new`, `opsx-ff`, `opsx-continue`, `opsx-explore`, `opsx-propose`, `opsx-design`, `opsx-spec`, `opsx-tasks`, `opsx-apply`, `opsx-verify`, `code-review`, `opsx-archive`; the orchestrator may run only gatekeeper validation inline) — the user only sees an interruption when the gatekeeper catches a real problem. Show the final result only.
 - **Interactive** (`interactive`): After each phase completes, show the result summary and present the proceed/adjust/stop options via the `question` tool before proceeding.
 
 In **Interactive** mode, between phases:
@@ -157,6 +157,7 @@ In **Interactive** mode, between phases:
 2. Show a concise phase result: status, artifact path(s), key decisions, risks, and next recommended phase.
 3. Ask before launching the next phase. Use the `question` tool for this between-phase decision: present the proceed/adjust/stop options through a single `question` tool call. Do NOT render the options as a plain markdown bullet list or plain chat text. Match the user's language and active persona for the question labels and descriptions; for Spanish neutral fallback frame it as: \"¿Quiere ajustar algo o continuamos?\".
 4. STOP and wait for the user's answer. Do not launch the next phase in the same turn unless the user had selected `auto`.
+5. Every SDD phases must be delegated to a subagent, including `opsx-new`, `opsx-ff`, `opsx-continue`, `opsx-explore`, `opsx-propose`, `opsx-design`, `opsx-spec`, `opsx-tasks`, `opsx-apply`, `opsx-verify`, `code-review`, `opsx-archive`
 
 Interactive means the orchestrator pauses after each delegation returns before launching the next phase, including `/opsx-ff` planning phases.
 
@@ -170,7 +171,7 @@ Before the `opsx-propose` phase in interactive mode, offer the user a proposal q
 
 ### Automatic Mode Gatekeeper (MANDATORY)
 
-In **Automatic** mode the orchestrator is the gatekeeper between phases. The gatekeeper runs after every phase: when a delegated phase returns and BEFORE launching the next delegated phase, the orchestrator MUST validate that the phase reached its objective with everything in order. This is autonomous validation — it does NOT ask the user (that is Interactive mode); it only surfaces to the user when it catches a problem.
+In **Automatic** mode the orchestrator is the gatekeeper between phases (`opsx-propose`, `opsx-spec`, `opsx-design`, `opsx-tasks`, `opsx-apply`, `opsx-verify`, `code-review`, `opsx-archive`). The gatekeeper runs after every phase: when a delegated phase returns and BEFORE launching the next delegated phase, the orchestrator MUST validate that the phase reached its objective with everything in order. This is autonomous validation — it does NOT ask the user (that is Interactive mode); it only surfaces to the user when it catches a problem.
 
 **What the gatekeeper checks (every phase, against the Result Contract):**
 - **Contract conformance:** the phase returned `status`, `executive_summary`, `artifacts`, `next_recommended`, `risks`, and `skill_resolution`, and `status` indicates success (not partial, failed, or blocked).
@@ -273,4 +274,3 @@ For phases with required dependencies, sub-agents read directly from the backend
 #### Strict TDD Forwarding (MANDATORY)
 
 When launching `opsx-apply` or `opsx-verify`, the orchestrator MUST follow strict TDD
-

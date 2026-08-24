@@ -1,1 +1,23 @@
-../.agents/openspec/config.yaml
+schema: story-sdd
+
+# Project context (optional)
+# This is shown to AI when creating artifacts.
+# Add your tech stack, conventions, style guides, domain knowledge, etc.
+context: |
+  Tech stack: Java, SpringBoot, Hibernate, Flyway, Domain-Driven Design (DDD)
+  Architecture: Clean Architecture with Domain, Application, and Presentation layers
+  We use conventional commits
+  Domain: 
+  All code, comments, documentation, and technical artifacts must be in English
+
+  Project specs (single source of truth): All artifact creation and implementation MUST follow the project's technical context in docs/. Read and apply these when creating or implementing:
+  - AGENTS.md — core principles, TDD, language standards, links to backend/frontend/docs standards
+  - docs/backend-standards.md — API, database, testing, security (backend changes)
+  - docs/data-model.md — domain and data model
+  - docs/documentation-standards.md — docs structure and maintenance
+  For implementation: adopt the relevant agent from .agents/ (e.g. backend-developer.md for backend). Use .agents/commands/ (e.g. develop-backend.md) for workflow guidance when applicable.
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+rules: {}
+

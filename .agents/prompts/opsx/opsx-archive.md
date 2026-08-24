@@ -34,7 +34,7 @@ Return to the orchestrator:
 ## Change Archived
 
 **Change**: {change-name}
-**Archived to**: `openspec/changes/archive/{YYYY-MM-DD}-{change-name}/`
+**Archived to**: `openspec/archive/{YYYY-MM-DD}-{change-name}/`
 
 ### Specs Synced
 | Domain | Action | Details |

@@ -19,5 +19,5 @@ context: |
 
 # Per-artifact rules (optional)
 # Add custom rules for specific artifacts.
-rules:
+rules: {}
 
