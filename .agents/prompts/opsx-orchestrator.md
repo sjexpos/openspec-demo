@@ -53,6 +53,8 @@ These are parent-orchestrator stop rules. When a trigger fires, perform the spec
 2. **Multi-file write rule**: if implementation will touch 2+ non-trivial files, delegate one writer. If delegation tooling is unavailable, document the blocker and stop the implementation; a fresh review is required after delegated implementation, not a substitute for delegation.
 3. **Incident rule**: after a workflow incident, stop and prove code, configuration, generated-artifact, and provenance targets remain immutable; validate the existing receipt. Any changed target requires explicit scope action, not reopened review.
 4. **Long-session rule**: after roughly 20 tool calls, 5 exploratory file reads, or 2 non-mechanical edits without delegation and growing complexity, pause and delegate the remaining work instead of silently continuing monolithically. If delegation tooling is unavailable, document the blocker and stop the complex work.
+5. **SDD flow rule**: if some SDD phase is executed, it MUST run in a new subagent. The subagent MUST be taken by name. There are an subagent per each phase. E.g. /opsx-new -> opsx-new, /opsx-ff -> opsx-ff, /opsx-continue -> opsx-continue, /opsx-design -> opsx-design, /opsx-spec -> opsx-spec, /opsx-tasks -> opsx-tasks, /opsx-apply -> opsx-apply, /opsx-verify -> opsx-verify, /code-review -> code-review, /opsx-archive -> opsx-archive
+6. **Automatic SDD flow rule**: when automatic SSD is executed, all validation in section **Automatic Mode Gatekeeper (MANDATORY)** MUST be verified after each phase by yourself (`opsx-orchestrator` agent)
 
 ## SDD Workflow (Spec-Driven Development)
 
@@ -63,6 +65,7 @@ SDD is the structured planning layer for substantial changes.
 Skills (appear in autocomplete):
 
 - `/opsx-explore <topic>` -> investigate an idea; reads codebase, compares approaches; no files created
+- `/opsx-propose [change]` -> propose a new change - create it and generate all artifacts in one step
 - `/opsx-apply [change]` -> implement tasks in batches; checks off items as it goes
 - `/opsx-verify [change]` -> validate implementation against specs; reports CRITICAL / WARNING / SUGGESTION
 . `/code-review [change]` -> Review the recent code changes and provide feedback; reports PASS / PASS WITH GAPS / FAIL
@@ -81,7 +84,7 @@ Meta-commands (type directly - orchestrator handles them, won't appear in autoco
 
 Before executing ANY SDD command or natural-language SDD request, ensure this session has an explicit `SDD Session Preflight` decision block.
 
-This applies to `/opsx-new`, `/opsx-ff`, `/opsx-continue`, `/opsx-explore`, `/opsx-apply`, `/opsx-verify`, `/code-review`, `/opsx-archive`, and natural-language equivalents such as \"use SDD to add dark mode\" / \"do it with SDD\".
+This applies to `/opsx-new`, `/opsx-ff`, `/opsx-continue`, `/opsx-explore`, `/opsx-propose`, `/opsx-apply`, `/opsx-verify`, `/code-review`, `/opsx-archive`, and natural-language equivalents such as \"use SDD to add dark mode\" / \"do it with SDD\".
 
 Required preflight choices:
 
@@ -130,7 +133,7 @@ If any dependency is missing, STOP and propose `/opsx-new` or `/opsx-ff`; do not
 
 ### SDD Init Guard (MANDATORY)
 
-After the SDD Session Preflight is complete and before executing ANY SDD command (`/opsx-new`, `/opsx-ff`, `/opsx-continue`, `/opsx-explore`, `/opsx-apply`, `/opsx-verify`, `/code-review`, `/opsx-archive`), check if `openspec init` has been run for this project:
+After the SDD Session Preflight is complete and before executing ANY SDD command (`/opsx-new`, `/opsx-ff`, `/opsx-continue`, `/opsx-explore`, `/opsx-propose`, `/opsx-apply`, `/opsx-verify`, `/code-review`, `/opsx-archive`), check if `openspec init` has been run for this project:
 
 1. Search file `openspec/config.yaml`, it can be a symbolic link (check it)
 2. If found -> init was done, proceed normally
@@ -148,7 +151,8 @@ Do NOT skip this check. The only allowed silent init is after the session prefli
 
 This is collected by `SDD Session Preflight`. If missing, enforce the hard gate before any phase work. Ask which execution mode they prefer:
 
-- **Automatic** (`auto`): Run all SDD phases back-to-back without pausing. Phases still run back-to-back WITHOUT interrupting the user, BUT the orchestrator runs all MANDATORY gatekeeper validations after every phase before launching the next delegated phase (every SDD phases must be delegated to a subagent, including `opsx-new`, `opsx-ff`, `opsx-continue`, `opsx-explore`, `opsx-propose`, `opsx-design`, `opsx-spec`, `opsx-tasks`, `opsx-apply`, `opsx-verify`, `code-review`, `opsx-archive`; the orchestrator may run only gatekeeper validation inline) — the user only sees an interruption when the gatekeeper catches a real problem. Show the final result only.
+- **Automatic** (`auto`): Run all SDD phases back-to-back without pausing. Phases still run back-to-back WITHOUT interrupting the user, BUT the orchestrator runs all MANDATORY gatekeeper validations after every phase before launching the next delegated phase (every SDD phases must be delegated to a subagent, including `opsx-new`, `opsx-ff`, `opsx-continue`, `opsx-explore`, `opsx-propose`, `opsx-design`, `opsx-spec`, `opsx-tasks`, `opsx-apply`, `opsx-verify`, `code-review`, `opsx-archive`; the orchestrator may run only gatekeeper validation inline) — the user only sees an interruption when the gatekeeper catches a real problem. Show the final result only. Before automatic mode starts, print an execution plan.
+
 - **Interactive** (`interactive`): After each phase completes, show the result summary and present the proceed/adjust/stop options via the `question` tool before proceeding.
 
 In **Interactive** mode, between phases:
