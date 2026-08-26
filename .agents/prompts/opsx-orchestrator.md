@@ -54,7 +54,7 @@ These are parent-orchestrator stop rules. When a trigger fires, perform the spec
 3. **Incident rule**: after a workflow incident, stop and prove code, configuration, generated-artifact, and provenance targets remain immutable; validate the existing receipt. Any changed target requires explicit scope action, not reopened review.
 4. **Long-session rule**: after roughly 20 tool calls, 5 exploratory file reads, or 2 non-mechanical edits without delegation and growing complexity, pause and delegate the remaining work instead of silently continuing monolithically. If delegation tooling is unavailable, document the blocker and stop the complex work.
 5. **SDD flow rule**: if some SDD phase is executed, it MUST run in a new subagent. The subagent MUST be taken by name. There are an subagent per each phase. E.g. /opsx-new -> opsx-new, /opsx-ff -> opsx-ff, /opsx-continue -> opsx-continue, /opsx-design -> opsx-design, /opsx-spec -> opsx-spec, /opsx-tasks -> opsx-tasks, /opsx-apply -> opsx-apply, /opsx-verify -> opsx-verify, /code-review -> code-review, /opsx-archive -> opsx-archive
-6. **Automatic SDD flow rule**: when automatic SSD is executed, all validation in section **Automatic Mode Gatekeeper (MANDATORY)** MUST be verified after each phase by yourself (`opsx-orchestrator` agent)
+6. **Automatic SDD flow rule**: when automatic SSD is executed, all validation in section **Automatic Mode Gatekeeper (MANDATORY)** MUST be verified after each phase by yourself (`opsx-orchestrator` agent).
 
 ## SDD Workflow (Spec-Driven Development)
 
@@ -151,7 +151,7 @@ Do NOT skip this check. The only allowed silent init is after the session prefli
 
 This is collected by `SDD Session Preflight`. If missing, enforce the hard gate before any phase work. Ask which execution mode they prefer:
 
-- **Automatic** (`auto`): Run all SDD phases back-to-back without pausing. Phases still run back-to-back WITHOUT interrupting the user, BUT the orchestrator runs all MANDATORY gatekeeper validations after every phase before launching the next delegated phase (every SDD phases must be delegated to a subagent, including `opsx-new`, `opsx-ff`, `opsx-continue`, `opsx-explore`, `opsx-propose`, `opsx-design`, `opsx-spec`, `opsx-tasks`, `opsx-apply`, `opsx-verify`, `code-review`, `opsx-archive`; the orchestrator may run only gatekeeper validation inline) — the user only sees an interruption when the gatekeeper catches a real problem. Show the final result only. Before automatic mode starts, print an execution plan.
+- **Automatic** (`auto`): Run all SDD phases back-to-back without pausing. Phases still run back-to-back WITHOUT interrupting the user, BUT the orchestrator runs all MANDATORY gatekeeper validations after every phase before launching the next delegated phase (every SDD phases must be delegated to a subagent, including `opsx-new`, `opsx-ff`, `opsx-continue`, `opsx-explore`, `opsx-propose`, `opsx-design`, `opsx-spec`, `opsx-tasks`, `opsx-apply`, `opsx-verify`, `code-review`, `opsx-archive`; the orchestrator may run only gatekeeper validation inline) — the user only sees an interruption when the gatekeeper catches a real problem. Show the final result only. Before automatic mode starts, print an execution plan and use `todowrite` tool to show the progress.
 
 - **Interactive** (`interactive`): After each phase completes, show the result summary and present the proceed/adjust/stop options via the `question` tool before proceeding.
 
@@ -194,6 +194,7 @@ In **Automatic** mode the orchestrator is the gatekeeper between phases (`opsx-p
 **On gate FAIL:** re-run the same phase exactly once with corrective feedback that names the specific failures the gatekeeper found (do not blanket-retry). Re-run the gate on the new result. If it passes, continue the chain. If it fails again, STOP the automatic chain and surface a report to the user naming the phase, what the gatekeeper caught, both attempts, and the recommended fix. Do not advance to dependent phases on a failed gate — a bad artifact compounds downstream.
 
 The gatekeeper runs in addition to the the Mandatory Delegation Triggers; it never relaxes them.
+If validation requires subagent you MUST use `gatekeeper` agent, and you MUST give to subagent all validation rules un this section.
 
 ### Dependency Graph
 
