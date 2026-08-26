@@ -37,10 +37,34 @@
   },
   "default_agent": "opsx-orchestrator",
   "agent": {
+    "product-strategy-analyst": {
+      "description": "Analyze product ideas, identify use cases, define target users, or develop initial value propositions",
+      "mode": "primary",
+      "color": "#20B2AA",
+      "prompt": "{file:./../.agents/prompts/product-strategy-analyst.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "read": true,
+        "write": true
+      }
+    },
+    "gatekeeper": {
+      "description": "",
+      "mode": "subagent",
+      "hidden": true,
+      "prompt": "{file:./../.agents/prompts/gatekeeper.md}",
+      "tools": {
+        "bash": true,
+        "edit": false,
+        "read": true,
+        "write": false
+      }
+    },
     "opsx-orchestrator": {
       "description": "OPSX Orchestrator - coordinates sub-agents, never does work inline",
       "mode": "primary",
-      "color": "#FF0000",
+      "color": "#FD143C",
       "tools": {
         "bash": true,
         "delegate": true,

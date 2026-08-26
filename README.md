@@ -192,11 +192,11 @@ This prompt is enough to trigger an user story improvement.
 The agent `opsx-orchestrator` will guide you for a Spec Drive Development process which can be manual (default) or automatic. The process can be showed like following chart:
 
 ```mermaid
-flowchart LR
+flowchart TD
     A(Refined User Story) -->|/opsx:new| B
     B(OpenSpec folder) -->|/opsx:propose| C
     C(Proposal artifact) -->|/opsx:design| D
-    C(Proposal artifact) -->|o/psx:spec| E
+    C(Proposal artifact) -->|/opsx:spec| E
     D(Design artifact) --> F
     E(Spec artifact) --> F
     F{ } -->|/opsx:tasks| G
@@ -233,11 +233,11 @@ and it will generate the following documents:
 There are 3 meta-commands (new, ff, continue) which are shortcut and allows us to go forward in the process.
 
 ```mermaid
-flowchart LR
+flowchart TD
     A(Refined User Story) -->|/opsx:new| B
     B(OpenSpec folder) -->|/opsx:continue| C
     C(Proposal artifact) -->|/opsx:continue| D
-    C(Proposal artifact) -->|o/psx:continue| E
+    C(Proposal artifact) -->|/opsx:continue| E
     D(Design artifact) --> F
     E(Spec artifact) --> F
     F{ } -->|/opsx:continue| G
