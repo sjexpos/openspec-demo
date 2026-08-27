@@ -40,6 +40,9 @@
     "product-strategy-analyst": {
       "description": "Analyze product ideas, identify use cases, define target users, or develop initial value propositions",
       "mode": "primary",
+      "model": "opencode/hy3-free",
+      "temperature": 0.7,
+      "reasoningEffort": "high",
       "color": "#20B2AA",
       "prompt": "{file:./../.agents/prompts/product-strategy-analyst.md}",
       "tools": {
@@ -52,6 +55,9 @@
     "gatekeeper": {
       "description": "",
       "mode": "subagent",
+      "model": "opencode/hy3-free",
+      "temperature": 0.1,
+      "reasoningEffort": "high",
       "hidden": true,
       "prompt": "{file:./../.agents/prompts/gatekeeper.md}",
       "tools": {
@@ -64,6 +70,9 @@
     "opsx-orchestrator": {
       "description": "OPSX Orchestrator - coordinates sub-agents, never does work inline",
       "mode": "primary",
+      "model": "opencode/hy3-free",
+      "temperature": 0.1,
+      "reasoningEffort": "high",
       "color": "#FD143C",
       "tools": {
         "bash": true,
@@ -108,6 +117,9 @@
     "opsx-explore": {
       "description": "Investigate codebase and think through ideas",
       "mode": "subagent",
+      "model": "opencode/hy3-free",
+      "temperature": 0.7,
+      "reasoningEffort": "medium",
       "hidden": true,
       "prompt": "{file:./../.agents/prompts/opsx/opsx-explore.md}",
       "tools": {
@@ -120,6 +132,9 @@
     "opsx-propose": {
       "description": "Create change proposals from explorations",
       "mode": "subagent",
+      "model": "opencode/hy3-free",
+      "temperature": 0.1,
+      "reasoningEffort": "high",
       "hidden": true,
       "prompt": "{file:./../.agents/prompts/opsx/opsx-propose.md}",
       "tools": {
@@ -131,8 +146,11 @@
     },
     "opsx-design": {
       "description": "Create technical design from proposals",
-      "hidden": true,
       "mode": "subagent",
+      "model": "opencode/hy3-free",
+      "temperature": 0.1,
+      "reasoningEffort": "high",
+      "hidden": true,
       "prompt": "{file:./../.agents/prompts/opsx/opsx-design.md}",
       "tools": {
         "bash": true,
@@ -144,6 +162,9 @@
     "opsx-spec": {
       "description": "Write detailed specifications from proposals",
       "mode": "subagent",
+      "model": "opencode/hy3-free",
+      "temperature": 0.1,
+      "reasoningEffort": "high",
       "hidden": true,
       "prompt": "{file:./../.agents/prompts/opsx/opsx-spec.md}",
       "tools": {
@@ -156,6 +177,9 @@
     "opsx-tasks": {
       "description": "Break down specs and designs into implementation tasks",
       "mode": "subagent",
+      "model": "opencode/hy3-free",
+      "temperature": 0.1,
+      "reasoningEffort": "high",
       "hidden": true,
       "prompt": "{file:./../.agents/prompts/opsx/opsx-tasks.md}",
       "tools": {
@@ -168,6 +192,9 @@
     "opsx-apply": {
       "description": "Implement code changes from task definitions",
       "mode": "subagent",
+      "model": "opencode/muse-spark-1.2-contributor-free",
+      "temperature": 0.1,
+      "reasoningEffort": "medium",
       "hidden": true,
       "prompt": "{file:./../.agents/prompts/opsx/opsx-apply.md}",
       "tools": {
@@ -180,6 +207,9 @@
     "opsx-verify": {
       "description": "Validate implementation against specs",
       "mode": "subagent",
+      "model": "opencode/hy3-free",
+      "temperature": 0.1,
+      "reasoningEffort": "medium",
       "hidden": true,
       "prompt": "{file:./../.agents/prompts/opsx/opsx-verify.md}",
       "tools": {
@@ -192,6 +222,8 @@
     "code-review": {
       "description": "Review the recent code changes and provide feedback",
       "mode": "subagent",
+      "model": "opencode/nemotron-3-ultra-free",
+      "temperature": 0.1,
       "hidden": true,
       "prompt": "{file:./../.agents/prompts/code-review.md}",
       "tools": {
@@ -204,6 +236,8 @@
     "opsx-archive": {
       "description": "Archive completed change artifacts",
       "mode": "subagent",
+      "model": "opencode/muse-spark-1.2-contributor-free",
+      "temperature": 0.1,
       "hidden": true,
       "prompt": "{file:./../.agents/prompts/opsx/opsx-archive.md}",
       "tools": {

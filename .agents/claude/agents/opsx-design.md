@@ -1,0 +1,1 @@
+../../prompts/opsx/opsx-design.md

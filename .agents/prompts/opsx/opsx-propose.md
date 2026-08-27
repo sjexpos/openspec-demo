@@ -3,6 +3,8 @@ name: opsx-propose
 description: "Create an SDD change proposal with intent, scope, and approach. Trigger: orchestrator launches proposal work for a change."
 disable-model-invocation: true
 user-invocable: false
+tools: Read, Write, Edit, Glob, Grep, AskUserQuestion, Bash, TodoWrite
+model: opus
 ---
 
 > **ORCHESTRATOR GATE**: If you loaded this skill via the `skill()` tool, you are
