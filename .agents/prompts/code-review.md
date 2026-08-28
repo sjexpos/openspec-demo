@@ -3,6 +3,9 @@ name: code-review
 description: "Trigger: code review phase, review changes. Review the recent code changes and provide feedback on Code quality and readability, possible bugs or issues, security considerations and best-practices compliance."
 disable-model-invocation: true
 user-invocable: false
+tools: Read, Write, Edit, Glob, Grep, AskUserQuestion, Bash, TodoWrite
+model: claude-opus-5
+effort: high
 ---
 
 > **ORCHESTRATOR GATE**: If you loaded this skill via the `skill()` tool, you are

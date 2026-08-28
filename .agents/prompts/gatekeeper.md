@@ -3,6 +3,9 @@ name: gatekeeper
 description: "Validate the ouput of each OpenSpec phase (propose, spec, design, tasks, apply, verify, code-review, archive)"
 disable-model-invocation: true
 user-invocable: false
+tools: Read, Write, Edit, Glob, Grep, AskUserQuestion, Bash, TodoWrite
+model: claude-opus-5
+effort: high
 ---
 
 > **ORCHESTRATOR GATE**: If you loaded this skill via the `skill()` tool, you are

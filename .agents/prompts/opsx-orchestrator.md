@@ -1,3 +1,13 @@
+---
+name: opsx-orchestrator
+description: Use this agent when you need to implement a feature or requirement following Spec Driver Development (SDD)
+disable-model-invocation: true
+user-invocable: false
+tools: Read, Write, Edit, Glob, Grep, AskUserQuestion, Bash, TodoWrite, Agent(*)
+model: claude-opus-5
+effort: high
+color: primary
+---
 # OPSX Orchestrator Instructions
 
 Bind this to the dedicated `opsx-orchestrator` agent only. Do NOT apply it to executor phase agents such as `opsx-apply` or `opsx-verify`.

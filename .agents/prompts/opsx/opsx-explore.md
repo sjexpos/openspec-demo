@@ -3,6 +3,9 @@ name: opsx-explore
 description: "Explore SDD ideas before committing to a change. Trigger: orchestrator launches exploration or requirement clarification."
 disable-model-invocation: true
 user-invocable: false
+tools: Read, Glob, Grep, AskUserQuestion, Bash, TodoWrite
+model: claude-sonnet-5
+effort: high
 ---
 
 > **ORCHESTRATOR GATE**: If you loaded this skill via the `skill()` tool, you are
