@@ -4,7 +4,7 @@ description: "Archive a completed SDD change by syncing delta specs. Trigger: or
 disable-model-invocation: true
 user-invocable: false
 tools: Read, Write, Edit, Glob, Grep, AskUserQuestion, Bash, TodoWrite
-model: sonnet
+model: claude-haiku-4-5
 ---
 
 > **ORCHESTRATOR GATE**: If you loaded this skill via the `skill()` tool, you are

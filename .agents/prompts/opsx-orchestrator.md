@@ -4,7 +4,8 @@ description: Use this agent when you need to implement a feature or requirement 
 disable-model-invocation: true
 user-invocable: false
 tools: Read, Write, Edit, Glob, Grep, AskUserQuestion, Bash, TodoWrite, Agent(*)
-model: opus
+model: claude-opus-5
+effort: high
 color: primary
 ---
 # OPSX Orchestrator Instructions

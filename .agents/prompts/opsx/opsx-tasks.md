@@ -4,7 +4,8 @@ description: "Break an SDD change into implementation tasks. Trigger: orchestrat
 disable-model-invocation: true
 user-invocable: false
 tools: Read, Write, Edit, Glob, Grep, AskUserQuestion, Bash, TodoWrite
-model: opus
+model: claude-sonnet-5
+effort: medium
 ---
 
 > **ORCHESTRATOR GATE**: If you loaded this skill via the `skill()` tool, you are

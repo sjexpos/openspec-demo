@@ -4,7 +4,8 @@ description: "Trigger: SDD verification phase, verify change. Execute tests and 
 disable-model-invocation: true
 user-invocable: false
 tools: Read, Write, Edit, Glob, Grep, AskUserQuestion, Bash, TodoWrite
-model: sonnet
+model: claude-sonnet-5
+effort: high
 ---
 
 > **ORCHESTRATOR GATE**: If you loaded this skill via the `skill()` tool, you are

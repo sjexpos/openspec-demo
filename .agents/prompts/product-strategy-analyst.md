@@ -4,7 +4,8 @@ description: Use this agent when you need to analyze product ideas, identify use
 disable-model-invocation: true
 user-invocable: false
 tools: Read, Write, Edit, Glob, Grep, AskUserQuestion, Bash, TodoWrite
-model: opus
+model: claude-opus-5
+effort: xhigh
 color: primary
 ---
 

@@ -4,7 +4,8 @@ description: "Explore SDD ideas before committing to a change. Trigger: orchestr
 disable-model-invocation: true
 user-invocable: false
 tools: Read, Glob, Grep, AskUserQuestion, Bash, TodoWrite
-model: sonnet
+model: claude-sonnet-5
+effort: high
 ---
 
 > **ORCHESTRATOR GATE**: If you loaded this skill via the `skill()` tool, you are
