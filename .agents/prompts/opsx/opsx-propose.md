@@ -4,7 +4,7 @@ description: "Create an SDD change proposal with intent, scope, and approach. Tr
 disable-model-invocation: true
 user-invocable: false
 tools: Read, Write, Edit, Glob, Grep, AskUserQuestion, Bash, TodoWrite
-model: claude-opus-5
+model: claude-sonnet-5
 effort: high
 ---
 

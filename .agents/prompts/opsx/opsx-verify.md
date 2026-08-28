@@ -4,7 +4,7 @@ description: "Trigger: SDD verification phase, verify change. Execute tests and 
 disable-model-invocation: true
 user-invocable: false
 tools: Read, Write, Edit, Glob, Grep, AskUserQuestion, Bash, TodoWrite
-model: claude-sonnet-5
+model: claude-opus-5
 effort: high
 ---
 
