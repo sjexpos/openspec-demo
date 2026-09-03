@@ -1,0 +1,139 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description:  Develop - Buckets provisioning
+Parameters:
+  Environment:
+    Description: An environment name that is prefixed to resource names
+    Type: String
+    Default: 'develop'
+
+Resources: 
+
+  ProductsAssetsEventsQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName:
+        !Join [ 
+          '-', 
+          [ 
+            !Ref Environment,
+            'products-assets-events-queue'
+          ],
+        ]
+
+      VisibilityTimeout: 300
+      MessageRetentionPeriod: 3600 # this value is in seconds, so this is 1 hour
+
+  AssetsS3Bucket:
+    Type: AWS::S3::Bucket
+    DependsOn:
+      - ProductsAssetsEventsQueue
+    Properties:
+      BucketName:
+        !Join [ 
+          '-', 
+          [ 
+            !Ref Environment,
+            'assets'
+          ],
+        ]
+      NotificationConfiguration:
+        QueueConfigurations:
+          - Event: s3:ObjectCreated:*
+            Filter:
+              S3Key: 
+                Rules: 
+                  - Name: prefix
+                    Value: 'products/'
+            Queue: !GetAtt ProductsAssetsEventsQueue.Arn
+      AccessControl: PublicRead
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - '*'
+            AllowedMethods:
+              - GET
+              - PUT
+            AllowedOrigins:
+              - '*'
+            ExposedHeaders:
+              - Date
+            Id: myCORSRuleId1
+            MaxAge: 3600
+#      PublicAccessBlockConfiguration:
+#        BlockPublicAcls : false
+#        BlockPublicPolicy : false
+#        IgnorePublicAcls : false
+#        RestrictPublicBuckets : false
+
+  AssetsS3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    DependsOn:
+      - AssetsS3Bucket
+    Properties:
+      Bucket: !Ref AssetsS3Bucket
+      PolicyDocument:
+        Id: AssetsS3BucketPolicyId
+        Version: 2012-10-17
+        Statement:
+          - Sid: PublicReadGetObjects
+            Effect: Allow
+            Principal:
+              AWS: '*'
+            Action: 's3:GetObject'
+            Resource: !Join ['', ['arn:aws:s3:::', !Ref AssetsS3Bucket, /*]]
+
+  SQSQueuePolicy:
+    Type: AWS::SQS::QueuePolicy
+    DependsOn:
+      - AssetsS3Bucket
+    Properties:
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: "*"
+            Action: SQS:SendMessage
+            Resource: "*"
+            Condition:
+              ArnLike:
+                aws:SourceArn: !GetAtt AssetsS3Bucket.Arn
+      Queues:
+        - Ref: ProductsAssetsEventsQueue
+
+Outputs:
+  AssetsBucketURL:
+    Value: !GetAtt AssetsS3Bucket.WebsiteURL
+    Export:
+      Name:
+        !Join [ 
+          '-', 
+          [ 
+          !Ref Environment,
+          'assets-bucket-url'
+          ],
+        ]
+  AssetsBucketName:
+    Value: !Ref AssetsS3Bucket
+    Export:
+      Name:
+        !Join [ 
+          '-', 
+          [ 
+          !Ref Environment,
+          'assets-bucket-name'
+          ],
+        ]
+
+  ProductsAssetsEventsQueueArn:
+    Description: SQS ARN of the products assets events
+    Value: !GetAtt ProductsAssetsEventsQueue.Arn
+    Export:
+      Name:
+        !Join [ 
+          '-', 
+          [ 
+          !Ref Environment,
+          'products-assets-events-queue-arn'
+          ],
+        ]
