@@ -556,7 +556,7 @@ Assertion pattern:
 
 ### Git Workflow
 
-- **Feature Branches**: Develop features in separate branches, adding descriptive suffix "-backend" to allow working in parallel and avoid conflicts or collisions
+- **Feature Branches**: Develop features in separate branches, adding descriptive prefix "feat/, fix/, hotfix/, chore/, docs/, refactor/, test/" to allow working in parallel and avoid conflicts or collisions
 - **Descriptive Commits**: Write descriptive commit messages in English
 - **Code Review**: Code review before merging
 - **Small Branches**: Keep branches small and focused
