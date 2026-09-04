@@ -14,10 +14,10 @@ demo,com.example.demo.application.exceptions,DomainException,0,4,0,0,0,2,0,1,0,1
 demo,com.example.demo.infrastructure.config,JpaConfig,3,0,0,0,1,0,1,0,1,0
 demo,com.example.demo.infrastructure.config,JsonConfig,7,0,0,0,2,0,2,0,2,0
 demo,com.example.demo.infrastructure.config,OpenApiConfig,35,0,0,0,13,0,2,0,2,0
-demo,com.example.demo,DemoApplication,5,3,0,0,2,1,1,1,1,1
 demo,com.example.demo.presentation.controllers,DispensaryController,260,0,0,0,94,0,11,0,11,0
 demo,com.example.demo.presentation.controllers,BrandController,0,192,0,0,0,76,0,8,0,8
 demo,com.example.demo.presentation.controllers,GlobalExceptionHandler,35,93,0,0,7,17,3,9,3,9
+demo,com.example.demo,DemoApplication,5,3,0,0,2,1,1,1,1,1
 demo,com.example.demo.domain.models.brand,BrandType,206,52,17,5,0,0,30,5,19,5
 demo,com.example.demo.domain.models.brand,Brand,718,322,78,46,0,0,85,35,30,28
 demo,com.example.demo.domain.models.dispensary,LicenseStatus,350,0,34,0,0,0,45,0,28,0
