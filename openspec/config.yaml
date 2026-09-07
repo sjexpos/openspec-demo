@@ -19,5 +19,8 @@ context: |
 
 # Per-artifact rules (optional)
 # Add custom rules for specific artifacts.
-rules: {}
+rules:
+  gatekeeper:
+    enforce_routing: true
+    dependency_graph: "proposal->specs->design->tasks->apply->verify->code-review->archive"
 
