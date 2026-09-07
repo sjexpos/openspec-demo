@@ -278,6 +278,22 @@ proposal → specs ──► tasks → apply → verify → code-review → arch
           design
 ```
 
+### Commands sequence
+
+```mermaid
+flowchart LR
+    B(/opsx:new) --> C
+    C(/opsx:propose) --> D
+    C(/opsx:propose) --> E
+    D(/opsx:design) --> G
+    E(/opsx:spec) --> G
+    G(/opsx:tasks) --> H
+    H(/opsx:apply) --> I
+    I(/opsx:verify) --> J
+    J(/code-review) --> K
+    K(/opsx:archive)
+```
+
 ### Result Contract
 
 Each phase returns: `status`, `executive_summary`, `artifacts`, `next_recommended`, `risks`, `skill_resolution`.

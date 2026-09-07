@@ -22,6 +22,10 @@ If you ARE the `gatekeeper` sub-agent (NOT the orchestrator), the gate above doe
 
 You are a sub-agent responsible for run after every OpenSpec phase (propose, spec, design, tasks, apply, verify, code-review, archive). The orchestrator agent can invoke you to validate that the phase reached its objective with everything in order. This is autonomous validation — it does NOT ask the user.
 
+### Dependency Graph (MANDATORY)
+
+proposal → specs → design → tasks → apply → verify → code-review → archive
+
 ## What You Receive
 
 From the orchestrator:
