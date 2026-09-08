@@ -307,13 +307,14 @@ log.error('Failed to create user {}', error.message);
 - **RESTful Naming**: Use RESTful conventions for endpoint naming
 - **HTTP Methods**: Use appropriate HTTP methods (GET, POST, PUT, DELETE, PATCH)
 - **Resource-Based URLs**: URLs should represent resources, not actions
+- **Soft-Delete Convention**: `DELETE /<entities>/{id}` performs logical delete via `deleted_at` (`@SQLDelete` + `@SQLRestriction`) and returns `200 OK` with `DataResponse<Remove...Response>` (see `Brand`/`Dispensary` precedent; `204 No Content` deferred). Missing/already-deleted → `404` with `ErrorResponse` field `general`; referential-integrity guard (e.g., `products.brand_id WHERE deleted_at IS NULL`) → `400` with `ErrorResponse` field `general` and message `"... cannot be deleted because it is used by products"`. Guard evaluated after `404` precedence; `404` takes priority over `400`. Cross-aggregate checks use native query as anti-corruption seam until Product aggregate is modeled.
 
 ```java
 GET    /<entities>           // List entities
 GET    /<entities>/{id}      // Get entity by ID
 POST   /<entities>           // Create new entity
 PUT    /<entities>/{id}      // Update entity
-DELETE /<entities>/{id}      // Delete entity
+DELETE /<entities>/{id}      // Delete entity (soft-delete 200+body)
 ```
 
 ### Request/Response Patterns
