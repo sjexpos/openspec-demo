@@ -24,7 +24,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.TypeMismatchException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +31,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @Slf4j
@@ -78,21 +76,6 @@ public class GlobalExceptionHandler {
       NoResourceFoundException ex, HttpServletRequest request) {
     List<FieldError> fieldErrors = List.of(new FieldError("general", "Resource not found"));
     return build(HttpStatus.NOT_FOUND, request, fieldErrors);
-  }
-
-  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-  public ResponseEntity<ErrorResponse> handleTypeMismatch(
-      MethodArgumentTypeMismatchException ex, HttpServletRequest request) {
-    List<FieldError> fieldErrors =
-        List.of(new FieldError("general", "Invalid brand ID: " + ex.getValue()));
-    return build(HttpStatus.BAD_REQUEST, request, fieldErrors);
-  }
-
-  @ExceptionHandler(TypeMismatchException.class)
-  public ResponseEntity<ErrorResponse> handleTypeMismatchGeneric(
-      TypeMismatchException ex, HttpServletRequest request) {
-    List<FieldError> fieldErrors = List.of(new FieldError("general", "Invalid ID format"));
-    return build(HttpStatus.BAD_REQUEST, request, fieldErrors);
   }
 
   @ExceptionHandler(Exception.class)
