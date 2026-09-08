@@ -1,23 +1,24 @@
 ---
 name: sync-agent-symlinks
-description: Analyze and synchronize agent skill exposure after ai-specs skill changes (additions, removals, renames). Use when skills are added/removed in ai-specs and .claude/skills and .cursor/skills must stay aligned through symlinks.
+description: Analyze and synchronize agent skill exposure after .agents skill changes (additions, removals, renames). Use when skills are added/removed in .agents and .claude/skills and .cursor/skills must stay aligned through symlinks.
 author: LIDR.co
 version: 1.0.0
 ---
 
 # sync-agent-symlinks Skill
 
-Keep agent-facing skill structures synchronized with `ai-specs/skills` as the canonical source.
+Keep agent-facing skill structures synchronized with `.agents/skills` as the canonical source.
 
-Use this skill after any change in `ai-specs/skills` (new skill, removed skill, renamed skill, moved skill), especially when you need to avoid stale or broken symlinks.
+Use this skill after any change in `.agents/skills` (new skill, removed skill, renamed skill, moved skill), especially when you need to avoid stale or broken symlinks.
 
 ## Scope and Safety Rules
 
-- Canonical source is `ai-specs/skills`.
+- Canonical source is `.agents/skills`.
 - Mirror targets are:
   - `.claude/skills`
   - `.cursor/skills`
-- Manage only entries that are symlinks to `../../ai-specs/skills/<skill-name>`.
+  - `.opencode/skills`
+- Manage only entries that are symlinks to `../../.agents/skills/<skill-name>`.
 - Do not delete non-symlink directories in mirror targets unless the user explicitly asks.
 - Never overwrite a real directory automatically; report it as a conflict.
 
@@ -27,9 +28,10 @@ Use this skill after any change in `ai-specs/skills` (new skill, removed skill, 
 
 Collect three inventories:
 
-1. Canonical skills from `ai-specs/skills/*/SKILL.md`
+1. Canonical skills from `.agents/skills/*/SKILL.md`
 2. Mirror entries in `.claude/skills`
 3. Mirror entries in `.cursor/skills`
+4. Mirror entries in `.opencode/skills`
 
 From mirror entries, classify:
 - `linked`: valid symlink pointing to existing canonical skill
@@ -52,7 +54,7 @@ For each mirror target:
 Apply changes in this order:
 
 1. Add missing symlinks:
-   - `<mirror>/<skill-name> -> ../../ai-specs/skills/<skill-name>`
+   - `<mirror>/<skill-name> -> ../../.agents/skills/<skill-name>`
 2. Fix broken canonical symlinks:
    - Remove broken link and recreate the same canonical link
 3. Remove orphan canonical symlinks:
@@ -85,18 +87,20 @@ Return a concise sync report:
 
 ## Add/Remove Scenarios
 
-### Scenario A - New skill added in ai-specs
+### Scenario A - New skill added in .agents
 
 Expected behavior:
 - Add missing symlink in `.claude/skills`
 - Add missing symlink in `.cursor/skills`
+- Add missing symlink in `.opencode/skills`
 - Verify both links resolve to canonical folder
 
-### Scenario B - Skill removed from ai-specs
+### Scenario B - Skill removed from .agents
 
 Expected behavior:
 - Remove orphan canonical symlink from `.claude/skills`
 - Remove orphan canonical symlink from `.cursor/skills`
+- Remove orphan canonical symlink from `.opencode/skills`
 - Keep non-canonical directories untouched and report them
 
 ## Command Patterns (Reference)
@@ -105,25 +109,28 @@ Use equivalent commands for your environment:
 
 ```bash
 # list canonical skill directories (names with SKILL.md)
-ls ai-specs/skills
+ls .agents/skills
 
 # inspect mirror entries with link metadata
 ls -la .claude/skills
 ls -la .cursor/skills
+ls -la .opencode/skills
 
 # add canonical link
-ln -s ../../ai-specs/skills/<skill-name> .claude/skills/<skill-name>
-ln -s ../../ai-specs/skills/<skill-name> .cursor/skills/<skill-name>
+ln -s ../../.agents/skills/<skill-name> .claude/skills/<skill-name>
+ln -s ../../.agents/skills/<skill-name> .cursor/skills/<skill-name>
+ln -s ../../.agents/skills/<skill-name> .opencode/skills/<skill-name>
 
 # remove orphan canonical link
 rm .claude/skills/<skill-name>
 rm .cursor/skills/<skill-name>
+rm .opencode/skills/<skill-name>
 ```
 
 ## Red Flags
 
 Never:
-- treat `ai-specs` as non-canonical
+- treat `.agents` as non-canonical
 - auto-delete real directories in mirror targets
 - leave broken canonical symlinks after sync
 - silently skip conflicts without reporting

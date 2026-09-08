@@ -43,6 +43,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -74,6 +75,9 @@ class GlobalExceptionHandlerTest {
     public ResponseEntity<String> postMethodName(@Valid @RequestBody TestRequest request) {
       return ResponseEntity.ok().body("Success");
     }
+
+    @GetMapping("/test/errorArgumentTypeMismatch/{id}")
+    void throwMethodArgumentTypeMismatchException(@PathVariable("ID") long id) {}
   }
 
   @TestConfiguration

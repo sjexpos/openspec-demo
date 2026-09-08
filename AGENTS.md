@@ -90,6 +90,21 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 | Update agentic symbolic links | `sync-agent-symlinks` |
 | Create/Update technical documentation | `update-docs` |
 
+### Auto-invoke skills in SDD automatic or manual (MANDATORY)
+
+If you are running SDD automatic or manual you MUST override the previous *Auto-invoke Skills* action table and use this:
+
+| Phase         | Skills                    |
+|---------------|---------------------------|
+| `proposal`    | `domain-driven-design`    |
+| `specs`       | `domain-driven-design` |
+| `design`      | `domain-driven-design`, `solid-principles`, `dry-principle`, `java-jpa-hibernate` |
+| `tasks`       | `test-driven-development`, `domain-driven-design`, `solid-principles`, `dry-principle`, `java-jpa-hibernate`, `update-docs` |
+| `apply`       | `test-driven-development`, `domain-driven-design`, `solid-principles`, `dry-principle`, `java-jpa-hibernate`, `update-docs` |
+| `verify`      | `test-driven-development`, `domain-driven-design`, `solid-principles`, `dry-principle`, `java-jpa-hibernate`, `update-docs` |
+| `code-review` | `adversarial-review`, `code-auditing`, `domain-driven-design`, `solid-principles`, `dry-principle`, `java-jpa-hibernate` |
+| `archive`     |  |
+
 ## 5. Planning Model Requirement
 
 Planning workflows must run with Opus high reasoning.
