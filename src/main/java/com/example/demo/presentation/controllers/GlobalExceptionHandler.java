@@ -17,6 +17,7 @@
 
 package com.example.demo.presentation.controllers;
 
+import com.example.demo.application.exceptions.ConflictException;
 import com.example.demo.application.exceptions.NotFoundException;
 import com.example.demo.presentation.api.ErrorResponse;
 import com.example.demo.presentation.api.FieldError;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @Slf4j
@@ -42,6 +44,13 @@ public class GlobalExceptionHandler {
       NotFoundException ex, HttpServletRequest request) {
     List<FieldError> fieldErrors = List.of(new FieldError("general", ex.getMessage()));
     return build(HttpStatus.NOT_FOUND, request, fieldErrors);
+  }
+
+  @ExceptionHandler(ConflictException.class)
+  public ResponseEntity<ErrorResponse> handleConflict(
+      ConflictException ex, HttpServletRequest request) {
+    List<FieldError> fieldErrors = List.of(new FieldError("general", ex.getMessage()));
+    return build(HttpStatus.CONFLICT, request, fieldErrors);
   }
 
   @ExceptionHandler(DataIntegrityViolationException.class)
@@ -68,6 +77,14 @@ public class GlobalExceptionHandler {
         ex.getBindingResult().getFieldErrors().stream()
             .map(fe -> new FieldError(fe.getField(), fe.getDefaultMessage()))
             .toList();
+    return build(HttpStatus.BAD_REQUEST, request, fieldErrors);
+  }
+
+  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+  public ResponseEntity<ErrorResponse> handleArgumentTypeMismatch(
+      MethodArgumentTypeMismatchException ex, HttpServletRequest request) {
+    List<FieldError> fieldErrors =
+        List.of(new FieldError(ex.getName(), "Invalid value for parameter: " + ex.getName()));
     return build(HttpStatus.BAD_REQUEST, request, fieldErrors);
   }
 
