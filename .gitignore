@@ -1,6 +1,10 @@
 # Log file
 *.log
 
+# OS files
+.DS_Store
+**/.DS_Store
+
 # IDE files
 /target/
 **/target/

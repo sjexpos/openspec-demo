@@ -260,10 +260,33 @@ Abstract common database operation logic into a reusable function or class.
 - **Custom Error Classes**: Create domain-specific error classes
 - **Error Handler**: Use global error handler for consistent error responses
 - **Error Messages**: Provide descriptive error messages for debugging
+- **Business Conflict (`409`) vs Infrastructure Conflict (`409`)**: two distinct causes both map to
+  HTTP `409 Conflict`, but they are not the same thing and must not be confused:
+  - A **business rule** that rejects an otherwise well-formed request because the current state of
+    the aggregate does not allow the operation (e.g. "a brand referenced by live products cannot be
+    deleted") is reported by throwing an application exception that extends `DomainException`
+    (e.g. `ConflictException`, mirroring `NotFoundException`). `GlobalExceptionHandler` maps it to
+    `409` with a single `ErrorResponse` error entry whose `field` is `"general"`.
+  - An **infrastructure-level** conflict (a raw `DataIntegrityViolationException` bubbling up from
+    the persistence layer, e.g. a unique-constraint violation) is mapped to `409` with `field`
+    `"data_integrity"`. Never throw `DataIntegrityViolationException` deliberately from business
+    code to report a business rule — that conflates "the database refused this write" with "the
+    business rules refuse this operation" and produces the wrong `field`.
+- **Malformed Typed Path Variable / Request Parameter (`400`)**: a `@PathVariable`/`@RequestParam`
+  that cannot be converted to its declared type (e.g. a non-numeric `id` on a `Long` parameter) is
+  mapped by a dedicated `@ExceptionHandler(MethodArgumentTypeMismatchException.class)` to
+  `400 Bad Request`, with a single `ErrorResponse` error entry whose `field` is the parameter name
+  (e.g. `"id"`) and whose `message` is a fixed string plus the parameter name — **never**
+  `ex.getMessage()`, which leaks internal type names (`java.lang.Long`, `NumberFormatException`).
+  This handler is registered on the shared `@RestControllerAdvice` with no `basePackages` /
+  `assignableTypes` restriction, so it applies to **every route in the application**, not only the
+  endpoint that motivated it — it is not endpoint-scoped, and previously such routes fell through
+  to the generic `500` catch-all. Any new route with a typed `@PathVariable`/`@RequestParam`
+  automatically benefits from (and is bound by) this same convention.
 
 ```java
-public class NotFoundException extends Exception {
-  NotFoundException(String message) {
+public class NotFoundException extends DomainException {
+  public NotFoundException(String message) {
     super(message);
   }
 }
@@ -307,7 +330,8 @@ log.error('Failed to create user {}', error.message);
 - **RESTful Naming**: Use RESTful conventions for endpoint naming
 - **HTTP Methods**: Use appropriate HTTP methods (GET, POST, PUT, DELETE, PATCH)
 - **Resource-Based URLs**: URLs should represent resources, not actions
-- **Soft-Delete Convention**: `DELETE /<entities>/{id}` performs logical delete via `deleted_at` (`@SQLDelete` + `@SQLRestriction`) and returns `200 OK` with `DataResponse<Remove...Response>` (see `Brand`/`Dispensary` precedent; `204 No Content` deferred). Missing/already-deleted → `404` with `ErrorResponse` field `general`; referential-integrity guard (e.g., `products.brand_id WHERE deleted_at IS NULL`) → `400` with `ErrorResponse` field `general` and message `"... cannot be deleted because it is used by products"`. Guard evaluated after `404` precedence; `404` takes priority over `400`. Cross-aggregate checks use native query as anti-corruption seam until Product aggregate is modeled.
+- **Soft-Delete Convention**: `DELETE /<entities>/{id}` performs logical delete via `deleted_at` (`@SQLDelete` + `@SQLRestriction`) and returns `200 OK` with `DataResponse<Remove...Response>` (see `Brand`/`Dispensary` precedent; `204 No Content` deferred). Missing/already-deleted → `404` with `ErrorResponse` field `general`; a referential-integrity guard rejecting the delete because a live cross-aggregate reference still exists (e.g., `products.brand_id WHERE deleted_at IS NULL`) → **`409 Conflict`** (not `400` — `400` is reserved for malformed input, not business-state conflicts) with `ErrorResponse` field `general` and a message such as `"... cannot be deleted because it is used by products"`. The guard is evaluated only after resolving the resource: `404` takes priority over `409` (a missing or already-deleted resource is never reported as `409`, regardless of whether it would also have failed the guard). A malformed (non-numeric) id on the path is a separate, earlier-failing case reported as `400` by the type-mismatch handler described above, before the resource lookup even runs. Cross-aggregate checks use a native query as an anti-corruption seam until the referenced aggregate (e.g. `Product`) is modeled as a first-class entity.
+- **Lazy-Association Coupling (`open-in-view`)**: The brand and dispensary delete-and-map and read-and-map handlers resolve lazy `@ManyToOne` associations (e.g. `Brand.brandType`) *after* the service transaction has committed, so they are load-bearing on `spring.jpa.open-in-view: true` (`src/main/resources/application.yml`). If that setting is ever disabled, these paths MUST first be updated to fetch or initialize those associations inside the transaction (`@EntityGraph(attributePaths = ...)` / `JOIN FETCH`, or an in-transaction DTO projection), or they will fail deterministically with `LazyInitializationException` (surfaced as `500`) — see KAN-7 `design.md` risk 11 for the reproduction and the full analysis.
 
 ```java
 GET    /<entities>           // List entities
