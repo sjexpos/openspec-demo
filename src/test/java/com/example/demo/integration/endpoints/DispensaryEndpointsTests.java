@@ -17,8 +17,15 @@
 
 package com.example.demo.integration.endpoints;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 class DispensaryEndpointsTests extends EndpointIntegrationTest {
@@ -26,6 +33,17 @@ class DispensaryEndpointsTests extends EndpointIntegrationTest {
   @Autowired private MockMvc mockMvc;
 
   @Autowired private ObjectMapper objectMapper;
+
+  @Test
+  @DisplayName("POST malformed/empty body returns 400 with static message, not 500 (D9 regression)")
+  void postEmptyBody_shouldReturn400WithStaticMessage() throws Exception {
+    mockMvc
+        .perform(post("/api/dispensaries").contentType(MediaType.APPLICATION_JSON).content(""))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.status").value(400))
+        .andExpect(jsonPath("$.errors[0].field").value("general"))
+        .andExpect(jsonPath("$.errors[0].message").value("Malformed or missing request body"));
+  }
 
   // @Test
   // @DisplayName("Should create a new user")

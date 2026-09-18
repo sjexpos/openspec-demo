@@ -318,6 +318,17 @@ class BrandControllerEndpointsTests extends EndpointIntegrationTest {
   }
 
   @Test
+  @DisplayName("POST malformed/empty body returns 400 with static message, not 500 (D9 regression)")
+  void postEmptyBody_shouldReturn400WithStaticMessage() throws Exception {
+    mockMvc
+        .perform(post("/api/brands").contentType(MediaType.APPLICATION_JSON).content(""))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.status").value(400))
+        .andExpect(jsonPath("$.errors[0].field").value("general"))
+        .andExpect(jsonPath("$.errors[0].message").value("Malformed or missing request body"));
+  }
+
+  @Test
   @DisplayName("PATCH invalid email returns 400")
   void patchInvalidEmail_shouldReturn400() throws Exception {
     long id = seedBrand("bademail");

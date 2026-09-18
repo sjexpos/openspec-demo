@@ -283,6 +283,16 @@ Abstract common database operation logic into a reusable function or class.
   endpoint that motivated it — it is not endpoint-scoped, and previously such routes fell through
   to the generic `500` catch-all. Any new route with a typed `@PathVariable`/`@RequestParam`
   automatically benefits from (and is bound by) this same convention.
+- **Malformed / Missing Request Body (`400`)**: an unreadable or empty request body (e.g. `--data
+  ''`, invalid JSON, a body that cannot be deserialized into the target `@RequestBody` type) is
+  mapped by a dedicated `@ExceptionHandler(HttpMessageNotReadableException.class)` to `400 Bad
+  Request`, with a single `ErrorResponse` error entry whose `field` is `"general"` and whose
+  `message` is the fixed string `"Malformed or missing request body"` — **never**
+  `ex.getMessage()`, which leaks the underlying Jackson/parsing exception detail. Like the
+  type-mismatch handler above, this is registered on the shared `@RestControllerAdvice` with no
+  scoping, so it applies to **every route in the application**, including `POST /api/brands` and
+  `POST /api/dispensaries`, which previously fell through to the generic `500` catch-all for the
+  same input (introduced alongside `POST /api/products`, KAN-8 design decision D9).
 
 ```java
 public class NotFoundException extends DomainException {
@@ -461,6 +471,9 @@ Assertion pattern:
 - Mock service layers in controller unit tests
 - Create mock instances with realistic data structures
 - Clear all mocks in `beforeEach()` to ensure test isolation
+- Service unit tests MUST inherit from ServiceTest class
+- Repository test MUST inherit from RepositoryTest class
+- Endpoints test MUST inherit from EndpointIntegrationTest class
 
 ### Test Coverage Requirements
 

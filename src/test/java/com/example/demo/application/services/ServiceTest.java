@@ -20,8 +20,14 @@ package com.example.demo.application.services;
 import com.example.demo.domain.repositories.AddressRepository;
 import com.example.demo.domain.repositories.BrandRepository;
 import com.example.demo.domain.repositories.BrandTypeRepository;
+import com.example.demo.domain.repositories.CategoryRepository;
+import com.example.demo.domain.repositories.CollectionRepository;
 import com.example.demo.domain.repositories.DispensaryRepository;
 import com.example.demo.domain.repositories.LicenseStatusRepository;
+import com.example.demo.domain.repositories.ProductRepository;
+import com.example.demo.domain.repositories.StrainRepository;
+import com.example.demo.domain.repositories.SubcategoryRepository;
+import com.example.demo.domain.repositories.UnitRepository;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -34,4 +40,10 @@ class ServiceTest {
   @MockitoBean AddressRepository addressRepository;
   @MockitoBean BrandRepository brandRepository;
   @MockitoBean BrandTypeRepository brandTypeRepository;
+  @MockitoBean ProductRepository productRepository;
+  @MockitoBean CollectionRepository collectionRepository;
+  @MockitoBean CategoryRepository categoryRepository;
+  @MockitoBean SubcategoryRepository subcategoryRepository;
+  @MockitoBean StrainRepository strainRepository;
+  @MockitoBean UnitRepository unitRepository;
 }
