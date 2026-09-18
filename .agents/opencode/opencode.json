@@ -49,18 +49,6 @@
         "write": true
       }
     },
-    "gatekeeper": {
-      "description": "",
-      "mode": "subagent",
-      "hidden": true,
-      "prompt": "{file:./../.agents/prompts/gatekeeper.md}",
-      "tools": {
-        "bash": true,
-        "edit": false,
-        "read": true,
-        "write": false
-      }
-    },
     "opsx-orchestrator": {
       "description": "OPSX Orchestrator - coordinates sub-agents, never does work inline",
       "mode": "primary",
@@ -89,7 +77,6 @@
         },
         "task": {
           "*": "deny",
-          "gatekeeper": "allow",
           "opsx-init": "allow",
           "opsx-onboard": "allow",
           "opsx-explore": "allow",
