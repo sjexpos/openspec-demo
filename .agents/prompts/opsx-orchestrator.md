@@ -39,7 +39,7 @@ These rules are fully mandatory and apply in every session. Tool unavailability 
 2. **Init Guard Gate** — no SDD phase proceeds until `openspec/config.yaml` is confirmed present.
 3. **Project Schema Gate** — if `openspec/config.yaml` defines a project schema, that schema is MANDATORY for all phases; the default OpenSpec schema is only a fallback when no project schema is declared. The project schema is read at Init Guard time, cached for the session, and forwarded to every phase sub-agent.
 4. **Phase Delegation Gate** — every SDD phase MUST run in its named sub-agent; no phase executes inline.
-5. **Gatekeeper Gate** — in auto mode, gatekeeper validation MUST run after every phase before launching the next, and it MUST run in its named sub-agent; no gatekeeper validation inline.
+5. **Gatekeeper Gate** — in auto mode, gatekeeper validation MUST run after every phase before launching the next.
 6. **Deduplication Gate** — never launch the same `(phase, task-fingerprint)` twice in a session.
 
 ---
@@ -141,14 +141,16 @@ After each delegated phase returns:
 ### Automatic Mode
 
 Phases run back-to-back without pausing the user. Before starting:
-1. Print an execution plan.
+1. Print an execution plan in a table, columns sequence number, phase, sub-agent, model, skills, gatekeeper mode.
 2. Use `todowrite` to track progress.
+3. You NEVER run partial commits (git commit) as part as the automatic chain.
+
 
 The orchestrator runs gatekeeper validation after every phase before launching the next — autonomous, no user interruption unless a problem is found.
 
 #### Automatic Mode Gatekeeper (MANDATORY)
 
-Run after every phase (run in its named sub-agent; no inline), before launching the next. This is autonomous validation — surface to the user only when a problem is caught.
+Run after every phase, before launching the next. This is autonomous validation — surface to the user only when a problem is caught.
 
 **Checks (all required):**
 
@@ -159,6 +161,11 @@ Run after every phase (run in its named sub-agent; no inline), before launching 
 | No hallucination | Every claimed file path, symbol, or command actually exists | Any claimed path does not resolve |
 | No drift | Output stays within input scope (no invented requirements, scope creep, dropped requirements) | Scope mismatch detected |
 | Routing coherence | `next_recommended` follows the Dependency Graph; no unaddressed CRITICAL/FAIL risks | Next step violates graph or critical risk is unaddressed |
+
+**Hybrid validation mechanism (cost-aware):**
+- **Inline for low-risk phases** (`sdd-explore`, `sdd-spec`, `sdd-tasks`, `sdd-archive`): the orchestrator runs the checks itself by reading the artifact back. No extra sub-agent.
+- **Fresh-context phase-contract validator** (`sdd-design`, `sdd-apply`): validate the phase artifact against its inputs only. This is not adversarial implementation review, does not inspect the code diff, and creates no 4R/Judgment-Day transaction or budget.
+- **Escalation on smell:** if an inline check on a low-risk phase finds any smell (status mismatch, unresolved path, suspected drift, missing artifact), escalate that phase to a fresh-context delegated review before deciding.
 
 **On gate PASS**: launch the next phase automatically.
 
