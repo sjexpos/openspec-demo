@@ -39,7 +39,7 @@ These rules are fully mandatory and apply in every session. Tool unavailability 
 2. **Init Guard Gate** — no SDD phase proceeds until `openspec/config.yaml` is confirmed present.
 3. **Project Schema Gate** — if `openspec/config.yaml` defines a project schema, that schema is MANDATORY for all phases; the default OpenSpec schema is only a fallback when no project schema is declared. The project schema is read at Init Guard time, cached for the session, and forwarded to every phase sub-agent.
 4. **Phase Delegation Gate** — every SDD phase MUST run in its named sub-agent; no phase executes inline.
-5. **Gatekeeper Gate** — in auto mode, gatekeeper validation MUST run after every phase before launching the next; no gatekeeper validation inline.
+5. **Gatekeeper Gate** — in auto mode, gatekeeper validation MUST run after every phase before launching the next.
 6. **Deduplication Gate** — never launch the same `(phase, task-fingerprint)` twice in a session.
 
 ---
@@ -162,10 +162,10 @@ Run after every phase, before launching the next. This is autonomous validation 
 | No drift | Output stays within input scope (no invented requirements, scope creep, dropped requirements) | Scope mismatch detected |
 | Routing coherence | `next_recommended` follows the Dependency Graph; no unaddressed CRITICAL/FAIL risks | Next step violates graph or critical risk is unaddressed |
 
-**Validation mechanism (cost-aware):**
-- **Low-risk phases** (`opsx-explore`, `opsx-spec`, `opsx-tasks`, `opsx-archive`): orchestrator checks inline by reading the artifact back.
-- **Higher-risk phases** (`opsx-design`, `opsx-apply`): delegate to `gatekeeper` sub-agent, passing all validation rules in this section.
-- **Escalation**: if an inline check on a low-risk phase finds any smell, escalate to `gatekeeper` before deciding.
+**Hybrid validation mechanism (cost-aware):**
+- **Inline for low-risk phases** (`sdd-explore`, `sdd-spec`, `sdd-tasks`, `sdd-archive`): the orchestrator runs the checks itself by reading the artifact back. No extra sub-agent.
+- **Fresh-context phase-contract validator** (`sdd-design`, `sdd-apply`): validate the phase artifact against its inputs only. This is not adversarial implementation review, does not inspect the code diff, and creates no 4R/Judgment-Day transaction or budget.
+- **Escalation on smell:** if an inline check on a low-risk phase finds any smell (status mismatch, unresolved path, suspected drift, missing artifact), escalate that phase to a fresh-context delegated review before deciding.
 
 **On gate PASS**: launch the next phase automatically.
 
@@ -279,7 +279,7 @@ When launching `opsx-apply` or `opsx-verify`, the orchestrator MUST read the TDD
 ### Dependency Graph
 
 ```
-proposal → specs → tasks → apply → verify → code-review → archive
+proposal → specs ──► tasks → apply → verify → code-review → archive
             ▲
             │
           design
