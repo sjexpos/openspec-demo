@@ -494,7 +494,8 @@ Represents a cannabis product for sale, linking brands, strains, categories, and
 - `deleted_by`: Username or identifier of who deleted the record (varchar, optional)
 
 **Validation Rules:**
-- `ocpc` must be unique across all products
+- `ocpc` must be unique among non-deleted products (a soft-deleted product does not reserve its `ocpc`)
+- `subcategory_id` must belong to `category_id`
 - `title` is required and must not be empty
 - `format_value` and `content_value` must be positive integers
 - Cannabinoid values (`thc`, `cbd`) should be non-negative when provided

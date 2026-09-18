@@ -30,7 +30,7 @@ import org.springframework.context.annotation.ComponentScan;
 class DispensaryServiceTests extends ServiceTest {
 
   @TestConfiguration
-  @ComponentScan
+  @ComponentScan(lazyInit = true)
   static class TestConfig {}
 
   @Autowired private DispensaryService dispensaryService;

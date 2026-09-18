@@ -119,6 +119,19 @@ class GlobalExceptionHandlerTest {
   }
 
   @Test
+  @DisplayName("Should return 400 with static message for unreadable/empty request body (D9)")
+  void handleMessageNotReadable_shouldReturn400WithStaticMessage() throws Exception {
+    mockMvc
+        .perform(post("/test/validations").contentType(MediaType.APPLICATION_JSON).content(""))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.status").value(400))
+        .andExpect(jsonPath("$.path").value("/test/validations"))
+        .andExpect(jsonPath("$.errors[0].field").value("general"))
+        .andExpect(jsonPath("$.errors[0].message").value("Malformed or missing request body"))
+        .andExpect(jsonPath("$.timestamp").isString());
+  }
+
+  @Test
   @DisplayName("Should return 400 with field errors when validation fails")
   void handleValidation_shouldReturn400() throws Exception {
     var body = objectMapper.createObjectNode().put("enumeration", "INVALID");
