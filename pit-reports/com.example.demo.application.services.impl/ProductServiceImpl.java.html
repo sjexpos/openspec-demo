@@ -1,0 +1,2916 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>ProductServiceImpl.java</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>/**********</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> This project is free software; you can redistribute it and/or modify it under</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> the terms of the GNU General Public License as published by the</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> Free Software Foundation; either version 3.0 of the License, or (at your</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> option) any later version. (See &#60;https://www.gnu.org/licenses/gpl-3.0.html&#62;.)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> This project is distributed in the hope that it will be useful, but WITHOUT</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> FOR A PARTICULAR PURPOSE.  See the GNU General Public License for</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> more details.</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> You should have received a copy of the GNU General Public License</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> along with this project; if not, write to the Free Software Foundation, Inc.,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> **********/</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>// Copyright (c) 2026-2027 Sergio Exposito.  All rights reserved.              </span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package com.example.demo.application.services.impl;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_20'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.application.exceptions.ConflictException;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.application.exceptions.NotFoundException;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_22'/>
+22
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_22'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.application.services.ProductService;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_23'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.application.services.model.CreateProductCommand;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_24'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.domain.models.brand.Brand;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.domain.models.product.Category;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_26'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.domain.models.product.Collection;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.domain.models.product.Product;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.domain.models.product.Subcategory;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.domain.models.product.Unit;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.domain.models.strain.Strain;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_31'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.domain.repositories.BrandRepository;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_32'/>
+32
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_32'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.domain.repositories.CategoryRepository;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_33'/>
+33
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_33'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.domain.repositories.CollectionRepository;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_34'/>
+34
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_34'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.domain.repositories.ProductRepository;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_35'/>
+35
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_35'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.domain.repositories.StrainRepository;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_36'/>
+36
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_36'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.domain.repositories.SubcategoryRepository;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.domain.repositories.UnitRepository;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_38'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.util.Objects;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_39'/>
+39
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_39'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import lombok.extern.slf4j.Slf4j;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_40'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.springframework.data.jpa.repository.JpaRepository;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_41'/>
+41
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_41'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.springframework.stereotype.Service;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_42'/>
+42
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_42'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.springframework.transaction.annotation.Propagation;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_43'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.springframework.transaction.annotation.Transactional;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_44'/>
+44
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_44'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_45'/>
+45
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_45'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>// The three guards (OCPC uniqueness, reference resolution, taxonomy coherence) run in the fixed</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_46'/>
+46
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_46'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>// D1 order, all before any write, inside the single transaction declared on create (D6).</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_47'/>
+47
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_47'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>@Slf4j</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_48'/>
+48
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_48'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>@Service</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_49'/>
+49
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_49'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>public class ProductServiceImpl implements ProductService {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_50'/>
+50
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_50'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_51'/>
+51
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_51'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  private final ProductRepository productRepository;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_52'/>
+52
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_52'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  private final CollectionRepository collectionRepository;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_53'/>
+53
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_53'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  private final CategoryRepository categoryRepository;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_54'/>
+54
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_54'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  private final SubcategoryRepository subcategoryRepository;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_55'/>
+55
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_55'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  private final BrandRepository brandRepository;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_56'/>
+56
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_56'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  private final StrainRepository strainRepository;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_57'/>
+57
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_57'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  private final UnitRepository unitRepository;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_58'/>
+58
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_58'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_59'/>
+59
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_59'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  public ProductServiceImpl(</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_60'/>
+60
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_60'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>      ProductRepository productRepository,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_61'/>
+61
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_61'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>      CollectionRepository collectionRepository,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_62'/>
+62
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_62'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>      CategoryRepository categoryRepository,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_63'/>
+63
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_63'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>      SubcategoryRepository subcategoryRepository,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_64'/>
+64
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_64'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>      BrandRepository brandRepository,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_65'/>
+65
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_65'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>      StrainRepository strainRepository,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_66'/>
+66
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_66'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>      UnitRepository unitRepository) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_67'/>
+67
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_67'>1</a>
+<span>
+1. &#60;init&#62; : Removed assignment to member variable productRepository &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>    this.productRepository = productRepository;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_68'/>
+68
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_68'>1</a>
+<span>
+1. &#60;init&#62; : Removed assignment to member variable collectionRepository &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>    this.collectionRepository = collectionRepository;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_69'/>
+69
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_69'>1</a>
+<span>
+1. &#60;init&#62; : Removed assignment to member variable categoryRepository &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>    this.categoryRepository = categoryRepository;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_70'/>
+70
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_70'>1</a>
+<span>
+1. &#60;init&#62; : Removed assignment to member variable subcategoryRepository &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>    this.subcategoryRepository = subcategoryRepository;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_71'/>
+71
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_71'>1</a>
+<span>
+1. &#60;init&#62; : Removed assignment to member variable brandRepository &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>    this.brandRepository = brandRepository;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_72'/>
+72
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_72'>1</a>
+<span>
+1. &#60;init&#62; : Removed assignment to member variable strainRepository &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>    this.strainRepository = strainRepository;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_73'/>
+73
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_73'>1</a>
+<span>
+1. &#60;init&#62; : Removed assignment to member variable unitRepository &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>    this.unitRepository = unitRepository;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_74'/>
+74
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_74'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>  }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_75'/>
+75
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_75'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_76'/>
+76
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_76'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  @Override</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_77'/>
+77
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_77'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_78'/>
+78
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_78'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  public Product create(CreateProductCommand command) {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_79'/>
+79
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_79'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    // Guard 1 (D1): OCPC uniqueness, cheapest rejection first.</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_80'/>
+80
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_80'>5</a>
+<span>
+1. create : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/application/services/model/CreateProductCommand::ocpc &rarr; KILLED<br/>
+3. create : removed call to com/example/demo/domain/repositories/ProductRepository::existsByOcpc &rarr; KILLED<br/>
+4. create : negated conditional &rarr; KILLED<br/>
+5. create : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    if (this.productRepository.existsByOcpc(command.ocpc())) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_81'/>
+81
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_81'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>      log.warn(&#34;Rejected product creation: OCPC {} already used by a live product&#34;, command.ocpc());</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_82'/>
+82
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_82'>2</a>
+<span>
+1. create : removed call to com/example/demo/application/exceptions/ConflictException::&#60;init&#62; &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/application/services/model/CreateProductCommand::ocpc &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>      throw new ConflictException(&#34;Product already exists with OCPC: &#34; + command.ocpc());</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_83'/>
+83
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_83'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_84'/>
+84
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_84'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_85'/>
+85
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_85'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    Collection collection =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_86'/>
+86
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_86'>2</a>
+<span>
+1. create : removed call to com/example/demo/application/services/model/CreateProductCommand::collectionId &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/application/services/impl/ProductServiceImpl::resolveOrNotFound &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resolveOrNotFound(this.collectionRepository, command.collectionId(), &#34;Collection&#34;);</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_87'/>
+87
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_87'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    Category category =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_88'/>
+88
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_88'>2</a>
+<span>
+1. create : removed call to com/example/demo/application/services/model/CreateProductCommand::categoryId &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/application/services/impl/ProductServiceImpl::resolveOrNotFound &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resolveOrNotFound(this.categoryRepository, command.categoryId(), &#34;Category&#34;);</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_89'/>
+89
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_89'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    Subcategory subcategory =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_90'/>
+90
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_90'>2</a>
+<span>
+1. create : removed call to com/example/demo/application/services/model/CreateProductCommand::subcategoryId &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/application/services/impl/ProductServiceImpl::resolveOrNotFound &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resolveOrNotFound(this.subcategoryRepository, command.subcategoryId(), &#34;Subcategory&#34;);</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_91'/>
+91
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_91'>2</a>
+<span>
+1. create : removed call to com/example/demo/application/services/model/CreateProductCommand::brandId &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/application/services/impl/ProductServiceImpl::resolveOrNotFound &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    Brand brand = resolveOrNotFound(this.brandRepository, command.brandId(), &#34;Brand&#34;);</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_92'/>
+92
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_92'>2</a>
+<span>
+1. create : removed call to com/example/demo/application/services/impl/ProductServiceImpl::resolveOrNotFound &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/application/services/model/CreateProductCommand::strainId &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    Strain strain = resolveOrNotFound(this.strainRepository, command.strainId(), &#34;Strain&#34;);</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_93'/>
+93
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_93'>2</a>
+<span>
+1. create : removed call to com/example/demo/application/services/model/CreateProductCommand::formatUnitId &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/application/services/impl/ProductServiceImpl::resolveOrNotFound &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    Unit formatUnit = resolveOrNotFound(this.unitRepository, command.formatUnitId(), &#34;FormatUnit&#34;);</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_94'/>
+94
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_94'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    Unit contentUnit =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_95'/>
+95
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_95'>2</a>
+<span>
+1. create : removed call to com/example/demo/application/services/impl/ProductServiceImpl::resolveOrNotFound &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/application/services/model/CreateProductCommand::contentUnitId &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        resolveOrNotFound(this.unitRepository, command.contentUnitId(), &#34;ContentUnit&#34;);</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_96'/>
+96
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_96'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_97'/>
+97
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_97'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    // Guard 3 (D1): taxonomy coherence, checked last because it needs the loaded subcategory.</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_98'/>
+98
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_98'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    // Reads only the proxy id (no initialisation, zero extra queries per D12).</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_99'/>
+99
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_99'>7</a>
+<span>
+1. create : removed conditional - replaced equality check with true &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/domain/models/product/Category::getId &rarr; KILLED<br/>
+3. create : removed call to java/util/Objects::equals &rarr; KILLED<br/>
+4. create : removed call to com/example/demo/domain/models/product/Subcategory::getCategory &rarr; KILLED<br/>
+5. create : removed conditional - replaced equality check with false &rarr; KILLED<br/>
+6. create : negated conditional &rarr; KILLED<br/>
+7. create : removed call to com/example/demo/domain/models/product/Category::getId &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    if (!Objects.equals(subcategory.getCategory().getId(), category.getId())) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_100'/>
+100
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_100'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>      log.warn(</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_101'/>
+101
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_101'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>          &#34;Rejected product creation: subcategory {} does not belong to category {}&#34;,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_102'/>
+102
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_102'>1</a>
+<span>
+1. create : removed call to com/example/demo/domain/models/product/Subcategory::getId &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>          subcategory.getId(),</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_103'/>
+103
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_103'>1</a>
+<span>
+1. create : removed call to com/example/demo/domain/models/product/Category::getId &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>          category.getId());</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_104'/>
+104
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_104'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>      throw new ConflictException(</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_105'/>
+105
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_105'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>          &#34;Subcategory &#34;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_106'/>
+106
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_106'>1</a>
+<span>
+1. create : removed call to com/example/demo/domain/models/product/Subcategory::getId &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>              + subcategory.getId()</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_107'/>
+107
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_107'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>              + &#34; does not belong to category &#34;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_108'/>
+108
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_108'>2</a>
+<span>
+1. create : removed call to com/example/demo/domain/models/product/Category::getId &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/application/exceptions/ConflictException::&#60;init&#62; &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>              + category.getId());</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_109'/>
+109
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_109'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_110'/>
+110
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_110'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_111'/>
+111
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_111'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    Product product =</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_112'/>
+112
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_112'>1</a>
+<span>
+1. create : removed call to com/example/demo/domain/models/product/Product::builder &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        Product.builder()</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_113'/>
+113
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_113'>3</a>
+<span>
+1. create : removed call to com/example/demo/domain/models/product/Product$ProductBuilder::ocpc &rarr; KILLED<br/>
+2. create : replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::ocpc with receiver &rarr; KILLED<br/>
+3. create : removed call to com/example/demo/application/services/model/CreateProductCommand::ocpc &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .ocpc(command.ocpc())</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_114'/>
+114
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_114'>3</a>
+<span>
+1. create : removed call to com/example/demo/application/services/model/CreateProductCommand::title &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/domain/models/product/Product$ProductBuilder::title &rarr; KILLED<br/>
+3. create : replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::title with receiver &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .title(command.title())</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_115'/>
+115
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_115'>3</a>
+<span>
+1. create : removed call to com/example/demo/application/services/model/CreateProductCommand::description &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/domain/models/product/Product$ProductBuilder::description &rarr; KILLED<br/>
+3. create : replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::description with receiver &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .description(command.description())</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_116'/>
+116
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_116'>2</a>
+<span>
+1. create : removed call to com/example/demo/domain/models/product/Product$ProductBuilder::collection &rarr; KILLED<br/>
+2. create : replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::collection with receiver &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .collection(collection)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_117'/>
+117
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_117'>2</a>
+<span>
+1. create : replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::category with receiver &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/domain/models/product/Product$ProductBuilder::category &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .category(category)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_118'/>
+118
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_118'>2</a>
+<span>
+1. create : replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::subcategory with receiver &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/domain/models/product/Product$ProductBuilder::subcategory &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .subcategory(subcategory)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_119'/>
+119
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_119'>2</a>
+<span>
+1. create : replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::brand with receiver &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/domain/models/product/Product$ProductBuilder::brand &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .brand(brand)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_120'/>
+120
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_120'>2</a>
+<span>
+1. create : replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::strain with receiver &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/domain/models/product/Product$ProductBuilder::strain &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .strain(strain)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_121'/>
+121
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_121'>3</a>
+<span>
+1. create : removed call to com/example/demo/application/services/model/CreateProductCommand::formatValue &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/domain/models/product/Product$ProductBuilder::formatValue &rarr; KILLED<br/>
+3. create : replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::formatValue with receiver &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .formatValue(command.formatValue())</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_122'/>
+122
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_122'>2</a>
+<span>
+1. create : removed call to com/example/demo/domain/models/product/Product$ProductBuilder::formatUnit &rarr; KILLED<br/>
+2. create : replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::formatUnit with receiver &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .formatUnit(formatUnit)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_123'/>
+123
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_123'>3</a>
+<span>
+1. create : removed call to com/example/demo/application/services/model/CreateProductCommand::contentValue &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/domain/models/product/Product$ProductBuilder::contentValue &rarr; KILLED<br/>
+3. create : replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::contentValue with receiver &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .contentValue(command.contentValue())</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_124'/>
+124
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_124'>2</a>
+<span>
+1. create : replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::contentUnit with receiver &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/domain/models/product/Product$ProductBuilder::contentUnit &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .contentUnit(contentUnit)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_125'/>
+125
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_125'>3</a>
+<span>
+1. create : removed call to com/example/demo/application/services/model/CreateProductCommand::isCoreProduct &rarr; KILLED<br/>
+2. create : replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::isCoreProduct with receiver &rarr; KILLED<br/>
+3. create : removed call to com/example/demo/domain/models/product/Product$ProductBuilder::isCoreProduct &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .isCoreProduct(command.isCoreProduct())</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_126'/>
+126
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_126'>3</a>
+<span>
+1. create : replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::approved with receiver &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/domain/models/product/Product$ProductBuilder::approved &rarr; KILLED<br/>
+3. create : removed call to com/example/demo/application/services/model/CreateProductCommand::approved &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .approved(command.approved())</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_127'/>
+127
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_127'>3</a>
+<span>
+1. create : removed call to com/example/demo/application/services/model/CreateProductCommand::thc &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/domain/models/product/Product$ProductBuilder::thc &rarr; KILLED<br/>
+3. create : replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::thc with receiver &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .thc(command.thc())</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_128'/>
+128
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_128'>3</a>
+<span>
+1. create : removed call to com/example/demo/application/services/model/CreateProductCommand::cbd &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/domain/models/product/Product$ProductBuilder::cbd &rarr; KILLED<br/>
+3. create : replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::cbd with receiver &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .cbd(command.cbd())</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_129'/>
+129
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_129'>3</a>
+<span>
+1. create : removed call to com/example/demo/application/services/model/CreateProductCommand::enabled &rarr; KILLED<br/>
+2. create : removed call to com/example/demo/domain/models/product/Product$ProductBuilder::enabled &rarr; KILLED<br/>
+3. create : replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::enabled with receiver &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .enabled(command.enabled())</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_130'/>
+130
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_130'>1</a>
+<span>
+1. create : removed call to com/example/demo/domain/models/product/Product$ProductBuilder::build &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .build();</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_131'/>
+131
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_131'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_132'/>
+132
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_132'>2</a>
+<span>
+1. create : removed call to com/example/demo/domain/repositories/ProductRepository::save &rarr; KILLED<br/>
+2. create : replaced call to com/example/demo/domain/repositories/ProductRepository::save with argument &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    Product saved = this.productRepository.save(product);</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_133'/>
+133
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_133'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    log.info(&#34;Created product with id {}&#34;, saved.getId());</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_134'/>
+134
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_134'>1</a>
+<span>
+1. create : replaced return value with null for com/example/demo/application/services/impl/ProductServiceImpl::create &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    return saved;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_135'/>
+135
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_135'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_136'/>
+136
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_136'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_137'/>
+137
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_137'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  // DRY helper (D4): a single private generic method replaces seven identical orElseThrow</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_138'/>
+138
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_138'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  // chains, one per reference. Kept private to this impl (not promoted to a shared utility)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_139'/>
+139
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_139'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  // since there is exactly one consumer today and the user-visible error wording stays owned by</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_140'/>
+140
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_140'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  // the service that produces it.</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_141'/>
+141
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_141'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  private &#60;T&#62; T resolveOrNotFound(</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_142'/>
+142
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_142'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>      JpaRepository&#60;T, Long&#62; repository, Long id, String referenceName) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_143'/>
+143
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_143'>1</a>
+<span>
+1. resolveOrNotFound : replaced return value with null for com/example/demo/application/services/impl/ProductServiceImpl::resolveOrNotFound &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    return repository</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_144'/>
+144
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_144'>1</a>
+<span>
+1. resolveOrNotFound : removed call to org/springframework/data/jpa/repository/JpaRepository::findById &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        .findById(id)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_145'/>
+145
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_145'>1</a>
+<span>
+1. resolveOrNotFound : removed call to java/util/Optional::orElseThrow &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        .orElseThrow(</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_146'/>
+146
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_146'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>            () -&#62; {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_147'/>
+147
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_147'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>              log.warn(&#34;Rejected product creation: {} not found with ID: {}&#34;, referenceName, id);</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_148'/>
+148
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_148'>2</a>
+<span>
+1. lambda$resolveOrNotFound$0 : removed call to com/example/demo/application/exceptions/NotFoundException::&#60;init&#62; &rarr; KILLED<br/>
+2. lambda$resolveOrNotFound$0 : replaced return value with null for com/example/demo/application/services/impl/ProductServiceImpl::lambda$resolveOrNotFound$0 &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>              return new NotFoundException(referenceName + &#34; not found with ID: &#34; + id);</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_149'/>
+149
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_149'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>            });</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_150'/>
+150
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_150'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@6a22785c_151'/>
+151
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_151'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_67'>67</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_67'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>none</span></span> Removed assignment to member variable productRepository &rarr; SURVIVED</span>
+<a title="Click to view covering tests" class="view-covered-by-tests" onClick="document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/ProductRepository;Lcom/example/demo/domain/repositories/CollectionRepository;Lcom/example/demo/domain/repositories/CategoryRepository;Lcom/example/demo/domain/repositories/SubcategoryRepository;Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/StrainRepository;Lcom/example/demo/domain/repositories/UnitRepository;)V],-indexes=[9],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]').style.display=(document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/ProductRepository;Lcom/example/demo/domain/repositories/CollectionRepository;Lcom/example/demo/domain/repositories/CategoryRepository;Lcom/example/demo/domain/repositories/SubcategoryRepository;Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/StrainRepository;Lcom/example/demo/domain/repositories/UnitRepository;)V],-indexes=[9],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]').style.display == 'block')?'none':'block';">Covering tests</a>
+<div class="covered-tests" id="MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/ProductRepository;Lcom/example/demo/domain/repositories/CollectionRepository;Lcom/example/demo/domain/repositories/CategoryRepository;Lcom/example/demo/domain/repositories/SubcategoryRepository;Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/StrainRepository;Lcom/example/demo/domain/repositories/UnitRepository;)V],-indexes=[9],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]" style="display:none;">Covered by tests:
+<ul>
+<li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_strainDoesNotExist()]</li> 
+</ul>
+</div></div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_68'>68</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_68'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>none</span></span> Removed assignment to member variable collectionRepository &rarr; SURVIVED</span>
+<a title="Click to view covering tests" class="view-covered-by-tests" onClick="document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/ProductRepository;Lcom/example/demo/domain/repositories/CollectionRepository;Lcom/example/demo/domain/repositories/CategoryRepository;Lcom/example/demo/domain/repositories/SubcategoryRepository;Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/StrainRepository;Lcom/example/demo/domain/repositories/UnitRepository;)V],-indexes=[14],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]').style.display=(document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/ProductRepository;Lcom/example/demo/domain/repositories/CollectionRepository;Lcom/example/demo/domain/repositories/CategoryRepository;Lcom/example/demo/domain/repositories/SubcategoryRepository;Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/StrainRepository;Lcom/example/demo/domain/repositories/UnitRepository;)V],-indexes=[14],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]').style.display == 'block')?'none':'block';">Covering tests</a>
+<div class="covered-tests" id="MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/ProductRepository;Lcom/example/demo/domain/repositories/CollectionRepository;Lcom/example/demo/domain/repositories/CategoryRepository;Lcom/example/demo/domain/repositories/SubcategoryRepository;Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/StrainRepository;Lcom/example/demo/domain/repositories/UnitRepository;)V],-indexes=[14],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]" style="display:none;">Covered by tests:
+<ul>
+<li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_strainDoesNotExist()]</li> 
+</ul>
+</div></div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_69'>69</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_69'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>none</span></span> Removed assignment to member variable categoryRepository &rarr; SURVIVED</span>
+<a title="Click to view covering tests" class="view-covered-by-tests" onClick="document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/ProductRepository;Lcom/example/demo/domain/repositories/CollectionRepository;Lcom/example/demo/domain/repositories/CategoryRepository;Lcom/example/demo/domain/repositories/SubcategoryRepository;Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/StrainRepository;Lcom/example/demo/domain/repositories/UnitRepository;)V],-indexes=[19],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]').style.display=(document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/ProductRepository;Lcom/example/demo/domain/repositories/CollectionRepository;Lcom/example/demo/domain/repositories/CategoryRepository;Lcom/example/demo/domain/repositories/SubcategoryRepository;Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/StrainRepository;Lcom/example/demo/domain/repositories/UnitRepository;)V],-indexes=[19],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]').style.display == 'block')?'none':'block';">Covering tests</a>
+<div class="covered-tests" id="MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/ProductRepository;Lcom/example/demo/domain/repositories/CollectionRepository;Lcom/example/demo/domain/repositories/CategoryRepository;Lcom/example/demo/domain/repositories/SubcategoryRepository;Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/StrainRepository;Lcom/example/demo/domain/repositories/UnitRepository;)V],-indexes=[19],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]" style="display:none;">Covered by tests:
+<ul>
+<li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_strainDoesNotExist()]</li> 
+</ul>
+</div></div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_70'>70</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_70'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>none</span></span> Removed assignment to member variable subcategoryRepository &rarr; SURVIVED</span>
+<a title="Click to view covering tests" class="view-covered-by-tests" onClick="document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/ProductRepository;Lcom/example/demo/domain/repositories/CollectionRepository;Lcom/example/demo/domain/repositories/CategoryRepository;Lcom/example/demo/domain/repositories/SubcategoryRepository;Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/StrainRepository;Lcom/example/demo/domain/repositories/UnitRepository;)V],-indexes=[24],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]').style.display=(document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/ProductRepository;Lcom/example/demo/domain/repositories/CollectionRepository;Lcom/example/demo/domain/repositories/CategoryRepository;Lcom/example/demo/domain/repositories/SubcategoryRepository;Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/StrainRepository;Lcom/example/demo/domain/repositories/UnitRepository;)V],-indexes=[24],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]').style.display == 'block')?'none':'block';">Covering tests</a>
+<div class="covered-tests" id="MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/ProductRepository;Lcom/example/demo/domain/repositories/CollectionRepository;Lcom/example/demo/domain/repositories/CategoryRepository;Lcom/example/demo/domain/repositories/SubcategoryRepository;Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/StrainRepository;Lcom/example/demo/domain/repositories/UnitRepository;)V],-indexes=[24],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]" style="display:none;">Covered by tests:
+<ul>
+<li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_strainDoesNotExist()]</li> 
+</ul>
+</div></div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_71'>71</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_71'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>none</span></span> Removed assignment to member variable brandRepository &rarr; SURVIVED</span>
+<a title="Click to view covering tests" class="view-covered-by-tests" onClick="document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/ProductRepository;Lcom/example/demo/domain/repositories/CollectionRepository;Lcom/example/demo/domain/repositories/CategoryRepository;Lcom/example/demo/domain/repositories/SubcategoryRepository;Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/StrainRepository;Lcom/example/demo/domain/repositories/UnitRepository;)V],-indexes=[29],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]').style.display=(document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/ProductRepository;Lcom/example/demo/domain/repositories/CollectionRepository;Lcom/example/demo/domain/repositories/CategoryRepository;Lcom/example/demo/domain/repositories/SubcategoryRepository;Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/StrainRepository;Lcom/example/demo/domain/repositories/UnitRepository;)V],-indexes=[29],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]').style.display == 'block')?'none':'block';">Covering tests</a>
+<div class="covered-tests" id="MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/ProductRepository;Lcom/example/demo/domain/repositories/CollectionRepository;Lcom/example/demo/domain/repositories/CategoryRepository;Lcom/example/demo/domain/repositories/SubcategoryRepository;Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/StrainRepository;Lcom/example/demo/domain/repositories/UnitRepository;)V],-indexes=[29],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]" style="display:none;">Covered by tests:
+<ul>
+<li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_strainDoesNotExist()]</li> 
+</ul>
+</div></div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_72'>72</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_72'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>none</span></span> Removed assignment to member variable strainRepository &rarr; SURVIVED</span>
+<a title="Click to view covering tests" class="view-covered-by-tests" onClick="document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/ProductRepository;Lcom/example/demo/domain/repositories/CollectionRepository;Lcom/example/demo/domain/repositories/CategoryRepository;Lcom/example/demo/domain/repositories/SubcategoryRepository;Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/StrainRepository;Lcom/example/demo/domain/repositories/UnitRepository;)V],-indexes=[34],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]').style.display=(document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/ProductRepository;Lcom/example/demo/domain/repositories/CollectionRepository;Lcom/example/demo/domain/repositories/CategoryRepository;Lcom/example/demo/domain/repositories/SubcategoryRepository;Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/StrainRepository;Lcom/example/demo/domain/repositories/UnitRepository;)V],-indexes=[34],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]').style.display == 'block')?'none':'block';">Covering tests</a>
+<div class="covered-tests" id="MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/ProductRepository;Lcom/example/demo/domain/repositories/CollectionRepository;Lcom/example/demo/domain/repositories/CategoryRepository;Lcom/example/demo/domain/repositories/SubcategoryRepository;Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/StrainRepository;Lcom/example/demo/domain/repositories/UnitRepository;)V],-indexes=[34],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]" style="display:none;">Covered by tests:
+<ul>
+<li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_strainDoesNotExist()]</li> 
+</ul>
+</div></div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_73'>73</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_73'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>none</span></span> Removed assignment to member variable unitRepository &rarr; SURVIVED</span>
+<a title="Click to view covering tests" class="view-covered-by-tests" onClick="document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/ProductRepository;Lcom/example/demo/domain/repositories/CollectionRepository;Lcom/example/demo/domain/repositories/CategoryRepository;Lcom/example/demo/domain/repositories/SubcategoryRepository;Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/StrainRepository;Lcom/example/demo/domain/repositories/UnitRepository;)V],-indexes=[39],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]').style.display=(document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/ProductRepository;Lcom/example/demo/domain/repositories/CollectionRepository;Lcom/example/demo/domain/repositories/CategoryRepository;Lcom/example/demo/domain/repositories/SubcategoryRepository;Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/StrainRepository;Lcom/example/demo/domain/repositories/UnitRepository;)V],-indexes=[39],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]').style.display == 'block')?'none':'block';">Covering tests</a>
+<div class="covered-tests" id="MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/ProductRepository;Lcom/example/demo/domain/repositories/CollectionRepository;Lcom/example/demo/domain/repositories/CategoryRepository;Lcom/example/demo/domain/repositories/SubcategoryRepository;Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/StrainRepository;Lcom/example/demo/domain/repositories/UnitRepository;)V],-indexes=[39],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]" style="display:none;">Covered by tests:
+<ul>
+<li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_strainDoesNotExist()]</li> 
+</ul>
+</div></div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_80'>80</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_80'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwConflict_when_ocpcDuplicatedAndBrandUnknown()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwConflict_when_ocpcDuplicatedAndBrandUnknown()]</span></span> removed call to com/example/demo/application/services/model/CreateProductCommand::ocpc &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwConflict_when_ocpcDuplicatedAndBrandUnknown()]</span></span> removed call to com/example/demo/domain/repositories/ProductRepository::existsByOcpc &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwConflict_when_ocpcDuplicatedAndBrandUnknown()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_collectionDoesNotExist()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_82'>82</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_82'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwConflict_when_ocpcDuplicatedAndBrandUnknown()]</span></span> removed call to com/example/demo/application/exceptions/ConflictException::&#60;init&#62; &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwConflict_when_ocpcAlreadyUsedByLiveProduct()]</span></span> removed call to com/example/demo/application/services/model/CreateProductCommand::ocpc &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_86'>86</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_86'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_collectionDoesNotExist()]</span></span> removed call to com/example/demo/application/services/model/CreateProductCommand::collectionId &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_collectionDoesNotExist()]</span></span> removed call to com/example/demo/application/services/impl/ProductServiceImpl::resolveOrNotFound &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_88'>88</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_88'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_categoryDoesNotExist()]</span></span> removed call to com/example/demo/application/services/model/CreateProductCommand::categoryId &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_categoryDoesNotExist()]</span></span> removed call to com/example/demo/application/services/impl/ProductServiceImpl::resolveOrNotFound &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_90'>90</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_90'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_subcategoryDoesNotExist()]</span></span> removed call to com/example/demo/application/services/model/CreateProductCommand::subcategoryId &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_subcategoryDoesNotExist()]</span></span> removed call to com/example/demo/application/services/impl/ProductServiceImpl::resolveOrNotFound &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_91'>91</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_91'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_contentUnitDoesNotExist()]</span></span> removed call to com/example/demo/application/services/model/CreateProductCommand::brandId &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_brandDoesNotExist()]</span></span> removed call to com/example/demo/application/services/impl/ProductServiceImpl::resolveOrNotFound &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_92'>92</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_92'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_strainDoesNotExist()]</span></span> removed call to com/example/demo/application/services/impl/ProductServiceImpl::resolveOrNotFound &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_contentUnitDoesNotExist()]</span></span> removed call to com/example/demo/application/services/model/CreateProductCommand::strainId &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_93'>93</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_93'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_contentUnitDoesNotExist()]</span></span> removed call to com/example/demo/application/services/model/CreateProductCommand::formatUnitId &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_formatUnitDoesNotExist()]</span></span> removed call to com/example/demo/application/services/impl/ProductServiceImpl::resolveOrNotFound &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_95'>95</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_95'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_contentUnitDoesNotExist()]</span></span> removed call to com/example/demo/application/services/impl/ProductServiceImpl::resolveOrNotFound &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_contentUnitDoesNotExist()]</span></span> removed call to com/example/demo/application/services/model/CreateProductCommand::contentUnitId &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_99'>99</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_99'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed conditional - replaced equality check with true &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/models/product/Category::getId &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to java/util/Objects::equals &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwConflict_when_subcategoryBelongsToAnotherCategory()]</span></span> removed call to com/example/demo/domain/models/product/Subcategory::getCategory &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>5.<span><b>5</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwConflict_when_subcategoryBelongsToAnotherCategory()]</span></span> removed conditional - replaced equality check with false &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>6.<span><b>6</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwConflict_when_subcategoryBelongsToAnotherCategory()]</span></span> negated conditional &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>7.<span><b>7</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/models/product/Category::getId &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_102'>102</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_102'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>none</span></span> removed call to com/example/demo/domain/models/product/Subcategory::getId &rarr; SURVIVED</span>
+<a title="Click to view covering tests" class="view-covered-by-tests" onClick="document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=create,-methodDesc=(Lcom/example/demo/application/services/model/CreateProductCommand;)Lcom/example/demo/domain/models/product/Product;],-indexes=[127],-mutator=org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator]').style.display=(document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=create,-methodDesc=(Lcom/example/demo/application/services/model/CreateProductCommand;)Lcom/example/demo/domain/models/product/Product;],-indexes=[127],-mutator=org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator]').style.display == 'block')?'none':'block';">Covering tests</a>
+<div class="covered-tests" id="MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=create,-methodDesc=(Lcom/example/demo/application/services/model/CreateProductCommand;)Lcom/example/demo/domain/models/product/Product;],-indexes=[127],-mutator=org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator]" style="display:none;">Covered by tests:
+<ul>
+<li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwConflict_when_subcategoryBelongsToAnotherCategory()]</li> 
+</ul>
+</div></div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_103'>103</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_103'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>none</span></span> removed call to com/example/demo/domain/models/product/Category::getId &rarr; SURVIVED</span>
+<a title="Click to view covering tests" class="view-covered-by-tests" onClick="document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=create,-methodDesc=(Lcom/example/demo/application/services/model/CreateProductCommand;)Lcom/example/demo/domain/models/product/Product;],-indexes=[131],-mutator=org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator]').style.display=(document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=create,-methodDesc=(Lcom/example/demo/application/services/model/CreateProductCommand;)Lcom/example/demo/domain/models/product/Product;],-indexes=[131],-mutator=org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator]').style.display == 'block')?'none':'block';">Covering tests</a>
+<div class="covered-tests" id="MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.ProductServiceImpl,-method=create,-methodDesc=(Lcom/example/demo/application/services/model/CreateProductCommand;)Lcom/example/demo/domain/models/product/Product;],-indexes=[131],-mutator=org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator]" style="display:none;">Covered by tests:
+<ul>
+<li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwConflict_when_subcategoryBelongsToAnotherCategory()]</li> 
+</ul>
+</div></div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_106'>106</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_106'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwConflict_when_subcategoryBelongsToAnotherCategory()]</span></span> removed call to com/example/demo/domain/models/product/Subcategory::getId &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_108'>108</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_108'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwConflict_when_subcategoryBelongsToAnotherCategory()]</span></span> removed call to com/example/demo/domain/models/product/Category::getId &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwConflict_when_subcategoryBelongsToAnotherCategory()]</span></span> removed call to com/example/demo/application/exceptions/ConflictException::&#60;init&#62; &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_112'>112</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_112'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/models/product/Product::builder &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_113'>113</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_113'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/models/product/Product$ProductBuilder::ocpc &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()]</span></span> replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::ocpc with receiver &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()]</span></span> removed call to com/example/demo/application/services/model/CreateProductCommand::ocpc &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_114'>114</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_114'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()]</span></span> removed call to com/example/demo/application/services/model/CreateProductCommand::title &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/models/product/Product$ProductBuilder::title &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()]</span></span> replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::title with receiver &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_115'>115</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_115'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()]</span></span> removed call to com/example/demo/application/services/model/CreateProductCommand::description &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/models/product/Product$ProductBuilder::description &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()]</span></span> replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::description with receiver &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_116'>116</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_116'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/models/product/Product$ProductBuilder::collection &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()]</span></span> replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::collection with receiver &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_117'>117</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_117'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()]</span></span> replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::category with receiver &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/models/product/Product$ProductBuilder::category &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_118'>118</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_118'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()]</span></span> replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::subcategory with receiver &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/models/product/Product$ProductBuilder::subcategory &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_119'>119</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_119'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()]</span></span> replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::brand with receiver &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/models/product/Product$ProductBuilder::brand &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_120'>120</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_120'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()]</span></span> replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::strain with receiver &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/models/product/Product$ProductBuilder::strain &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_121'>121</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_121'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()]</span></span> removed call to com/example/demo/application/services/model/CreateProductCommand::formatValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/models/product/Product$ProductBuilder::formatValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()]</span></span> replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::formatValue with receiver &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_122'>122</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_122'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/models/product/Product$ProductBuilder::formatUnit &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()]</span></span> replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::formatUnit with receiver &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_123'>123</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_123'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()]</span></span> removed call to com/example/demo/application/services/model/CreateProductCommand::contentValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/models/product/Product$ProductBuilder::contentValue &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()]</span></span> replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::contentValue with receiver &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_124'>124</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_124'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()]</span></span> replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::contentUnit with receiver &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/models/product/Product$ProductBuilder::contentUnit &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_125'>125</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_125'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_notTransposeIsCoreProductAndEnabled_when_theirValuesDiffer()]</span></span> removed call to com/example/demo/application/services/model/CreateProductCommand::isCoreProduct &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_notTransposeIsCoreProductAndEnabled_when_theirValuesDiffer()]</span></span> replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::isCoreProduct with receiver &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/models/product/Product$ProductBuilder::isCoreProduct &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_126'>126</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_126'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_notTransposeIsCoreProductAndEnabled_when_theirValuesDiffer()]</span></span> replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::approved with receiver &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/models/product/Product$ProductBuilder::approved &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_notTransposeIsCoreProductAndEnabled_when_theirValuesDiffer()]</span></span> removed call to com/example/demo/application/services/model/CreateProductCommand::approved &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_127'>127</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_127'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()]</span></span> removed call to com/example/demo/application/services/model/CreateProductCommand::thc &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/models/product/Product$ProductBuilder::thc &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()]</span></span> replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::thc with receiver &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_128'>128</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_128'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()]</span></span> removed call to com/example/demo/application/services/model/CreateProductCommand::cbd &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/models/product/Product$ProductBuilder::cbd &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()]</span></span> replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::cbd with receiver &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_129'>129</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_129'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_notTransposeIsCoreProductAndEnabled_when_theirValuesDiffer()]</span></span> removed call to com/example/demo/application/services/model/CreateProductCommand::enabled &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/models/product/Product$ProductBuilder::enabled &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_notTransposeIsCoreProductAndEnabled_when_theirValuesDiffer()]</span></span> replaced call to com/example/demo/domain/models/product/Product$ProductBuilder::enabled with receiver &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_130'>130</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_130'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/models/product/Product$ProductBuilder::build &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_132'>132</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_132'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> removed call to com/example/demo/domain/repositories/ProductRepository::save &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()]</span></span> replaced call to com/example/demo/domain/repositories/ProductRepository::save with argument &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_134'>134</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_134'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>create<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_notTransposeIsCoreProductAndEnabled_when_theirValuesDiffer()]</span></span> replaced return value with null for com/example/demo/application/services/impl/ProductServiceImpl::create &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_143'>143</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_143'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resolveOrNotFound<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwConflict_when_subcategoryBelongsToAnotherCategory()]</span></span> replaced return value with null for com/example/demo/application/services/impl/ProductServiceImpl::resolveOrNotFound &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_144'>144</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_144'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resolveOrNotFound<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_collectionDoesNotExist()]</span></span> removed call to org/springframework/data/jpa/repository/JpaRepository::findById &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_145'>145</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_145'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>resolveOrNotFound<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_collectionDoesNotExist()]</span></span> removed call to java/util/Optional::orElseThrow &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@6a22785c_148'>148</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@6a22785c_148'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>lambda$resolveOrNotFound$0<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_collectionDoesNotExist()]</span></span> removed call to com/example/demo/application/exceptions/NotFoundException::&#60;init&#62; &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>lambda$resolveOrNotFound$0<br/><b>Killed by : </b>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_collectionDoesNotExist()]</span></span> replaced return value with null for com/example/demo/application/services/impl/ProductServiceImpl::lambda$resolveOrNotFound$0 &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>CONSTRUCTOR_CALLS</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>EXPERIMENTAL_ARGUMENT_PROPAGATION</li>
+<li class='mutator'>EXPERIMENTAL_BIG_DECIMAL</li>
+<li class='mutator'>EXPERIMENTAL_BIG_INTEGER</li>
+<li class='mutator'>EXPERIMENTAL_MEMBER_VARIABLE</li>
+<li class='mutator'>EXPERIMENTAL_NAKED_RECEIVER</li>
+<li class='mutator'>EXPERIMENTAL_SWITCH</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INLINE_CONSTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>NULL_RETURNS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+<li class='mutator'>VOID_METHOD_CALLS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_contentUnitDoesNotExist()] (2 ms)</li><li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_taxonomyIncoherentAndContentUnitUnknown()] (5 ms)</li><li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwConflict_when_subcategoryBelongsToAnotherCategory()] (5 ms)</li><li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_continueCreation_when_subcategoryBelongsToSuppliedCategory()] (2 ms)</li><li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_notTransposeIsCoreProductAndEnabled_when_theirValuesDiffer()] (2 ms)</li><li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistFalse_when_flagsAreExplicitlyFalse()] (2 ms)</li><li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_propagateException_when_saveFails()] (6 ms)</li><li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistNulls_when_optionalAttributesAreOmitted()] (3 ms)</li><li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_persistProductOnce_when_commandIsValid()] (2 ms)</li><li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_strainDoesNotExist()] (4 ms)</li><li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_brandDoesNotExist()] (3 ms)</li><li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_formatUnitDoesNotExist()] (5 ms)</li><li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwConflict_when_ocpcDuplicatedAndBrandUnknown()] (2 ms)</li><li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_collectionDoesNotExist()] (1 ms)</li><li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwConflict_when_ocpcAlreadyUsedByLiveProduct()] (2 ms)</li><li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_categoryDoesNotExist()] (2 ms)</li><li>com.example.demo.application.services.ProductServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.ProductServiceTests]/[method:should_throwNotFound_when_subcategoryDoesNotExist()] (2 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.16.2
+
+</body>
+</html>

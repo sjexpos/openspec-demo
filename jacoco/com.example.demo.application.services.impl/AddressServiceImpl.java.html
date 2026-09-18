@@ -27,9 +27,9 @@ public class AddressServiceImpl implements AddressService {
 
   private AddressRepository repository;
 
-<span class="fc" id="L30">  public AddressServiceImpl(AddressRepository repository) {</span>
-<span class="fc" id="L31">    this.repository = repository;</span>
-<span class="fc" id="L32">  }</span>
+<span class="nc" id="L30">  public AddressServiceImpl(AddressRepository repository) {</span>
+<span class="nc" id="L31">    this.repository = repository;</span>
+<span class="nc" id="L32">  }</span>
 
   public Iterable&lt;Address&gt; findAll() {
 <span class="nc" id="L35">    return this.repository.findAll();</span>

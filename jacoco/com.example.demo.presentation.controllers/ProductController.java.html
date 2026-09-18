@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProductController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo</a> &gt; <a href="index.source.html" class="el_package">com.example.demo.presentation.controllers</a> &gt; <span class="el_source">ProductController.java</span></div><h1>ProductController.java</h1><pre class="source lang-java linenums">/**********
+ This project is free software; you can redistribute it and/or modify it under
+ the terms of the GNU General Public License as published by the
+ Free Software Foundation; either version 3.0 of the License, or (at your
+ option) any later version. (See &lt;https://www.gnu.org/licenses/gpl-3.0.html&gt;.)
+
+ This project is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this project; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+ **********/
+// Copyright (c) 2026-2027 Sergio Exposito.  All rights reserved.              
+
+package com.example.demo.presentation.controllers;
+
+import com.example.demo.application.services.ProductService;
+import com.example.demo.application.services.model.CreateProductCommand;
+import com.example.demo.domain.models.product.Product;
+import com.example.demo.presentation.api.DataResponse;
+import com.example.demo.presentation.api.ProductApi;
+import com.example.demo.presentation.api.model.CreateProductRequest;
+import com.example.demo.presentation.api.model.CreateProductResponse;
+import org.springframework.web.bind.annotation.RestController;
+
+// Mapping-only controller (SRP): builds the command from the request, delegates every invariant
+// and reference resolution to ProductService, and maps the persisted entity to the response DTO.
+// No business logic lives here.
+@RestController
+public class ProductController implements ProductApi {
+
+  private final ProductService productService;
+
+  // Constructor injection against the ProductService interface (DIP): this controller never
+  // depends on ProductServiceImpl or on any repository.
+<span class="fc" id="L39">  public ProductController(ProductService productService) {</span>
+<span class="fc" id="L40">    this.productService = productService;</span>
+<span class="fc" id="L41">  }</span>
+
+  @Override
+  public DataResponse&lt;CreateProductResponse&gt; create(CreateProductRequest request) {
+    CreateProductCommand command =
+<span class="fc" id="L46">        CreateProductCommand.builder()</span>
+<span class="fc" id="L47">            .ocpc(request.getOcpc())</span>
+<span class="fc" id="L48">            .title(request.getTitle())</span>
+<span class="fc" id="L49">            .description(request.getDescription())</span>
+<span class="fc" id="L50">            .collectionId(request.getCollectionId())</span>
+<span class="fc" id="L51">            .categoryId(request.getCategoryId())</span>
+<span class="fc" id="L52">            .subcategoryId(request.getSubcategoryId())</span>
+<span class="fc" id="L53">            .brandId(request.getBrandId())</span>
+<span class="fc" id="L54">            .strainId(request.getStrainId())</span>
+<span class="fc" id="L55">            .formatValue(request.getFormatValue())</span>
+<span class="fc" id="L56">            .formatUnitId(request.getFormatUnitId())</span>
+<span class="fc" id="L57">            .contentValue(request.getContentValue())</span>
+<span class="fc" id="L58">            .contentUnitId(request.getContentUnitId())</span>
+<span class="fc" id="L59">            .isCoreProduct(request.getIsCoreProduct())</span>
+<span class="fc" id="L60">            .approved(request.getApproved())</span>
+<span class="fc" id="L61">            .thc(request.getThc())</span>
+<span class="fc" id="L62">            .cbd(request.getCbd())</span>
+<span class="fc" id="L63">            .enabled(request.getEnabled())</span>
+<span class="fc" id="L64">            .build();</span>
+
+<span class="fc" id="L66">    Product product = this.productService.create(command);</span>
+<span class="fc" id="L67">    return new DataResponse&lt;&gt;(toCreateProductResponse(product));</span>
+  }
+
+  private CreateProductResponse toCreateProductResponse(Product product) {
+<span class="fc" id="L71">    return new CreateProductResponse(</span>
+<span class="fc" id="L72">        product.getId(),</span>
+<span class="fc" id="L73">        product.getOcpc(),</span>
+<span class="fc" id="L74">        product.getTitle(),</span>
+<span class="fc" id="L75">        product.getDescription(),</span>
+<span class="fc" id="L76">        product.getCollection().getId(),</span>
+<span class="fc" id="L77">        product.getCategory().getId(),</span>
+<span class="fc" id="L78">        product.getSubcategory().getId(),</span>
+<span class="fc" id="L79">        product.getBrand().getId(),</span>
+<span class="fc" id="L80">        product.getStrain().getId(),</span>
+<span class="fc" id="L81">        product.getFormatValue(),</span>
+<span class="fc" id="L82">        product.getFormatUnit().getId(),</span>
+<span class="fc" id="L83">        product.getContentValue(),</span>
+<span class="fc" id="L84">        product.getContentUnit().getId(),</span>
+<span class="fc" id="L85">        product.getIsCoreProduct(),</span>
+<span class="fc" id="L86">        product.getApproved(),</span>
+<span class="fc" id="L87">        product.getThc(),</span>
+<span class="fc" id="L88">        product.getCbd(),</span>
+<span class="fc" id="L89">        product.getEnabled());</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
