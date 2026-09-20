@@ -51,7 +51,7 @@ services:
     depends_on:
       - localstack
     working_dir: /mnt
-    entrypoint: ["/mnt/wait-for-it.sh", "localstack:5432", "-t", "10", "--", "/mnt/docker-compose-localstack-init.sh" ] 
+    entrypoint: ["/mnt/wait-for-it.sh", "localstack:4566", "-t", "10", "--", "/mnt/docker-compose-localstack-init.sh" ] 
 
   sonarqube:
     image: 'sonarqube:26.7.0.124771-community'
