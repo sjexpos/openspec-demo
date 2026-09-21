@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>S3Config.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo</a> &gt; <a href="index.source.html" class="el_package">com.example.demo.infrastructure.config</a> &gt; <span class="el_source">S3Config.java</span></div><h1>S3Config.java</h1><pre class="source lang-java linenums">/**********
+ This project is free software; you can redistribute it and/or modify it under
+ the terms of the GNU General Public License as published by the
+ Free Software Foundation; either version 3.0 of the License, or (at your
+ option) any later version. (See &lt;https://www.gnu.org/licenses/gpl-3.0.html&gt;.)
+
+ This project is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this project; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+ **********/
+// Copyright (c) 2026-2027 Sergio Exposito.  All rights reserved.              
+
+package com.example.demo.infrastructure.config;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.S3ClientBuilder;
+import software.amazon.awssdk.services.s3.S3Configuration;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
+
+<span class="fc" id="L32">@Slf4j</span>
+@Configuration
+@EnableConfigurationProperties(AwsS3Properties.class)
+@RequiredArgsConstructor
+public class S3Config {
+
+  private final AwsS3Properties properties;
+
+  @Bean
+  public S3Client s3Client() {
+    S3ClientBuilder builder =
+<span class="fc" id="L43">        S3Client.builder()</span>
+<span class="fc" id="L44">            .region(Region.of(this.properties.region()))</span>
+<span class="fc" id="L45">            .credentialsProvider(DefaultCredentialsProvider.create());</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">    if (this.properties.hasEndpointOverride()) {</span>
+<span class="fc" id="L47">      log.info(&quot;Overriding S3 endpoint with {}&quot;, this.properties.s3().endpoint());</span>
+<span class="fc" id="L48">      builder</span>
+<span class="fc" id="L49">          .endpointOverride(this.properties.s3().endpoint())</span>
+<span class="fc" id="L50">          .forcePathStyle(this.properties.s3().pathStyleAccess());</span>
+    }
+<span class="fc" id="L52">    return builder.build();</span>
+  }
+
+  @Bean
+  public S3Presigner s3Presigner() {
+    S3Presigner.Builder builder =
+<span class="fc" id="L58">        S3Presigner.builder()</span>
+<span class="fc" id="L59">            .region(Region.of(this.properties.region()))</span>
+<span class="fc" id="L60">            .credentialsProvider(DefaultCredentialsProvider.create());</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">    if (this.properties.hasEndpointOverride()) {</span>
+<span class="fc" id="L62">      builder</span>
+<span class="fc" id="L63">          .endpointOverride(this.properties.s3().endpoint())</span>
+<span class="fc" id="L64">          .serviceConfiguration(</span>
+<span class="fc" id="L65">              S3Configuration.builder()</span>
+<span class="fc" id="L66">                  .pathStyleAccessEnabled(this.properties.s3().pathStyleAccess())</span>
+<span class="fc" id="L67">                  .build());</span>
+    }
+<span class="fc" id="L69">    return builder.build();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
