@@ -140,6 +140,20 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+      localstack:
+        image: localstack/localstack:4.3.0
+        ports:
+          - 4566:4566
+        credentials:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        env:
+          DEBUG: 0
+        options: >-
+          --health-cmd "curl -f http://localhost:4566/_localstack/health"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - run: echo "SUFFIX=$(echo "${{ env.BRANCH_NAME }}" | tr '/' '-' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
       - name: Download unit tested sources
@@ -153,7 +167,36 @@ jobs:
           distribution: 'temurin'
           cache: maven
           cache-dependency-path: pom.xml
+      - name: Provision LocalStack resources
+        env:
+          AWS_ACCESS_KEY_ID: test
+          AWS_SECRET_ACCESS_KEY: test
+          AWS_REGION: us-east-1
+        run: |
+          echo "Waiting for LocalStack to be ready"
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:4566/_localstack/health > /dev/null; then
+              echo "LocalStack is ready."
+              break
+            fi
+            echo "Waiting..."
+            sleep 2
+          done
+          aws cloudformation deploy \
+            --template-file ./localstack-resources.yml \
+            --stack-name develop-stack \
+            --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM \
+            --parameter-overrides Environment=develop \
+            --endpoint-url http://localhost:4566 \
+            --region us-east-1
       - name: Testing code
+        env:
+          AWS_REGION: us-east-1
+          AWS_ENDPOINT_URL_S3: http://localhost:4566
+          AWS_S3_PATH_STYLE_ACCESS: true
+          AWS_S3_BUCKET: develop-assets
+          AWS_ACCESS_KEY_ID: test
+          AWS_SECRET_ACCESS_KEY: test
         run: mvn -Dsurefire.skip=true -Dfailsafe.skip=false -Dpitest.skip=true --batch-mode verify
       - name: Upload integration tested sources
         id: upload-int-tested-sources
