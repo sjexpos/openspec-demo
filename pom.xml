@@ -43,6 +43,7 @@
         <flyway-maven-plugin.version>10.9.1</flyway-maven-plugin.version>
         <postgresql-connector.version>42.7.3</postgresql-connector.version>
         <junit-pioneer.version>2.2.0</junit-pioneer.version>
+        <aws-sdk.version>2.55.1</aws-sdk.version>
 
         <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
         <spotless-maven-plugin.version>2.43.0</spotless-maven-plugin.version>
@@ -68,6 +69,18 @@
         <failsafe.skip>false</failsafe.skip>
         <pitest.skip>false</pitest.skip>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>bom</artifactId>
+                <version>${aws-sdk.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <!-- Spring Boot Web -->
@@ -136,6 +149,12 @@
             <artifactId>junit-pioneer</artifactId>
             <version>${junit-pioneer.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- AWS S3 (SDK v2) -->
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
         </dependency>
 
         <!-- Flyway Migration -->

@@ -47,3 +47,11 @@ management:
 #  level:
 #    org.hibernate.orm.jdbc.bind: trace
 #    org.hibernate.SQL: debug
+
+aws:
+  region: us-east-1
+  s3:
+    endpoint: http://localhost:4566
+    path-style-access: true
+    bucket: develop-assets
+    presign-ttl: PT15M

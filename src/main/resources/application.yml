@@ -68,3 +68,11 @@ management:
 logging:
   level:
     org.springframework.r2dbc: INFO
+
+aws:
+  region: ${AWS_REGION:us-east-1}
+  s3:
+    endpoint: ${AWS_ENDPOINT_URL_S3:} # empty => real AWS
+    path-style-access: ${AWS_S3_PATH_STYLE_ACCESS:false}
+    bucket: ${AWS_S3_BUCKET:develop-assets}
+    presign-ttl: ${AWS_S3_PRESIGN_TTL:PT15M}

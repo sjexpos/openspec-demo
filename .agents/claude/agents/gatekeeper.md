@@ -1,1 +1,0 @@
-../../prompts/gatekeeper.md

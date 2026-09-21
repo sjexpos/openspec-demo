@@ -74,6 +74,10 @@ This document outlines the best practices, conventions, and standards used in th
 - **Java**: Runtime environment
 - **SpringBoot**: Web application framework
 - **JPA(Hibernate)**: Modern ORM for database access
+- **AWS SDK v2 (S3)**: Object storage via singleton `S3Client` and `S3Presigner` beans
+  (`infrastructure/config/S3Config`, typed `aws.region` / `aws.s3.*` properties in
+  `AwsS3Properties`); credentials exclusively via the default provider chain, endpoint
+  overridable for LocalStack
 
 ### Database & ORM
 - **PostgreSQL**: Relational database (Docker container)

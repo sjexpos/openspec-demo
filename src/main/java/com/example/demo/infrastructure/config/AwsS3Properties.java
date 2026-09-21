@@ -15,20 +15,23 @@
  **********/
 // Copyright (c) 2026-2027 Sergio Exposito.  All rights reserved.              
 
-package com.example.demo.integration.endpoints;
+package com.example.demo.infrastructure.config;
 
-import org.junitpioneer.jupiter.SetEnvironmentVariable;
-import org.springframework.boot.flyway.autoconfigure.FlywayAutoConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.context.annotation.Import;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import java.net.URI;
+import java.time.Duration;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@AutoConfigureMockMvc
-@Import(FlywayAutoConfiguration.class)
-@SetEnvironmentVariable(key = "AWS_ACCESS_KEY_ID", value = "test")
-@SetEnvironmentVariable(key = "AWS_SECRET_ACCESS_KEY", value = "test")
-class EndpointIntegrationTest {
-  // This class is used to load the Spring Boot application context for integration tests.
+@ConfigurationProperties(prefix = "aws")
+@Validated
+public record AwsS3Properties(@NotBlank String region, S3 s3) {
 
+  public record S3(
+      URI endpoint, boolean pathStyleAccess, String bucket, @NotNull Duration presignTtl) {}
+
+  public boolean hasEndpointOverride() {
+    return this.s3 != null && this.s3.endpoint() != null;
+  }
 }

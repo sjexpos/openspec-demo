@@ -59,6 +59,27 @@ The system follows **Domain-Driven Design (DDD)** principles with a clean, layer
 - **Flyway** - database script migrations
 - **PostgreSQL** - Primary database for data persistence
 - **JUnit** - Unit and integration testing framework
+- **AWS SDK v2 (S3)** - Object storage via injectable `S3Client` and `S3Presigner` beans
+
+#### AWS S3 configuration (`aws.*` properties)
+
+The `S3Client` and `S3Presigner` beans are built from the `aws.region` / `aws.s3.*`
+properties (`src/main/resources/application.yml`, all env-driven):
+
+| Property | Env var | Default | Purpose |
+|----------|---------|---------|---------|
+| `aws.region` | `AWS_REGION` | `us-east-1` | Region for both clients |
+| `aws.s3.endpoint` | `AWS_ENDPOINT_URL_S3` | *(empty = real AWS)* | Endpoint override for LocalStack |
+| `aws.s3.path-style-access` | `AWS_S3_PATH_STYLE_ACCESS` | `false` | Path-style addressing (LocalStack needs `true`) |
+| `aws.s3.bucket` | `AWS_S3_BUCKET` | `develop-assets` | Default assets bucket |
+| `aws.s3.presign-ttl` | `AWS_S3_PRESIGN_TTL` | `PT15M` | Default presigned-URL lifetime |
+
+LocalStack workflow (no code changes to switch LocalStack ↔ AWS):
+
+```bash
+docker compose up            # starts PostgreSQL + LocalStack (bucket bootstrap included)
+AWS_ENDPOINT_URL_S3=http://localhost:4566 mvn spring-boot:run   # run against LocalStack
+```
 
 ### 📁 Folder Structure
 
