@@ -90,16 +90,7 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 | Update agentic symbolic links | `sync-agent-symlinks` |
 | Create/Update technical documentation | `update-docs` |
 
-## 5. Planning Model Requirement
-
-Planning workflows must run with Opus high reasoning.
-
-This requirement applies to:
-- `enrich-us`
-- `openspec-ff-change`
-- `openspec-continue-change`
-
-## 6. Symlink Integrity and Multi-Agent Portability
+## 5. Symlink Integrity and Multi-Agent Portability
 
 - **Canonical Source**: Keep reusable artifacts in `.agents` as the canonical source. Agent-specific paths (such as `.claude`, `.opencode` and `.cursor`) should reference them through symlinks when possible.
 - **Update Safety**: Whenever a file is renamed, moved, or its suffix changes, verify and update all symlinks that target it before considering the change complete.
@@ -107,7 +98,7 @@ This requirement applies to:
 - **External Customization Review**: Whenever customization is introduced outside `.agents`, evaluate whether it should be moved into `.agents` and replaced with symlinks from the original locations.
 - **Completion Gate**: A change is incomplete if it leaves broken symlinks, stale targets, or duplicated canonical artifacts across agent-specific folders.
 
-## 7. Mandatory OpenSpec Artifact Updates for Post-Apply Changes
+## 6. Mandatory OpenSpec Artifact Updates for Post-Apply Changes
 
 When a new fix/change request appears after `opsx-apply` (or `/apply`) and before `opsx-archive` (or `/archive`), agents must treat it as a spec update first, not as an informal "fix this quickly". It's the core principle of openspec, documentation is the source of truth.
 
