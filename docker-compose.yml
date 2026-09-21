@@ -29,6 +29,7 @@ services:
       # LocalStack configuration: https://docs.localstack.cloud/references/configuration/
       - DEBUG=${DEBUG:-0}
       - IMAGE_NAME=localstack/localstack:4.3.0
+      - S3_SKIP_SIGNATURE_VALIDATION=0
     healthcheck:
       test: >-
         curl -sf localhost:4566/_localstack/init/ready | grep -q '"completed": true,'

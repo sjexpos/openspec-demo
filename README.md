@@ -102,6 +102,7 @@ openspec-demo/
 │   |   |       │   └── 📁 repositories/  # Repository interfaces
 │   |   |       ├── 📁 infrastructure/    # Infrastructure layer
 │   |   |       │   ├── 📁 adapters/      # third-party access implementations, and repositories implementation
+|   |   |       |   ├── 📁 storage/          # storage adapters (e.g. `S3BlobStorageAdapter` implements the `BlobStorage` port)
 │   |   |       │   └── 📁 config/        # SpringBoot setup
 │   |   |       └── DemoApplication       # Application entry point
 |   |   └── 📁 resources/ 

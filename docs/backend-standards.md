@@ -139,6 +139,7 @@ src/
 |   |       │   └── repositories/         # Repository interfaces
 |   |       ├── infrastructure/
 |   |       |   ├── adapters/             # third-party access implementations, and repositories implementation
+|   |       |   |   └── storage/          # storage adapters (e.g. `S3BlobStorageAdapter` implements the `BlobStorage` port)
 |   |       │   └── config/               # SpringBoot setup
 |   |       ├── presentation/
 |   │       |   ├── api/                  # Controller interfaces
@@ -191,6 +192,23 @@ Repositories provide interfaces for accessing aggregates and entities, encapsula
 - Develop complete repository interfaces for each entity and aggregate, ensuring all database interactions for those entities pass through the repository
 - Implement repository methods that handle collections of entities that can be filtered or modified in bulk
 - Use dependency injection to inject Datasource into repositories when Spring data is not enough.
+
+### Storage Ports (`BlobStorage` Convention)
+
+External object stores are accessed through a storage-agnostic port, not directly:
+
+- The port interface lives in the domain layer (`domain/repositories`, e.g. `BlobStorage` with
+  `createUploadTarget` / `remove`); application services depend only on the port (DIP).
+- Exactly one adapter implements the port per store (`infrastructure/adapters/storage/`, e.g.
+  `S3BlobStorageAdapter`, an Anti-Corruption Layer translating the vendor SDK into ubiquitous
+  language). A second store is a new adapter class — no change above `infrastructure/`.
+- No `software.amazon.awssdk` import is allowed outside `infrastructure/config` and the single
+  storage adapter; no vendor type may appear in any port signature or escaping exception (failures
+  surface as the domain error, e.g. `BlobStorageException` carrying `failedKeys`).
+- Naming/validation single source of truth lives in the domain (e.g. `BlobType` owns key prefixes;
+  the adapter must never hardcode the prefix pattern a second time).
+- Presigned URLs are bearer capabilities: never log them at any level, never place them in
+  exception messages or metric tags.
 
 ### Domain Services
 

@@ -15,27 +15,15 @@
  **********/
 // Copyright (c) 2026-2027 Sergio Exposito.  All rights reserved.              
 
-package com.example.demo.infrastructure.config;
+package com.example.demo.domain.models;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import java.net.URI;
-import java.time.Duration;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.validation.annotation.Validated;
+import java.time.Instant;
+import org.springframework.http.HttpMethod;
 
-@ConfigurationProperties(prefix = "aws")
-@Validated
-public record AwsS3Properties(@NotBlank String region, @Valid S3 s3) {
-
-  public record S3(
-      URI endpoint,
-      boolean pathStyleAccess,
-      @NotBlank String bucket,
-      @NotNull Duration presignTtl) {}
-
-  public boolean hasEndpointOverride() {
-    return this.s3 != null && this.s3.endpoint() != null;
-  }
-}
+/**
+ * Pre-authorised upload target issued by the {@code BlobStorage} port. The caller uploads binary
+ * content directly to {@code url} with {@code method} before {@code expiresAt}, without holding
+ * store credentials.
+ */
+public record BlobUploadTarget(String key, URI url, HttpMethod method, Instant expiresAt) {}

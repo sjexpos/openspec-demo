@@ -99,6 +99,20 @@ class AwsS3PropertiesTests {
   }
 
   @Test
+  void should_failValidation_when_bucketIsBlank() {
+    // Arrange: blank bucket name must be rejected at startup binding
+    ApplicationContextRunner configured =
+        runner.withPropertyValues(
+            "aws.region=us-east-1", "aws.s3.bucket=", "aws.s3.presign-ttl=PT15M");
+
+    // Act + Assert
+    configured.run(
+        context -> {
+          assertThat(context.getStartupFailure()).isNotNull().hasStackTraceContaining("bucket");
+        });
+  }
+
+  @Test
   void should_reportNoOverride_when_s3SectionIsAbsent() {
     // Arrange
     ApplicationContextRunner configured = runner.withPropertyValues("aws.region=us-east-1");
