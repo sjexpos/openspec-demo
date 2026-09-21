@@ -149,6 +149,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
         env:
           DEBUG: 0
+          S3_SKIP_SIGNATURE_VALIDATION: 0
         options: >-
           --health-cmd "curl -f http://localhost:4566/_localstack/health"
           --health-interval 10s

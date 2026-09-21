@@ -1,8 +1,4 @@
-## Purpose
-
-Provides reusable, environment-driven AWS S3 access for local development and production so follow-up asset stories can inject S3 clients with zero infrastructure risk.
-
-## Requirements
+## MODIFIED Requirements
 
 ### Requirement: Provide configurable S3 client beans
 
