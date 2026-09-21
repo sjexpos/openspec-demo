@@ -17,6 +17,7 @@
 
 package com.example.demo.infrastructure.config;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.net.URI;
@@ -26,13 +27,16 @@ import org.springframework.validation.annotation.Validated;
 
 @ConfigurationProperties(prefix = &quot;aws&quot;)
 @Validated
-<span class="fc" id="L29">public record AwsS3Properties(@NotBlank String region, S3 s3) {</span>
+<span class="fc" id="L30">public record AwsS3Properties(@NotBlank String region, @Valid S3 s3) {</span>
 
-<span class="fc" id="L31">  public record S3(</span>
-      URI endpoint, boolean pathStyleAccess, String bucket, @NotNull Duration presignTtl) {}
+<span class="fc" id="L32">  public record S3(</span>
+      URI endpoint,
+      boolean pathStyleAccess,
+      @NotBlank String bucket,
+      @NotNull Duration presignTtl) {}
 
   public boolean hasEndpointOverride() {
-<span class="fc bfc" id="L35" title="All 4 branches covered.">    return this.s3 != null &amp;&amp; this.s3.endpoint() != null;</span>
+<span class="fc bfc" id="L39" title="All 4 branches covered.">    return this.s3 != null &amp;&amp; this.s3.endpoint() != null;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

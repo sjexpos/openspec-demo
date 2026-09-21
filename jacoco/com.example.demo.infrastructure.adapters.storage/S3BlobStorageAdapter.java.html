@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>S3BlobStorageAdapter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo</a> &gt; <a href="index.source.html" class="el_package">com.example.demo.infrastructure.adapters.storage</a> &gt; <span class="el_source">S3BlobStorageAdapter.java</span></div><h1>S3BlobStorageAdapter.java</h1><pre class="source lang-java linenums">/**********
+ This project is free software; you can redistribute it and/or modify it under
+ the terms of the GNU General Public License as published by the
+ Free Software Foundation; either version 3.0 of the License, or (at your
+ option) any later version. (See &lt;https://www.gnu.org/licenses/gpl-3.0.html&gt;.)
+
+ This project is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this project; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+ **********/
+// Copyright (c) 2026-2027 Sergio Exposito.  All rights reserved.              
+
+package com.example.demo.infrastructure.adapters.storage;
+
+import com.example.demo.domain.models.BlobType;
+import com.example.demo.domain.models.BlobUploadTarget;
+import com.example.demo.domain.repositories.BlobStorage;
+import com.example.demo.domain.repositories.BlobStorageException;
+import com.example.demo.infrastructure.config.AwsS3Properties;
+import java.net.URISyntaxException;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
+import software.amazon.awssdk.core.exception.SdkException;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.Delete;
+import software.amazon.awssdk.services.s3.model.DeleteObjectsRequest;
+import software.amazon.awssdk.services.s3.model.DeleteObjectsResponse;
+import software.amazon.awssdk.services.s3.model.ObjectIdentifier;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
+import software.amazon.awssdk.services.s3.presigner.model.PresignedPutObjectRequest;
+import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignRequest;
+
+/**
+ * AWS S3 implementation of the {@code BlobStorage} port. Anti-Corruption Layer: translates the AWS
+ * SDK model into the ubiquitous language. The only importer of {@code software.amazon.awssdk}
+ * outside {@code infrastructure/config}.
+ */
+<span class="fc" id="L53">@Slf4j</span>
+@Component
+@RequiredArgsConstructor
+public class S3BlobStorageAdapter implements BlobStorage {
+
+  private static final int MAX_KEYS_PER_DELETE_REQUEST = 1000;
+
+  private final S3Presigner s3Presigner;
+
+  private final S3Client s3Client;
+
+  private final AwsS3Properties properties;
+
+  @Override
+  public BlobUploadTarget createUploadTarget(BlobType blobType) {
+<span class="fc" id="L68">    Assert.notNull(blobType, &quot;blobType must not be null&quot;);</span>
+<span class="fc" id="L69">    String key = blobType.prefix() + UUID.randomUUID().toString().replace(&quot;-&quot;, &quot;&quot;);</span>
+<span class="fc" id="L70">    Duration ttl = this.properties.s3().presignTtl();</span>
+    try {
+<span class="fc" id="L72">      PresignedPutObjectRequest presigned =</span>
+<span class="fc" id="L73">          this.s3Presigner.presignPutObject(</span>
+<span class="fc" id="L74">              PutObjectPresignRequest.builder()</span>
+<span class="fc" id="L75">                  .signatureDuration(ttl)</span>
+<span class="fc" id="L76">                  .putObjectRequest(</span>
+<span class="fc" id="L77">                      PutObjectRequest.builder()</span>
+<span class="fc" id="L78">                          .bucket(this.properties.s3().bucket())</span>
+<span class="fc" id="L79">                          .key(key)</span>
+<span class="fc" id="L80">                          .build())</span>
+<span class="fc" id="L81">                  .build());</span>
+<span class="fc" id="L82">      log.info(&quot;Upload target issued for blob type {} with key {}&quot;, blobType, key);</span>
+<span class="fc" id="L83">      return new BlobUploadTarget(</span>
+<span class="fc" id="L84">          key, presigned.url().toURI(), HttpMethod.PUT, Instant.now().plus(ttl));</span>
+<span class="fc" id="L85">    } catch (SdkException | URISyntaxException ex) {</span>
+<span class="fc" id="L86">      throw new BlobStorageException(&quot;Could not issue an upload target for key &quot; + key, ex);</span>
+    }
+  }
+
+  @Override
+  public void remove(Set&lt;String&gt; keys) {
+<span class="fc" id="L92">    Assert.notNull(keys, &quot;keys must not be null&quot;);</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">    if (keys.isEmpty()) {</span>
+<span class="fc" id="L94">      return;</span>
+    }
+<span class="fc" id="L96">    keys.forEach(</span>
+        key -&gt;
+<span class="fc" id="L98">            Assert.isTrue(BlobType.isCanonicalKey(key), &quot;Key is not a managed blob key: &quot; + key));</span>
+<span class="fc" id="L99">    List&lt;String&gt; pending = new ArrayList&lt;&gt;(keys);</span>
+    try {
+<span class="fc bfc" id="L101" title="All 2 branches covered.">      for (int from = 0; from &lt; pending.size(); from += MAX_KEYS_PER_DELETE_REQUEST) {</span>
+<span class="fc" id="L102">        List&lt;String&gt; chunk =</span>
+<span class="fc" id="L103">            pending.subList(from, Math.min(from + MAX_KEYS_PER_DELETE_REQUEST, pending.size()));</span>
+<span class="fc" id="L104">        DeleteObjectsResponse response =</span>
+<span class="fc" id="L105">            this.s3Client.deleteObjects(</span>
+<span class="fc" id="L106">                DeleteObjectsRequest.builder()</span>
+<span class="fc" id="L107">                    .bucket(this.properties.s3().bucket())</span>
+<span class="fc" id="L108">                    .delete(</span>
+<span class="fc" id="L109">                        Delete.builder()</span>
+<span class="fc" id="L110">                            .objects(</span>
+<span class="fc" id="L111">                                chunk.stream()</span>
+<span class="fc" id="L112">                                    .map(key -&gt; ObjectIdentifier.builder().key(key).build())</span>
+<span class="fc" id="L113">                                    .toList())</span>
+<span class="fc" id="L114">                            .build())</span>
+<span class="fc" id="L115">                    .build());</span>
+<span class="fc" id="L116">        List&lt;String&gt; failedKeys = response.errors().stream().map(error -&gt; error.key()).toList();</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">        if (!failedKeys.isEmpty()) {</span>
+<span class="fc" id="L118">          log.warn(&quot;Failed to remove blobs: {}&quot;, failedKeys);</span>
+<span class="fc" id="L119">          throw new BlobStorageException(</span>
+<span class="fc" id="L120">              &quot;Could not remove blobs: &quot; + failedKeys, Set.copyOf(failedKeys));</span>
+        }
+      }
+<span class="fc" id="L123">    } catch (SdkException ex) {</span>
+<span class="fc" id="L124">      throw new BlobStorageException(&quot;Could not remove blobs&quot;, ex);</span>
+<span class="fc" id="L125">    }</span>
+<span class="fc" id="L126">    log.info(&quot;Removed {} blobs&quot;, keys.size());</span>
+<span class="fc" id="L127">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
