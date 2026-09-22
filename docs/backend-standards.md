@@ -438,6 +438,23 @@ DELETE /<entities>/{id}      // Delete entity (soft-delete 200+body)
 - **Relationships**: Define relationships using JPA relations
 - **Naming Conventions**: Use consistent naming conventions (camelCase for fields, PascalCase for models)
 
+### Enum Persistence Convention
+
+- **Text, never ordinals, never native PG enums**: persist every domain enum with
+  `@Enumerated(EnumType.STRING)` on the entity side plus a bounded `varchar` column and a `CHECK`
+  constraint enumerating exactly the allowed names on the Flyway side (e.g. `status varchar(16)
+  NOT NULL` with `CHECK (status IN ('PENDING','UPLOADED','DELETED'))`, no column default so a
+  forgotten assignment fails loudly instead of landing silently). Ordinals couple stored data to
+  declaration order (reordering breaks reads); native PostgreSQL enums cannot be extended inside a
+  transaction and their values can never be removed, while `varchar` + `CHECK` is diffable,
+  reversible, and trivially extended per asset table.
+- **Names are a persistence contract**: renaming an enum constant requires a data migration; guard
+  the constant set and order with a unit test (exact-constants assertion plus literal-name
+  assertions) so a rename breaks a test, not production data.
+- **Future asset tables inherit this rule**: every new lifecycle/status column follows the same
+  `@Enumerated(STRING)` + `varchar` + `CHECK` pattern (see `AssetStatus` / `brand_images`
+  precedent).
+
 ### Migrations
 
 - **Version Control**: All database changes must be version-controlled through migrations using Flyway

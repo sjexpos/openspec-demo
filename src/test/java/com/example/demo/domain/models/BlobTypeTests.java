@@ -142,4 +142,60 @@ class BlobTypeTests {
     // Assert
     assertThat(canonical).isFalse();
   }
+
+  @ParameterizedTest
+  @EnumSource(BlobType.class)
+  void should_recognizeOwnPrefix_when_keyIsCanonicalForThatType(BlobType blobType) {
+    // Arrange: a canonical key built from the requested type prefix plus 32 lowercase hex chars
+    String key = blobType.prefix() + "9f2a4c1ed3b74e8fa1c6b0d2e5f7a913";
+
+    // Act
+    boolean owned = blobType.isKeyOf(key);
+
+    // Assert
+    assertThat(owned).isTrue();
+  }
+
+  @ParameterizedTest
+  @EnumSource(BlobType.class)
+  void should_rejectForeignPrefix_when_keyBelongsToAnotherType(BlobType blobType) {
+    // Arrange: a canonical key owned by a different blob type
+    BlobType other =
+        Arrays.stream(BlobType.values()).filter(type -> type != blobType).findFirst().orElseThrow();
+    String foreignKey = other.prefix() + "9f2a4c1ed3b74e8fa1c6b0d2e5f7a913";
+
+    // Act
+    boolean owned = blobType.isKeyOf(foreignKey);
+
+    // Assert
+    assertThat(owned).isFalse();
+    assertThat(BlobType.isCanonicalKey(foreignKey)).isTrue();
+  }
+
+  @ParameterizedTest
+  @NullAndEmptySource
+  @ValueSource(strings = {" ", "   "})
+  void should_rejectKey_when_isKeyOfReceivesNullOrBlank(String key) {
+    // Arrange: null, empty or blank keys
+
+    // Act + Assert
+    for (BlobType blobType : BlobType.values()) {
+      assertThat(blobType.isKeyOf(key)).isFalse();
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(
+      strings = {
+        "brands/images/../../secret",
+        "brands/images/9f2a4c1e/../3b74e8fa1c6b0d2e5f7a913",
+        "brands/images/9f2a4c1ed3b74e8fa1c6b0d2e5f7a91",
+        "brands/images/9F2A4C1ED3B74E8FA1C6B0D2E5F7A913"
+      })
+  void should_rejectKey_when_isKeyOfReceivesNonCanonicalOrTraversalKey(String key) {
+    // Arrange: traversal, truncated or uppercase keys under the brand image prefix
+
+    // Act + Assert
+    assertThat(BlobType.BRAND_IMAGE.isKeyOf(key)).isFalse();
+  }
 }

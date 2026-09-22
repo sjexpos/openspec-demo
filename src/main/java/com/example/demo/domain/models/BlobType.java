@@ -47,6 +47,20 @@ public enum BlobType {
   }
 
   /**
+   * True when the key was issued for this blob type: this type's prefix plus a 32-char lowercase
+   * hex suffix. Derived from the same prefix constants used to build keys.
+   */
+  public boolean isKeyOf(String key) {
+    if (key == null) {
+      return false;
+    }
+    if (!key.startsWith(this.prefix)) {
+      return false;
+    }
+    return RANDOM_PART.matcher(key.substring(this.prefix.length())).matches();
+  }
+
+  /**
    * True when the key was issued by this port: a known prefix plus a 32-char lowercase hex suffix.
    * Derived from the same prefix constants used to build keys, so a new blob type extends
    * validation automatically.
@@ -55,8 +69,6 @@ public enum BlobType {
     if (key == null) {
       return false;
     }
-    return Arrays.stream(values())
-        .filter(type -> key.startsWith(type.prefix))
-        .anyMatch(type -> RANDOM_PART.matcher(key.substring(type.prefix.length())).matches());
+    return Arrays.stream(values()).anyMatch(type -> type.isKeyOf(key));
   }
 }

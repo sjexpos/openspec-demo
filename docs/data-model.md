@@ -198,19 +198,47 @@ Lookup table for categorizing brands (e.g., grower, processor, distributor).
 
 ### 9. Brand Images
 
-Stores image URLs associated with a brand (e.g., logos, marketing materials).
+Stores opaque blob keys associated with a brand (e.g., logos, marketing materials), each carrying
+the shared asset lifecycle state (`AssetStatus`: `PENDING` = recorded before upload confirmation;
+`UPLOADED` = confirmed, the only client-visible state; `DELETED` = retired tombstone, blob may
+still exist). Removal is represented solely by the `DELETED` state: rows are never physically
+deleted.
 
 **Fields:**
 - `id`: Unique identifier for the image entry (Primary Key, auto-increment)
 - `brand_id`: Reference to the brand (int, required)
-- `image_url`: URL to the image file (varchar, required)
+- `image_key`: Opaque canonical blob key for the `BRAND_IMAGE` blob type
+  (`brands/images/` + 32 lowercase hex chars, varchar, required, immutable, unique) — never a
+  presigned URL
+- `status`: Asset lifecycle state name (`varchar(16)`, required, no default) with a `CHECK`
+  constraint over exactly `PENDING`, `UPLOADED`, `DELETED`; persisted as text, never as ordinal
+- `created_at`: Timestamp of record creation (timestamp, required, defaults to now)
+- `created_by`: Username or identifier of who created the record (varchar, optional)
+- `modified_at`: Timestamp of last modification (timestamp, optional)
+- `modified_by`: Username or identifier of who last modified the record (varchar, optional)
+- `deleted_at`: Timestamp of soft deletion (timestamp, optional) — ships unused because `status`
+  is the delete marker; present only because the shared audit base type maps it
+- `deleted_by`: Username or identifier of who deleted the record (varchar, optional) — ships
+  unused for the same reason as `deleted_at`
 
 **Validation Rules:**
-- `image_url` is required and must be a valid URL
-- Each image URL for a brand should be unique
+- `image_key` is required, immutable (`updatable = false`), unique across all brand images, and
+  must be a canonical `BRAND_IMAGE` key; foreign-type keys (e.g., `strains/images/…`),
+  non-canonical values, and traversal segments are rejected in the domain
+- `status` must be one of `PENDING`, `UPLOADED`, `DELETED` (database `CHECK`); brand images are
+  created only as `PENDING`; legal transitions are `PENDING → UPLOADED`, `PENDING → DELETED`,
+  `UPLOADED → DELETED`
+- A duplicated `image_key` is rejected by the database (unique index)
+- Moving an image to `DELETED` keeps its row present (tombstone, auditable and retryable)
 
 **Relationships:**
 - `brand_id`: Many-to-one relationship with **Brands** — each image belongs to one brand
+
+**Indexes:**
+- Unique index on `image_key` (duplicate = bug/replay, the database is the last defence)
+- Composite index on `(brand_id, status)` (serves visible-listing queries)
+- Partial index on `created_at WHERE status = 'PENDING'` (keeps the future orphan sweeper
+  proportional to orphan count, not table size)
 
 ### 10. Brand Videos
 
@@ -955,7 +983,14 @@ erDiagram
     BRAND_IMAGES {
         int id PK
         int brand_id FK "NOT NULL"
-        varchar image_url "NOT NULL"
+        varchar image_key "NOT NULL UNIQUE"
+        varchar status "NOT NULL CHECK PENDING-UPLOADED-DELETED"
+        timestamp created_at "NOT NULL DEFAULT now()"
+        varchar created_by
+        timestamp modified_at
+        varchar modified_by
+        timestamp deleted_at "UNUSED status is the delete marker"
+        varchar deleted_by "UNUSED status is the delete marker"
     }
 
     %% -------------------- BRAND VIDEOS --------------------
