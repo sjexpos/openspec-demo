@@ -47,17 +47,29 @@ import java.util.regex.Pattern;
   }
 
   /**
+   * True when the key was issued for this blob type: this type's prefix plus a 32-char lowercase
+   * hex suffix. Derived from the same prefix constants used to build keys.
+   */
+  public boolean isKeyOf(String key) {
+<span class="fc bfc" id="L54" title="All 2 branches covered.">    if (key == null) {</span>
+<span class="fc" id="L55">      return false;</span>
+    }
+<span class="fc bfc" id="L57" title="All 2 branches covered.">    if (!key.startsWith(this.prefix)) {</span>
+<span class="fc" id="L58">      return false;</span>
+    }
+<span class="fc" id="L60">    return RANDOM_PART.matcher(key.substring(this.prefix.length())).matches();</span>
+  }
+
+  /**
    * True when the key was issued by this port: a known prefix plus a 32-char lowercase hex suffix.
    * Derived from the same prefix constants used to build keys, so a new blob type extends
    * validation automatically.
    */
   public static boolean isCanonicalKey(String key) {
-<span class="fc bfc" id="L55" title="All 2 branches covered.">    if (key == null) {</span>
-<span class="fc" id="L56">      return false;</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">    if (key == null) {</span>
+<span class="fc" id="L70">      return false;</span>
     }
-<span class="fc" id="L58">    return Arrays.stream(values())</span>
-<span class="fc" id="L59">        .filter(type -&gt; key.startsWith(type.prefix))</span>
-<span class="fc" id="L60">        .anyMatch(type -&gt; RANDOM_PART.matcher(key.substring(type.prefix.length())).matches());</span>
+<span class="fc" id="L72">    return Arrays.stream(values()).anyMatch(type -&gt; type.isKeyOf(key));</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

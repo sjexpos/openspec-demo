@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AssetStatus.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo</a> &gt; <a href="index.source.html" class="el_package">com.example.demo.domain.models</a> &gt; <span class="el_source">AssetStatus.java</span></div><h1>AssetStatus.java</h1><pre class="source lang-java linenums">/**********
+ This project is free software; you can redistribute it and/or modify it under
+ the terms of the GNU General Public License as published by the
+ Free Software Foundation; either version 3.0 of the License, or (at your
+ option) any later version. (See &lt;https://www.gnu.org/licenses/gpl-3.0.html&gt;.)
+
+ This project is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this project; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+ **********/
+// Copyright (c) 2026-2027 Sergio Exposito.  All rights reserved.              
+
+package com.example.demo.domain.models;
+
+/**
+ * Shared lifecycle of any persisted asset reference pointing at a blob in object storage. PENDING
+ * means the asset reference was recorded before its blob upload was confirmed. UPLOADED means the
+ * upload was confirmed and is the only client-visible state. DELETED means the asset reference is
+ * retired while its blob may still exist. Resource-agnostic: every asset resource reuses these
+ * states and transition rules without modification.
+ */
+<span class="fc" id="L27">public enum AssetStatus {</span>
+<span class="fc" id="L28">  PENDING,</span>
+<span class="fc" id="L29">  UPLOADED,</span>
+<span class="fc" id="L30">  DELETED;</span>
+
+  /**
+   * True when a transition from this state to the target state is legal. Legal transitions are
+   * PENDING to UPLOADED, PENDING to DELETED and UPLOADED to DELETED. Null targets and
+   * self-transitions are always rejected.
+   */
+  public boolean canTransitionTo(AssetStatus target) {
+<span class="fc bfc" id="L38" title="All 2 branches covered.">    if (target == null) {</span>
+<span class="fc" id="L39">      return false;</span>
+    }
+<span class="fc bfc" id="L41" title="All 3 branches covered.">    return switch (this) {</span>
+<span class="fc bfc" id="L42" title="All 4 branches covered.">      case PENDING -&gt; target == UPLOADED || target == DELETED;</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">      case UPLOADED -&gt; target == DELETED;</span>
+<span class="fc" id="L44">      case DELETED -&gt; false;</span>
+    };
+  }
+
+  /** True only for DELETED, the terminal state. */
+  public boolean isTerminal() {
+<span class="fc bfc" id="L50" title="All 2 branches covered.">    return this == DELETED;</span>
+  }
+
+  /** True only for UPLOADED, the only client-visible state. */
+  public boolean isVisible() {
+<span class="fc bfc" id="L55" title="All 2 branches covered.">    return this == UPLOADED;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
