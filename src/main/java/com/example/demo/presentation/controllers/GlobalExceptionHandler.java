@@ -19,6 +19,7 @@ package com.example.demo.presentation.controllers;
 
 import com.example.demo.application.exceptions.ConflictException;
 import com.example.demo.application.exceptions.NotFoundException;
+import com.example.demo.domain.repositories.BlobStorageException;
 import com.example.demo.presentation.api.ErrorResponse;
 import com.example.demo.presentation.api.FieldError;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -102,6 +104,22 @@ public class GlobalExceptionHandler {
       NoResourceFoundException ex, HttpServletRequest request) {
     List<FieldError> fieldErrors = List.of(new FieldError("general", "Resource not found"));
     return build(HttpStatus.NOT_FOUND, request, fieldErrors);
+  }
+
+  @ExceptionHandler(BlobStorageException.class)
+  public ResponseEntity<ErrorResponse> handleBlobStorage(
+      BlobStorageException ex, HttpServletRequest request) {
+    log.error("Blob storage operation failed", ex);
+    List<FieldError> fieldErrors =
+        List.of(new FieldError("general", "Blob storage is currently unavailable"));
+    return build(HttpStatus.BAD_GATEWAY, request, fieldErrors);
+  }
+
+  @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+  public ResponseEntity<ErrorResponse> handleMethodNotSupported(
+      HttpRequestMethodNotSupportedException ex, HttpServletRequest request) {
+    List<FieldError> fieldErrors = List.of(new FieldError("general", "Method not allowed"));
+    return build(HttpStatus.METHOD_NOT_ALLOWED, request, fieldErrors);
   }
 
   @ExceptionHandler(Exception.class)
