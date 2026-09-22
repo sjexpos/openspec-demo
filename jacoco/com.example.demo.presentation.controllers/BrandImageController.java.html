@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BrandImageController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo</a> &gt; <a href="index.source.html" class="el_package">com.example.demo.presentation.controllers</a> &gt; <span class="el_source">BrandImageController.java</span></div><h1>BrandImageController.java</h1><pre class="source lang-java linenums">/**********
+ This project is free software; you can redistribute it and/or modify it under
+ the terms of the GNU General Public License as published by the
+ Free Software Foundation; either version 3.0 of the License, or (at your
+ option) any later version. (See &lt;https://www.gnu.org/licenses/gpl-3.0.html&gt;.)
+
+ This project is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this project; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+ **********/
+// Copyright (c) 2026-2027 Sergio Exposito.  All rights reserved.              
+
+package com.example.demo.presentation.controllers;
+
+import com.example.demo.application.services.BrandImageService;
+import com.example.demo.domain.models.BlobUploadTarget;
+import com.example.demo.presentation.api.BrandImageApi;
+import com.example.demo.presentation.api.DataResponse;
+import com.example.demo.presentation.api.model.CreateBrandImageResponse;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * Bearer-capability handling for brand image upload targets. Maps the port-issued {@code
+ * BlobUploadTarget} to the three-string response DTO and marks the response non-cacheable. Never
+ * touches the {@code BrandImage} entity or its lazy {@code Brand} proxy, never sets a {@code
+ * Location} header, and never logs the URL.
+ */
+@RestController
+public class BrandImageController implements BrandImageApi {
+
+  private final BrandImageService brandImageService;
+
+<span class="fc" id="L41">  public BrandImageController(BrandImageService brandImageService) {</span>
+<span class="fc" id="L42">    this.brandImageService = brandImageService;</span>
+<span class="fc" id="L43">  }</span>
+
+  @Override
+  public ResponseEntity&lt;DataResponse&lt;CreateBrandImageResponse&gt;&gt; createUploadTarget(Long brandId) {
+<span class="fc" id="L47">    BlobUploadTarget target = this.brandImageService.createUploadTarget(brandId);</span>
+<span class="fc" id="L48">    CreateBrandImageResponse body =</span>
+        new CreateBrandImageResponse(
+<span class="fc" id="L50">            target.url().toString(), target.method().name(), target.expiresAt().toString());</span>
+<span class="fc" id="L51">    return ResponseEntity.status(HttpStatus.CREATED)</span>
+<span class="fc" id="L52">        .cacheControl(CacheControl.noStore())</span>
+<span class="fc" id="L53">        .body(new DataResponse&lt;&gt;(body));</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

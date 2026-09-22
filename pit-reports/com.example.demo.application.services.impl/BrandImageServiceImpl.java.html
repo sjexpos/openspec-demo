@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>BrandImageServiceImpl.java</h1>
+
+<table class="src">
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>/**********</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> This project is free software; you can redistribute it and/or modify it under</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> the terms of the GNU General Public License as published by the</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> Free Software Foundation; either version 3.0 of the License, or (at your</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> option) any later version. (See &#60;https://www.gnu.org/licenses/gpl-3.0.html&#62;.)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> This project is distributed in the hope that it will be useful, but WITHOUT</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> FOR A PARTICULAR PURPOSE.  See the GNU General Public License for</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> more details.</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> You should have received a copy of the GNU General Public License</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> along with this project; if not, write to the Free Software Foundation, Inc.,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> **********/</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>// Copyright (c) 2026-2027 Sergio Exposito.  All rights reserved.              </span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package com.example.demo.application.services.impl;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_20'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.application.exceptions.NotFoundException;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.application.services.BrandImageService;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_22'/>
+22
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_22'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.domain.models.BlobType;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_23'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.domain.models.BlobUploadTarget;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_24'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.domain.models.brand.Brand;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.domain.models.brand.BrandImage;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_26'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.domain.repositories.BlobStorage;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.domain.repositories.BrandImageRepository;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import com.example.demo.domain.repositories.BrandRepository;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import lombok.extern.slf4j.Slf4j;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.springframework.stereotype.Service;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_31'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.springframework.transaction.annotation.Propagation;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_32'/>
+32
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_32'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.springframework.transaction.annotation.Transactional;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_33'/>
+33
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_33'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_34'/>
+34
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_34'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>/**</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_35'/>
+35
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_35'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * Orchestrates brand image upload-target creation: resolve the brand first, mint the upload target</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_36'/>
+36
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_36'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * through the {@code BlobStorage} port, then persist the {@code PENDING} brand image. Returns only</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * the upload target; the persisted row is an invisible server-side side effect.</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_38'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> *</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_39'/>
+39
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_39'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * &#60;p&#62;Presigning inside {@code @Transactional} is an explicit, justified exception to the usual</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_40'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * rule: {@code S3Presigner.presignPutObject} is a verified offline SigV4 computation with no</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_41'/>
+41
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_41'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * network call, so no database connection is held during external I/O. If the port ever gains</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_42'/>
+42
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_42'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * network I/O on this path, the presign must move outside the transaction.</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_43'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''> */</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_44'/>
+44
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_44'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>@Slf4j</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_45'/>
+45
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_45'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>@Service</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_46'/>
+46
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_46'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>public class BrandImageServiceImpl implements BrandImageService {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_47'/>
+47
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_47'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_48'/>
+48
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_48'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  private final BrandRepository brandRepository;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_49'/>
+49
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_49'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  private final BrandImageRepository brandImageRepository;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_50'/>
+50
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_50'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  private final BlobStorage blobStorage;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_51'/>
+51
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_51'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_52'/>
+52
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_52'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  public BrandImageServiceImpl(</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_53'/>
+53
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_53'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>      BrandRepository brandRepository,</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_54'/>
+54
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_54'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>      BrandImageRepository brandImageRepository,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_55'/>
+55
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_55'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>      BlobStorage blobStorage) {</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_56'/>
+56
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_56'>1</a>
+<span>
+1. &#60;init&#62; : Removed assignment to member variable brandRepository &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>    this.brandRepository = brandRepository;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_57'/>
+57
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_57'>1</a>
+<span>
+1. &#60;init&#62; : Removed assignment to member variable brandImageRepository &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>    this.brandImageRepository = brandImageRepository;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_58'/>
+58
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_58'>1</a>
+<span>
+1. &#60;init&#62; : Removed assignment to member variable blobStorage &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>    this.blobStorage = blobStorage;</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_59'/>
+59
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_59'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>  }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_60'/>
+60
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_60'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_61'/>
+61
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_61'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  /** Returns only the upload target; the persisted PENDING row is an invisible side effect. */</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_62'/>
+62
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_62'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  @Override</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_63'/>
+63
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_63'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_64'/>
+64
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_64'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  public BlobUploadTarget createUploadTarget(Long brandId) {</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_65'/>
+65
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_65'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    // 1. Resolve first. @SQLRestriction(&#34;deleted_at IS NULL&#34;) makes soft-deleted brands</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_66'/>
+66
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_66'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    // invisible, so this single call covers both &#34;missing&#34; and &#34;soft-deleted&#34;. Doing this</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_67'/>
+67
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_67'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    // before step 2 means no key is minted for a bad request.</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_68'/>
+68
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_68'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    Brand brand =</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_69'/>
+69
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_69'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        this.brandRepository</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_70'/>
+70
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_70'>1</a>
+<span>
+1. createUploadTarget : removed call to com/example/demo/domain/repositories/BrandRepository::findById &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .findById(brandId)</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_71'/>
+71
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_71'>3</a>
+<span>
+1. createUploadTarget : removed call to java/util/Optional::orElseThrow &rarr; KILLED<br/>
+2. lambda$createUploadTarget$0 : removed call to com/example/demo/application/exceptions/NotFoundException::&#60;init&#62; &rarr; KILLED<br/>
+3. lambda$createUploadTarget$0 : replaced return value with null for com/example/demo/application/services/impl/BrandImageServiceImpl::lambda$createUploadTarget$0 &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            .orElseThrow(() -&#62; new NotFoundException(&#34;Brand not found with ID: &#34; + brandId));</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_72'/>
+72
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_72'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_73'/>
+73
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_73'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    // 2. Mint the key. Local SigV4 computation, no network call, no object created.</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_74'/>
+74
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_74'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    // Throws BlobStorageException -&#62; 502, transaction rolls back, nothing persisted.</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_75'/>
+75
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_75'>1</a>
+<span>
+1. createUploadTarget : removed call to com/example/demo/domain/repositories/BlobStorage::createUploadTarget &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    BlobUploadTarget target = this.blobStorage.createUploadTarget(BlobType.BRAND_IMAGE);</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_76'/>
+76
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_76'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_77'/>
+77
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_77'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    // 3. Record the intent. The entity factory re-validates key ownership</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_78'/>
+78
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_78'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    // (BRAND_IMAGE.isKeyOf) and forces PENDING; the service never sets the status itself.</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_79'/>
+79
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_79'>4</a>
+<span>
+1. createUploadTarget : removed call to com/example/demo/domain/models/brand/BrandImage::pending &rarr; KILLED<br/>
+2. createUploadTarget : removed call to com/example/demo/domain/models/BlobUploadTarget::key &rarr; KILLED<br/>
+3. createUploadTarget : replaced call to com/example/demo/domain/repositories/BrandImageRepository::save with argument &rarr; KILLED<br/>
+4. createUploadTarget : removed call to com/example/demo/domain/repositories/BrandImageRepository::save &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    BrandImage saved = this.brandImageRepository.save(BrandImage.pending(brand, target.key()));</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_80'/>
+80
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_80'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_81'/>
+81
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_81'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    // 4. Log the key only. NEVER the URL.</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_82'/>
+82
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_82'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    log.info(</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_83'/>
+83
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_83'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        &#34;Brand image {} registered as PENDING for brand {} with key {}&#34;,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_84'/>
+84
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_84'>3</a>
+<span>
+1. createUploadTarget : Substituted 1 with 0 &rarr; SURVIVED<br/>
+2. createUploadTarget : removed call to com/example/demo/domain/models/brand/BrandImage::getId &rarr; SURVIVED<br/>
+3. createUploadTarget : Substituted 2 with 3 &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>        saved.getId(),</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_85'/>
+85
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_85'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        brandId,</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_86'/>
+86
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_86'>1</a>
+<span>
+1. createUploadTarget : removed call to com/example/demo/domain/models/brand/BrandImage::getImageKey &rarr; SURVIVED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>        saved.getImageKey());</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_87'/>
+87
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_87'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_88'/>
+88
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_88'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    // The saved row is a side effect the caller never sees: only the target is returned.</span></pre></td></tr>
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_89'/>
+89
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_89'>1</a>
+<span>
+1. createUploadTarget : replaced return value with null for com/example/demo/application/services/impl/BrandImageServiceImpl::createUploadTarget &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    return target;</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_90'/>
+90
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_90'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>  }</span></pre></td></tr>
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@1a133161_91'/>
+91
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_91'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1a133161_56'>56</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_56'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>none</span></span> Removed assignment to member variable brandRepository &rarr; SURVIVED</span>
+<a title="Click to view covering tests" class="view-covered-by-tests" onClick="document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.BrandImageServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/BrandImageRepository;Lcom/example/demo/domain/repositories/BlobStorage;)V],-indexes=[9],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]').style.display=(document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.BrandImageServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/BrandImageRepository;Lcom/example/demo/domain/repositories/BlobStorage;)V],-indexes=[9],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]').style.display == 'block')?'none':'block';">Covering tests</a>
+<div class="covered-tests" id="MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.BrandImageServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/BrandImageRepository;Lcom/example/demo/domain/repositories/BlobStorage;)V],-indexes=[9],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]" style="display:none;">Covered by tests:
+<ul>
+<li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_neverLogPresignedUrl_when_imageIsRegistered()]</li> 
+</ul>
+</div></div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1a133161_57'>57</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_57'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>none</span></span> Removed assignment to member variable brandImageRepository &rarr; SURVIVED</span>
+<a title="Click to view covering tests" class="view-covered-by-tests" onClick="document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.BrandImageServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/BrandImageRepository;Lcom/example/demo/domain/repositories/BlobStorage;)V],-indexes=[14],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]').style.display=(document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.BrandImageServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/BrandImageRepository;Lcom/example/demo/domain/repositories/BlobStorage;)V],-indexes=[14],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]').style.display == 'block')?'none':'block';">Covering tests</a>
+<div class="covered-tests" id="MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.BrandImageServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/BrandImageRepository;Lcom/example/demo/domain/repositories/BlobStorage;)V],-indexes=[14],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]" style="display:none;">Covered by tests:
+<ul>
+<li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_neverLogPresignedUrl_when_imageIsRegistered()]</li> 
+</ul>
+</div></div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1a133161_58'>58</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_58'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>none</span></span> Removed assignment to member variable blobStorage &rarr; SURVIVED</span>
+<a title="Click to view covering tests" class="view-covered-by-tests" onClick="document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.BrandImageServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/BrandImageRepository;Lcom/example/demo/domain/repositories/BlobStorage;)V],-indexes=[19],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]').style.display=(document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.BrandImageServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/BrandImageRepository;Lcom/example/demo/domain/repositories/BlobStorage;)V],-indexes=[19],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]').style.display == 'block')?'none':'block';">Covering tests</a>
+<div class="covered-tests" id="MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.BrandImageServiceImpl,-method=<init>,-methodDesc=(Lcom/example/demo/domain/repositories/BrandRepository;Lcom/example/demo/domain/repositories/BrandImageRepository;Lcom/example/demo/domain/repositories/BlobStorage;)V],-indexes=[19],-mutator=org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator]" style="display:none;">Covered by tests:
+<ul>
+<li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_neverLogPresignedUrl_when_imageIsRegistered()]</li> 
+</ul>
+</div></div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1a133161_70'>70</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_70'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>createUploadTarget<br/><b>Killed by : </b>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_notCallBlobStorage_when_brandDoesNotExist()]</span></span> removed call to com/example/demo/domain/repositories/BrandRepository::findById &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1a133161_71'>71</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_71'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>createUploadTarget<br/><b>Killed by : </b>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_notCallBlobStorage_when_brandDoesNotExist()]</span></span> removed call to java/util/Optional::orElseThrow &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>lambda$createUploadTarget$0<br/><b>Killed by : </b>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_notCallBlobStorage_when_brandDoesNotExist()]</span></span> removed call to com/example/demo/application/exceptions/NotFoundException::&#60;init&#62; &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>lambda$createUploadTarget$0<br/><b>Killed by : </b>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_notCallBlobStorage_when_brandDoesNotExist()]</span></span> replaced return value with null for com/example/demo/application/services/impl/BrandImageServiceImpl::lambda$createUploadTarget$0 &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1a133161_75'>75</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_75'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>createUploadTarget<br/><b>Killed by : </b>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_propagateBlobStorageException_when_presignFails()]</span></span> removed call to com/example/demo/domain/repositories/BlobStorage::createUploadTarget &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1a133161_79'>79</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_79'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>createUploadTarget<br/><b>Killed by : </b>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_throwIllegalArgument_when_portIssuesNonCanonicalKey()]</span></span> removed call to com/example/demo/domain/models/brand/BrandImage::pending &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>createUploadTarget<br/><b>Killed by : </b>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_returnUploadTargetIssuedByPort_when_brandExists()]</span></span> removed call to com/example/demo/domain/models/BlobUploadTarget::key &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>createUploadTarget<br/><b>Killed by : </b>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_persistPendingImageWithPortIssuedKey_when_brandExists()]</span></span> replaced call to com/example/demo/domain/repositories/BrandImageRepository::save with argument &rarr; KILLED</span>
+</div> <p class='KILLED'><span class='pop'>4.<span><b>4</b><br/><b>Location : </b>createUploadTarget<br/><b>Killed by : </b>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_returnUploadTargetIssuedByPort_when_brandExists()]</span></span> removed call to com/example/demo/domain/repositories/BrandImageRepository::save &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1a133161_84'>84</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_84'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>createUploadTarget<br/><b>Killed by : </b>none</span></span> Substituted 1 with 0 &rarr; SURVIVED</span>
+<a title="Click to view covering tests" class="view-covered-by-tests" onClick="document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.BrandImageServiceImpl,-method=createUploadTarget,-methodDesc=(Ljava/lang/Long;)Lcom/example/demo/domain/models/BlobUploadTarget;],-indexes=[48],-mutator=org.pitest.mutationtest.engine.gregor.mutators.InlineConstantMutator]').style.display=(document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.BrandImageServiceImpl,-method=createUploadTarget,-methodDesc=(Ljava/lang/Long;)Lcom/example/demo/domain/models/BlobUploadTarget;],-indexes=[48],-mutator=org.pitest.mutationtest.engine.gregor.mutators.InlineConstantMutator]').style.display == 'block')?'none':'block';">Covering tests</a>
+<div class="covered-tests" id="MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.BrandImageServiceImpl,-method=createUploadTarget,-methodDesc=(Ljava/lang/Long;)Lcom/example/demo/domain/models/BlobUploadTarget;],-indexes=[48],-mutator=org.pitest.mutationtest.engine.gregor.mutators.InlineConstantMutator]" style="display:none;">Covered by tests:
+<ul>
+<li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_returnUploadTargetIssuedByPort_when_brandExists()]</li> <li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_persistPendingImageWithPortIssuedKey_when_brandExists()]</li> <li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_requestBrandImageBlobType_when_mintingKey()]</li> <li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_neverLogPresignedUrl_when_imageIsRegistered()]</li> 
+</ul>
+</div></div> <p class='SURVIVED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>createUploadTarget<br/><b>Killed by : </b>none</span></span> removed call to com/example/demo/domain/models/brand/BrandImage::getId &rarr; SURVIVED</span>
+<a title="Click to view covering tests" class="view-covered-by-tests" onClick="document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.BrandImageServiceImpl,-method=createUploadTarget,-methodDesc=(Ljava/lang/Long;)Lcom/example/demo/domain/models/BlobUploadTarget;],-indexes=[45],-mutator=org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator]').style.display=(document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.BrandImageServiceImpl,-method=createUploadTarget,-methodDesc=(Ljava/lang/Long;)Lcom/example/demo/domain/models/BlobUploadTarget;],-indexes=[45],-mutator=org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator]').style.display == 'block')?'none':'block';">Covering tests</a>
+<div class="covered-tests" id="MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.BrandImageServiceImpl,-method=createUploadTarget,-methodDesc=(Ljava/lang/Long;)Lcom/example/demo/domain/models/BlobUploadTarget;],-indexes=[45],-mutator=org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator]" style="display:none;">Covered by tests:
+<ul>
+<li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_returnUploadTargetIssuedByPort_when_brandExists()]</li> <li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_persistPendingImageWithPortIssuedKey_when_brandExists()]</li> <li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_requestBrandImageBlobType_when_mintingKey()]</li> <li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_neverLogPresignedUrl_when_imageIsRegistered()]</li> 
+</ul>
+</div></div> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>createUploadTarget<br/><b>Killed by : </b>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_returnUploadTargetIssuedByPort_when_brandExists()]</span></span> Substituted 2 with 3 &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1a133161_86'>86</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_86'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>createUploadTarget<br/><b>Killed by : </b>none</span></span> removed call to com/example/demo/domain/models/brand/BrandImage::getImageKey &rarr; SURVIVED</span>
+<a title="Click to view covering tests" class="view-covered-by-tests" onClick="document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.BrandImageServiceImpl,-method=createUploadTarget,-methodDesc=(Ljava/lang/Long;)Lcom/example/demo/domain/models/BlobUploadTarget;],-indexes=[56],-mutator=org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator]').style.display=(document.getElementById('MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.BrandImageServiceImpl,-method=createUploadTarget,-methodDesc=(Ljava/lang/Long;)Lcom/example/demo/domain/models/BlobUploadTarget;],-indexes=[56],-mutator=org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator]').style.display == 'block')?'none':'block';">Covering tests</a>
+<div class="covered-tests" id="MutationIdentifier-[location=Location-[clazz=com.example.demo.application.services.impl.BrandImageServiceImpl,-method=createUploadTarget,-methodDesc=(Ljava/lang/Long;)Lcom/example/demo/domain/models/BlobUploadTarget;],-indexes=[56],-mutator=org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator]" style="display:none;">Covered by tests:
+<ul>
+<li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_returnUploadTargetIssuedByPort_when_brandExists()]</li> <li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_persistPendingImageWithPortIssuedKey_when_brandExists()]</li> <li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_requestBrandImageBlobType_when_mintingKey()]</li> <li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_neverLogPresignedUrl_when_imageIsRegistered()]</li> 
+</ul>
+</div></div> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@1a133161_89'>89</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@1a133161_89'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>createUploadTarget<br/><b>Killed by : </b>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_returnUploadTargetIssuedByPort_when_brandExists()]</span></span> replaced return value with null for com/example/demo/application/services/impl/BrandImageServiceImpl::createUploadTarget &rarr; KILLED</span>
+</div> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>CONSTRUCTOR_CALLS</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>EXPERIMENTAL_ARGUMENT_PROPAGATION</li>
+<li class='mutator'>EXPERIMENTAL_BIG_DECIMAL</li>
+<li class='mutator'>EXPERIMENTAL_BIG_INTEGER</li>
+<li class='mutator'>EXPERIMENTAL_MEMBER_VARIABLE</li>
+<li class='mutator'>EXPERIMENTAL_NAKED_RECEIVER</li>
+<li class='mutator'>EXPERIMENTAL_SWITCH</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INLINE_CONSTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NON_VOID_METHOD_CALLS</li>
+<li class='mutator'>NULL_RETURNS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_EQUAL_IF</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_ELSE</li>
+<li class='mutator'>REMOVE_CONDITIONALS_ORDER_IF</li>
+<li class='mutator'>REMOVE_INCREMENTS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+<li class='mutator'>VOID_METHOD_CALLS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_returnUploadTargetIssuedByPort_when_brandExists()] (3 ms)</li><li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_persistPendingImageWithPortIssuedKey_when_brandExists()] (3 ms)</li><li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_requestBrandImageBlobType_when_mintingKey()] (7 ms)</li><li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_neverLogPresignedUrl_when_imageIsRegistered()] (63 ms)</li><li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_notCallBlobStorage_when_brandDoesNotExist()] (2 ms)</li><li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_throwNotFound_when_brandIsSoftDeleted()] (3 ms)</li><li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_throwNotFound_when_brandDoesNotExist()] (5 ms)</li><li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_propagateBlobStorageException_when_presignFails()] (3 ms)</li><li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_throwIllegalArgument_when_portIssuesNonCanonicalKey()] (3 ms)</li><li>com.example.demo.application.services.BrandImageServiceTests.[engine:junit-jupiter]/[class:com.example.demo.application.services.BrandImageServiceTests]/[method:should_notPersist_when_blobStorageFails()] (13 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='https://pitest.org'>PIT</a> 1.16.2
+
+</body>
+</html>

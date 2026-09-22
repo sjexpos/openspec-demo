@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BrandImageServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo</a> &gt; <a href="index.source.html" class="el_package">com.example.demo.application.services.impl</a> &gt; <span class="el_source">BrandImageServiceImpl.java</span></div><h1>BrandImageServiceImpl.java</h1><pre class="source lang-java linenums">/**********
+ This project is free software; you can redistribute it and/or modify it under
+ the terms of the GNU General Public License as published by the
+ Free Software Foundation; either version 3.0 of the License, or (at your
+ option) any later version. (See &lt;https://www.gnu.org/licenses/gpl-3.0.html&gt;.)
+
+ This project is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this project; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+ **********/
+// Copyright (c) 2026-2027 Sergio Exposito.  All rights reserved.              
+
+package com.example.demo.application.services.impl;
+
+import com.example.demo.application.exceptions.NotFoundException;
+import com.example.demo.application.services.BrandImageService;
+import com.example.demo.domain.models.BlobType;
+import com.example.demo.domain.models.BlobUploadTarget;
+import com.example.demo.domain.models.brand.Brand;
+import com.example.demo.domain.models.brand.BrandImage;
+import com.example.demo.domain.repositories.BlobStorage;
+import com.example.demo.domain.repositories.BrandImageRepository;
+import com.example.demo.domain.repositories.BrandRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * Orchestrates brand image upload-target creation: resolve the brand first, mint the upload target
+ * through the {@code BlobStorage} port, then persist the {@code PENDING} brand image. Returns only
+ * the upload target; the persisted row is an invisible server-side side effect.
+ *
+ * &lt;p&gt;Presigning inside {@code @Transactional} is an explicit, justified exception to the usual
+ * rule: {@code S3Presigner.presignPutObject} is a verified offline SigV4 computation with no
+ * network call, so no database connection is held during external I/O. If the port ever gains
+ * network I/O on this path, the presign must move outside the transaction.
+ */
+<span class="fc" id="L44">@Slf4j</span>
+@Service
+public class BrandImageServiceImpl implements BrandImageService {
+
+  private final BrandRepository brandRepository;
+  private final BrandImageRepository brandImageRepository;
+  private final BlobStorage blobStorage;
+
+  public BrandImageServiceImpl(
+      BrandRepository brandRepository,
+      BrandImageRepository brandImageRepository,
+<span class="fc" id="L55">      BlobStorage blobStorage) {</span>
+<span class="fc" id="L56">    this.brandRepository = brandRepository;</span>
+<span class="fc" id="L57">    this.brandImageRepository = brandImageRepository;</span>
+<span class="fc" id="L58">    this.blobStorage = blobStorage;</span>
+<span class="fc" id="L59">  }</span>
+
+  /** Returns only the upload target; the persisted PENDING row is an invisible side effect. */
+  @Override
+  @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+  public BlobUploadTarget createUploadTarget(Long brandId) {
+    // 1. Resolve first. @SQLRestriction(&quot;deleted_at IS NULL&quot;) makes soft-deleted brands
+    // invisible, so this single call covers both &quot;missing&quot; and &quot;soft-deleted&quot;. Doing this
+    // before step 2 means no key is minted for a bad request.
+<span class="fc" id="L68">    Brand brand =</span>
+        this.brandRepository
+<span class="fc" id="L70">            .findById(brandId)</span>
+<span class="fc" id="L71">            .orElseThrow(() -&gt; new NotFoundException(&quot;Brand not found with ID: &quot; + brandId));</span>
+
+    // 2. Mint the key. Local SigV4 computation, no network call, no object created.
+    // Throws BlobStorageException -&gt; 502, transaction rolls back, nothing persisted.
+<span class="fc" id="L75">    BlobUploadTarget target = this.blobStorage.createUploadTarget(BlobType.BRAND_IMAGE);</span>
+
+    // 3. Record the intent. The entity factory re-validates key ownership
+    // (BRAND_IMAGE.isKeyOf) and forces PENDING; the service never sets the status itself.
+<span class="fc" id="L79">    BrandImage saved = this.brandImageRepository.save(BrandImage.pending(brand, target.key()));</span>
+
+    // 4. Log the key only. NEVER the URL.
+<span class="fc" id="L82">    log.info(</span>
+        &quot;Brand image {} registered as PENDING for brand {} with key {}&quot;,
+<span class="fc" id="L84">        saved.getId(),</span>
+        brandId,
+<span class="fc" id="L86">        saved.getImageKey());</span>
+
+    // The saved row is a side effect the caller never sees: only the target is returned.
+<span class="fc" id="L89">    return target;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
