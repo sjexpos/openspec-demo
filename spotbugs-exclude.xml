@@ -36,6 +36,11 @@
     </Match>
 
     <Match>
+        <Package name="~com\.example\.demo\.application\.services.*"/>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+
+    <Match>
         <Package name="~com\.example\.demo\.infrastructure\.adapters\.storage.*"/>
         <Bug pattern="EI_EXPOSE_REP2" />
     </Match>

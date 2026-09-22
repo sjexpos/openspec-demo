@@ -18,6 +18,8 @@
 package com.example.demo.application.services;
 
 import com.example.demo.domain.repositories.AddressRepository;
+import com.example.demo.domain.repositories.BlobStorage;
+import com.example.demo.domain.repositories.BrandImageRepository;
 import com.example.demo.domain.repositories.BrandRepository;
 import com.example.demo.domain.repositories.BrandTypeRepository;
 import com.example.demo.domain.repositories.CategoryRepository;
@@ -39,6 +41,8 @@ class ServiceTest {
   @MockitoBean LicenseStatusRepository licenseStatusRepository;
   @MockitoBean AddressRepository addressRepository;
   @MockitoBean BrandRepository brandRepository;
+  @MockitoBean BrandImageRepository brandImageRepository;
+  @MockitoBean BlobStorage blobStorage;
   @MockitoBean BrandTypeRepository brandTypeRepository;
   @MockitoBean ProductRepository productRepository;
   @MockitoBean CollectionRepository collectionRepository;

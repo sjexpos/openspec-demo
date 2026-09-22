@@ -49,16 +49,16 @@ Resources:
       CorsConfiguration:
         CorsRules:
           - AllowedHeaders:
-              - '*'
+              - content-type
             AllowedMethods:
-              - GET
               - PUT
             AllowedOrigins:
+              # '*' is acceptable locally only; production must list explicit app origins.
               - '*'
             ExposedHeaders:
               - Date
-            Id: myCORSRuleId1
-            MaxAge: 3600
+            Id: brandImagesBrowserUploads
+            MaxAge: 3000
 #      PublicAccessBlockConfiguration:
 #        BlockPublicAcls : false
 #        BlockPublicPolicy : false

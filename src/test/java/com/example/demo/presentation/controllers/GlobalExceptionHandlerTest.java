@@ -25,6 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.example.demo.domain.repositories.BlobStorageException;
 import com.example.demo.presentation.controllers.GlobalExceptionHandlerTest.TestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
@@ -78,6 +79,13 @@ class GlobalExceptionHandlerTest {
 
     @GetMapping("/test/errorArgumentTypeMismatch/{id}")
     void throwMethodArgumentTypeMismatchException(@PathVariable("ID") long id) {}
+
+    @GetMapping("/test/blob-storage-error")
+    void throwBlobStorageException() {
+      throw new BlobStorageException(
+          "presign failed for key brands/images/9f2c4a1ed3b74e8fa1c6b0d2e5f7a913",
+          java.util.Set.of());
+    }
   }
 
   @TestConfiguration
@@ -129,6 +137,28 @@ class GlobalExceptionHandlerTest {
         .andExpect(jsonPath("$.errors[0].field").value("general"))
         .andExpect(jsonPath("$.errors[0].message").value("Malformed or missing request body"))
         .andExpect(jsonPath("$.timestamp").isString());
+  }
+
+  @Test
+  @DisplayName("Should return 502 with fixed message when blob storage fails")
+  void handleBlobStorage_shouldReturn502WithFixedMessage() throws Exception {
+    var result =
+        mockMvc
+            .perform(get("/test/blob-storage-error"))
+            .andExpect(status().isBadGateway())
+            .andExpect(jsonPath("$.status").value(502))
+            .andExpect(jsonPath("$.path").value("/test/blob-storage-error"))
+            .andExpect(jsonPath("$.errors[0].field").value("general"))
+            .andExpect(
+                jsonPath("$.errors[0].message").value("Blob storage is currently unavailable"))
+            .andExpect(jsonPath("$.timestamp").isString())
+            .andReturn();
+
+    String body = result.getResponse().getContentAsString();
+    org.assertj.core.api.Assertions.assertThat(body)
+        .doesNotContain("presign failed")
+        .doesNotContain("brands/images/")
+        .doesNotContain("X-Amz-Signature");
   }
 
   @Test
