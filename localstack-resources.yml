@@ -8,7 +8,7 @@ Parameters:
 
 Resources: 
 
-  ProductsAssetsEventsQueue:
+  AssetsEventsDeadLetterQueue:
     Type: AWS::SQS::Queue
     Properties:
       QueueName:
@@ -16,17 +16,35 @@ Resources:
           '-', 
           [ 
             !Ref Environment,
-            'products-assets-events-queue'
+            'assets-events-dlq'
+          ],
+        ]
+
+      VisibilityTimeout: 300
+      MessageRetentionPeriod: 1209600 # 14 days in seconds, poison-message parking lot
+
+  AssetsEventsQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName:
+        !Join [ 
+          '-', 
+          [ 
+            !Ref Environment,
+            'assets-events-queue'
           ],
         ]
 
       VisibilityTimeout: 300
       MessageRetentionPeriod: 3600 # this value is in seconds, so this is 1 hour
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt AssetsEventsDeadLetterQueue.Arn
+        maxReceiveCount: 5
 
   AssetsS3Bucket:
     Type: AWS::S3::Bucket
     DependsOn:
-      - ProductsAssetsEventsQueue
+      - AssetsEventsQueue
     Properties:
       BucketName:
         !Join [ 
@@ -39,12 +57,7 @@ Resources:
       NotificationConfiguration:
         QueueConfigurations:
           - Event: s3:ObjectCreated:*
-            Filter:
-              S3Key: 
-                Rules: 
-                  - Name: prefix
-                    Value: 'products/'
-            Queue: !GetAtt ProductsAssetsEventsQueue.Arn
+            Queue: !GetAtt AssetsEventsQueue.Arn
       AccessControl: PublicRead
       CorsConfiguration:
         CorsRules:
@@ -99,7 +112,7 @@ Resources:
               ArnLike:
                 aws:SourceArn: !GetAtt AssetsS3Bucket.Arn
       Queues:
-        - Ref: ProductsAssetsEventsQueue
+        - Ref: AssetsEventsQueue
 
 Outputs:
   AssetsBucketURL:
@@ -125,15 +138,28 @@ Outputs:
           ],
         ]
 
-  ProductsAssetsEventsQueueArn:
-    Description: SQS ARN of the products assets events
-    Value: !GetAtt ProductsAssetsEventsQueue.Arn
+  AssetsEventsQueueArn:
+    Description: SQS ARN of the assets events queue
+    Value: !GetAtt AssetsEventsQueue.Arn
     Export:
       Name:
         !Join [ 
           '-', 
           [ 
           !Ref Environment,
-          'products-assets-events-queue-arn'
+          'assets-events-queue-arn'
+          ],
+        ]
+
+  AssetsEventsQueueUrl:
+    Description: SQS URL of the assets events queue
+    Value: !Ref AssetsEventsQueue
+    Export:
+      Name:
+        !Join [ 
+          '-', 
+          [ 
+          !Ref Environment,
+          'assets-events-queue-url'
           ],
         ]
