@@ -15,20 +15,27 @@
  **********/
 // Copyright (c) 2026-2027 Sergio Exposito.  All rights reserved.              
 
-package com.example.demo.infrastructure.config;
+package com.example.demo.infrastructure.messaging.sqs;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import java.time.Duration;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.validation.annotation.Validated;
+import static org.assertj.core.api.Assertions.assertThatCode;
+
+import com.amazonaws.services.lambda.runtime.events.S3Event;
+import java.util.List;
+import org.junit.jupiter.api.Test;
 
 /**
- * Slim S3 domain gap: keeps only what the Spring Cloud AWS library does not model (bucket, presign
- * TTL). Region, endpoint override, path-style access and credentials are sourced from the library
- * keys ({@code spring.cloud.aws.*}); the legacy {@code aws.region} / {@code aws.s3.endpoint} keys
- * are not a source of truth.
+ * Unit tests for the asset-events listener seam: receiving an event completes without business
+ * handling or database access (KAN-13 owns the confirmation). No network involved.
  */
-@ConfigurationProperties(prefix = "aws.s3")
-@Validated
-public record AwsS3Properties(@NotBlank String bucket, @NotNull Duration presignTtl) {}
+class AssetEventsListenerTests {
+
+  @Test
+  void should_completeWithoutThrow_when_listenerReceivesEvent() {
+    // Arrange
+    AssetEventsListener listener = new AssetEventsListener();
+    S3Event event = new S3Event(List.of());
+
+    // Act + Assert
+    assertThatCode(() -> listener.onAssetEvent(event)).doesNotThrowAnyException();
+  }
+}

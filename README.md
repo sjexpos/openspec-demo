@@ -60,26 +60,44 @@ The system follows **Domain-Driven Design (DDD)** principles with a clean, layer
 - **PostgreSQL** - Primary database for data persistence
 - **JUnit** - Unit and integration testing framework
 - **AWS SDK v2 (S3)** - Object storage via injectable `S3Client` and `S3Presigner` beans
+- **Spring Cloud AWS 4.1.x (S3 + SQS)** - Managed async clients (`S3AsyncClient`,
+  `SqsAsyncClient`) plus one ordered `SqsMessageListenerContainer<S3Event>` for asset events
 
-#### AWS S3 configuration (`aws.*` properties)
+#### AWS configuration (`spring.cloud.aws.*` + slim `aws.*` properties)
 
-The `S3Client` and `S3Presigner` beans are built from the `aws.region` / `aws.s3.*`
-properties (`src/main/resources/application.yml`, all env-driven):
+Region, endpoints, path-style access and credentials come from the Spring Cloud AWS library
+keys (`src/main/resources/application.yml`, all env-driven). Credentials are never configured:
+the SDK default chain applies (IAM role/IRSA in prod, `AWS_ACCESS_KEY_ID` /
+`AWS_SECRET_ACCESS_KEY=test` env vars in tests).
 
 | Property | Env var | Default | Purpose |
 |----------|---------|---------|---------|
-| `aws.region` | `AWS_REGION` | `us-east-1` | Region for both clients |
-| `aws.s3.endpoint` | `AWS_ENDPOINT_URL_S3` | *(empty = real AWS)* | Endpoint override for LocalStack |
-| `aws.s3.path-style-access` | `AWS_S3_PATH_STYLE_ACCESS` | `false` | Path-style addressing (LocalStack needs `true`) |
-| `aws.s3.bucket` | `AWS_S3_BUCKET` | `develop-assets` | Default assets bucket |
-| `aws.s3.presign-ttl` | `AWS_S3_PRESIGN_TTL` | `PT15M` | Default presigned-URL lifetime |
+| `spring.cloud.aws.region.static` | `AWS_REGION` | `us-east-1` | Region for all clients |
+| `spring.cloud.aws.endpoint` | `AWS_ENDPOINT_URL` | *(empty = real AWS)* | Global endpoint override (LocalStack) |
+| `spring.cloud.aws.s3.endpoint` | `AWS_ENDPOINT_URL_S3` | *(falls back to global)* | S3 endpoint override wins over global |
+| `spring.cloud.aws.s3.path-style-access-enabled` | `AWS_S3_PATH_STYLE_ACCESS` | `false` | Path-style addressing (LocalStack needs `true`) |
+| `spring.cloud.aws.sqs.endpoint` | `AWS_ENDPOINT_URL_SQS` | *(falls back to global)* | SQS endpoint override wins over global |
+| `spring.cloud.aws.sqs.observation-enabled` | — | `true` | Micrometer observation on the container (library default is `false`) |
+| `spring.cloud.aws.sqs.listener.*` | `AWS_SQS_*` | see `application.yml` | Concurrency, poll size/timeout, backoff, auto-startup |
+| `aws.s3.bucket` | `AWS_S3_BUCKET` | `develop-assets` | Domain assets bucket |
+| `aws.s3.presign-ttl` | `AWS_S3_PRESIGN_TTL` | `PT15M` | Presigned-URL lifetime |
+| `aws.sqs.assets-events-queue` | `AWS_SQS_ASSETS_EVENTS_QUEUE` | `develop-assets-events-queue` | Queue the container listens to |
+| `aws.sqs.acknowledgement-interval` | `AWS_SQS_ACK_INTERVAL` | `PT3S` | Batch-ack interval (`ON_SUCCESS` + `ORDERED`) |
+| `aws.sqs.acknowledgement-threshold` | `AWS_SQS_ACK_THRESHOLD` | `10` | Batch-ack size |
+| `aws.sqs.api-call-timeout` | `AWS_SQS_API_CALL_TIMEOUT` | `PT1.5S` | `SqsAsyncClient` API call timeout via customizer |
 
 LocalStack workflow (no code changes to switch LocalStack ↔ AWS):
 
 ```bash
-docker compose up            # starts PostgreSQL + LocalStack (bucket bootstrap included)
-AWS_ENDPOINT_URL_S3=http://localhost:4566 mvn spring-boot:run   # run against LocalStack
+docker compose up            # starts PostgreSQL + LocalStack (bucket + queues bootstrap included)
+AWS_ENDPOINT_URL=http://localhost:4566 mvn spring-boot:run   # run against LocalStack
 ```
+
+The S3 → SQS fan-out (`develop-assets` bucket → `develop-assets-events-queue`, DLQ +
+redrive `maxReceiveCount: 5`) is provisioned by `localstack-resources.yml`. The
+`SqsMessageListenerContainer<S3Event>` consumes it with ordered batch acknowledgement,
+throughput-adaptive backpressure and virtual-thread execution; the `AssetEventsListener`
+seam only logs receipt (business confirmation lives in the consumer story).
 
 ### 📁 Folder Structure
 

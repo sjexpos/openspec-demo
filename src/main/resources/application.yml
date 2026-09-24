@@ -11,6 +11,24 @@ spring:
       enabled: true
   application:
     name: demo-api
+  cloud:
+    aws:
+      region:
+        static: ${AWS_REGION:us-east-1}
+      endpoint: ${AWS_ENDPOINT_URL:} # global LocalStack override (empty => real AWS)
+      s3:
+        endpoint: ${AWS_ENDPOINT_URL_S3:${AWS_ENDPOINT_URL:}} # service override wins over global
+        path-style-access-enabled: ${AWS_S3_PATH_STYLE_ACCESS:false}
+      sqs:
+        endpoint: ${AWS_ENDPOINT_URL_SQS:${AWS_ENDPOINT_URL:}}
+        observation-enabled: true # library default is false; must opt in
+        listener:
+          max-concurrent-messages: ${AWS_SQS_MAX_CONCURRENT_MESSAGES:10}
+          max-messages-per-poll: ${AWS_SQS_MAX_MESSAGES_PER_POLL:10}
+          poll-timeout: ${AWS_SQS_POLL_TIMEOUT:PT20S}
+          max-delay-between-polls: ${AWS_SQS_MAX_DELAY_BETWEEN_POLLS:PT10S}
+          auto-startup: ${AWS_SQS_AUTO_STARTUP:true}
+      # credentials intentionally absent => SDK default chain (IRSA / instance profile / env in prod)
   datasource:
     host: localhost
     port: 5432
@@ -70,9 +88,11 @@ logging:
     org.springframework.r2dbc: INFO
 
 aws:
-  region: ${AWS_REGION:us-east-1}
   s3:
-    endpoint: ${AWS_ENDPOINT_URL_S3:} # empty => real AWS
-    path-style-access: ${AWS_S3_PATH_STYLE_ACCESS:false}
     bucket: ${AWS_S3_BUCKET:develop-assets}
     presign-ttl: ${AWS_S3_PRESIGN_TTL:PT15M}
+  sqs:
+    assets-events-queue: ${AWS_SQS_ASSETS_EVENTS_QUEUE:develop-assets-events-queue}
+    acknowledgement-interval: ${AWS_SQS_ACK_INTERVAL:PT3S}
+    acknowledgement-threshold: ${AWS_SQS_ACK_THRESHOLD:10}
+    api-call-timeout: ${AWS_SQS_API_CALL_TIMEOUT:PT1.5S}

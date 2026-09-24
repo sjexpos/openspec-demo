@@ -59,6 +59,21 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+      localstack:
+        image: localstack/localstack:4.3.0
+        ports:
+          - 4566:4566
+        credentials:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        env:
+          DEBUG: 0
+          S3_SKIP_SIGNATURE_VALIDATION: 0
+        options: >-
+          --health-cmd "curl -f http://localhost:4566/_localstack/health"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     strategy:
       matrix:
         file: ${{ fromJSON( inputs.images ) }}
@@ -77,6 +92,28 @@ jobs:
         run: |
           mvn flyway:migrate -Dflyway.url=jdbc:postgresql://localhost:5432/openspec -Dflyway.user=admin -Dflyway.password=secret
           mvn flyway:info -Dflyway.url=jdbc:postgresql://localhost:5432/openspec -Dflyway.user=admin -Dflyway.password=secret
+      - name: Provision LocalStack resources
+        env:
+          AWS_ACCESS_KEY_ID: test
+          AWS_SECRET_ACCESS_KEY: test
+          AWS_REGION: us-east-1
+        run: |
+          echo "Waiting for LocalStack to be ready"
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:4566/_localstack/health > /dev/null; then
+              echo "LocalStack is ready."
+              break
+            fi
+            echo "Waiting..."
+            sleep 2
+          done
+          aws cloudformation deploy \
+            --template-file ./localstack-resources.yml \
+            --stack-name verification-stack \
+            --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM \
+            --parameter-overrides Environment=verification \
+            --endpoint-url http://localhost:4566 \
+            --region us-east-1
       - name: Split image name, context, dockerfile
         if: ${{ matrix.file != '_' }}
         run: |

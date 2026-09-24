@@ -59,7 +59,7 @@ class S3ConfigIntegrationTests {
   @AfterEach
   void cleanUp() {
     s3Client.deleteObject(
-        DeleteObjectRequest.builder().bucket(properties.s3().bucket()).key(TEST_KEY).build());
+        DeleteObjectRequest.builder().bucket(properties.bucket()).key(TEST_KEY).build());
   }
 
   @Test
@@ -93,12 +93,12 @@ class S3ConfigIntegrationTests {
 
     // Act
     s3Client.putObject(
-        PutObjectRequest.builder().bucket(properties.s3().bucket()).key(TEST_KEY).build(),
+        PutObjectRequest.builder().bucket(properties.bucket()).key(TEST_KEY).build(),
         RequestBody.fromString(content, StandardCharsets.UTF_8));
     String readBack;
     try (ResponseInputStream<GetObjectResponse> response =
         s3Client.getObject(
-            GetObjectRequest.builder().bucket(properties.s3().bucket()).key(TEST_KEY).build())) {
+            GetObjectRequest.builder().bucket(properties.bucket()).key(TEST_KEY).build())) {
       readBack = new String(response.readAllBytes(), StandardCharsets.UTF_8);
     }
 
@@ -111,13 +111,13 @@ class S3ConfigIntegrationTests {
     // Arrange
     String content = "kan-14 presigned";
     s3Client.putObject(
-        PutObjectRequest.builder().bucket(properties.s3().bucket()).key(TEST_KEY).build(),
+        PutObjectRequest.builder().bucket(properties.bucket()).key(TEST_KEY).build(),
         RequestBody.fromString(content, StandardCharsets.UTF_8));
     var presignRequest =
         software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest.builder()
-            .signatureDuration(properties.s3().presignTtl())
+            .signatureDuration(properties.presignTtl())
             .getObjectRequest(
-                GetObjectRequest.builder().bucket(properties.s3().bucket()).key(TEST_KEY).build())
+                GetObjectRequest.builder().bucket(properties.bucket()).key(TEST_KEY).build())
             .build();
 
     // Act: presign, then fetch over plain HTTP with no credentials

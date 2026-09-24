@@ -49,20 +49,27 @@ runs:
         docker run -d --rm --name tested-service --network host --platform ${{ inputs.platform }} \
                -e JAVA_XMS=256m \
                -e JAVA_XMX=1g \
-               -e PORT=8080 -e MANAGEMENT_PORT=8080 \
+               -e PORT=7070 -e MANAGEMENT_PORT=7070 \
                -e DATABASE_HOST=localhost \
                -e DATABASE_PORT=5432 \
                -e DATABASE_SCHEMA=openspec \
                -e DATABASE_USER=admin \
                -e DATABASE_PASSWORD=secret \
+               -e AWS_REGION=us-east-1 \
+               -e AWS_ENDPOINT_URL=http://localhost:4566 \
+               -e AWS_ACCESS_KEY_ID=test \
+               -e AWS_SECRET_ACCESS_KEY=test \
+               -e AWS_S3_PATH_STYLE_ACCESS=true \
+               -e AWS_S3_BUCKET=verification-assets \
+               -e AWS_SQS_ASSETS_EVENTS_QUEUE=verification-assets-events-queue \
               ${{ inputs.image }}:${{ inputs.tag }}
-        echo "Waiting for service localhost:8080..."
-        .github/actions/test-docker-image/wait-for-it.sh -h localhost -p 8080 -t 300 -- echo "Service is running!"
+        echo "Waiting for service localhost:7070..."
+        .github/actions/test-docker-image/wait-for-it.sh -h localhost -p 7070 -t 300 -- echo "Service is running!"
         sleep 5s
     - name: Health check
       shell: bash
       run: |
-        status=$(curl -s "http://localhost:8080/actuator/health" | jq -r '.status') 
+        status=$(curl -s "http://localhost:7070/actuator/health" | jq -r '.status') 
         if [ "$status" == "UP" ]; then 
           echo "Service is up and running." 
           exit 0
