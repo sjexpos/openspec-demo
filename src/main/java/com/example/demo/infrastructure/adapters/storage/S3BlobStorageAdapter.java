@@ -67,17 +67,14 @@ public class S3BlobStorageAdapter implements BlobStorage {
   public BlobUploadTarget createUploadTarget(BlobType blobType) {
     Assert.notNull(blobType, "blobType must not be null");
     String key = blobType.prefix() + UUID.randomUUID().toString().replace("-", "");
-    Duration ttl = this.properties.s3().presignTtl();
+    Duration ttl = this.properties.presignTtl();
     try {
       PresignedPutObjectRequest presigned =
           this.s3Presigner.presignPutObject(
               PutObjectPresignRequest.builder()
                   .signatureDuration(ttl)
                   .putObjectRequest(
-                      PutObjectRequest.builder()
-                          .bucket(this.properties.s3().bucket())
-                          .key(key)
-                          .build())
+                      PutObjectRequest.builder().bucket(this.properties.bucket()).key(key).build())
                   .build());
       log.info("Upload target issued for blob type {} with key {}", blobType, key);
       return new BlobUploadTarget(
@@ -104,7 +101,7 @@ public class S3BlobStorageAdapter implements BlobStorage {
         DeleteObjectsResponse response =
             this.s3Client.deleteObjects(
                 DeleteObjectsRequest.builder()
-                    .bucket(this.properties.s3().bucket())
+                    .bucket(this.properties.bucket())
                     .delete(
                         Delete.builder()
                             .objects(

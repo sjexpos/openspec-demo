@@ -1,5 +1,20 @@
 spring:
   # Datasource configuration (PostgreSQL via environment variables)
+  cloud:
+    aws:
+      region:
+        static: us-east-1
+      endpoint: http://localhost:4566
+      s3:
+        path-style-access-enabled: true
+      sqs:
+        observation-enabled: true
+        listener:
+          max-concurrent-messages: 2
+          max-messages-per-poll: 2
+          poll-timeout: PT5S
+          max-delay-between-polls: PT2S
+          auto-startup: false # container created but not started; tests start it manually
   datasource:
     url: jdbc:postgresql://localhost:5432/tests
     username: test
@@ -49,9 +64,11 @@ management:
 #    org.hibernate.SQL: debug
 
 aws:
-  region: us-east-1
   s3:
-    endpoint: http://localhost:4566
-    path-style-access: true
     bucket: develop-assets
     presign-ttl: PT15M
+  sqs:
+    assets-events-queue: develop-assets-events-queue
+    acknowledgement-interval: PT1S # faster batching in tests (overrides the 3 s default)
+    acknowledgement-threshold: 2
+    api-call-timeout: PT1.5S

@@ -44,6 +44,9 @@
         <postgresql-connector.version>42.7.3</postgresql-connector.version>
         <junit-pioneer.version>2.2.0</junit-pioneer.version>
         <aws-sdk.version>2.55.1</aws-sdk.version>
+        <spring-cloud-aws.version>4.1.1</spring-cloud-aws.version>
+        <aws-lambda-events.version>3.16.0</aws-lambda-events.version>
+        <aws-lambda-serialization.version>1.2.0</aws-lambda-serialization.version>
 
         <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
         <spotless-maven-plugin.version>2.43.0</spotless-maven-plugin.version>
@@ -76,6 +79,13 @@
                 <groupId>software.amazon.awssdk</groupId>
                 <artifactId>bom</artifactId>
                 <version>${aws-sdk.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.awspring.cloud</groupId>
+                <artifactId>spring-cloud-aws-dependencies</artifactId>
+                <version>${spring-cloud-aws.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -155,6 +165,38 @@
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>s3</artifactId>
+        </dependency>
+
+        <!-- Spring Cloud AWS: S3 + SQS starters (BOM-managed, no version) -->
+        <dependency>
+            <groupId>io.awspring.cloud</groupId>
+            <artifactId>spring-cloud-aws-starter-s3</artifactId>
+        </dependency>
+        <!-- CRT HTTP client: enables the auto-configured CRT-based S3AsyncClient bean -->
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>aws-crt-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.awspring.cloud</groupId>
+            <artifactId>spring-cloud-aws-starter-sqs</artifactId>
+        </dependency>
+        <dependency> <!-- Fix Snyk - https://www.cve.org/CVERecord?id=CVE-2026-47888 / spring-cloud-aws-starter-sqs include 7.0.8 -->
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+            <version>7.0.9</version>
+        </dependency>
+        <!-- Lambda event model (S3Event) -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-lambda-java-events</artifactId>
+            <version>${aws-lambda-events.version}</version>
+        </dependency>
+        <!-- Canonical S3Event JSON mapping (same code path as the Lambda runtime) -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-lambda-java-serialization</artifactId>
+            <version>${aws-lambda-serialization.version}</version>
         </dependency>
 
         <!-- Flyway Migration -->

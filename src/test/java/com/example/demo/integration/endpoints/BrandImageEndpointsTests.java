@@ -192,13 +192,13 @@ class BrandImageEndpointsTests extends EndpointIntegrationTest {
     assertThat(response.statusCode()).isEqualTo(200);
     var head =
         s3Client.headObject(
-            HeadObjectRequest.builder().bucket(properties.s3().bucket()).key(imageKey).build());
+            HeadObjectRequest.builder().bucket(properties.bucket()).key(imageKey).build());
     assertThat(head.contentLength()).isEqualTo(content.length);
 
     // Cleanup the uploaded object so the bucket keeps no residue
     s3Client.deleteObject(
         software.amazon.awssdk.services.s3.model.DeleteObjectRequest.builder()
-            .bucket(properties.s3().bucket())
+            .bucket(properties.bucket())
             .key(imageKey)
             .build());
   }

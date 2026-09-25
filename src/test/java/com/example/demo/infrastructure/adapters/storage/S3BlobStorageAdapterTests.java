@@ -76,7 +76,7 @@ class S3BlobStorageAdapterTests {
 
   @BeforeEach
   void setUp() {
-    properties = new AwsS3Properties("us-east-1", new AwsS3Properties.S3(null, false, BUCKET, TTL));
+    properties = new AwsS3Properties(BUCKET, TTL);
     adapter = new S3BlobStorageAdapter(s3Presigner, s3Client, properties);
   }
 

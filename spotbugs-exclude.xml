@@ -45,4 +45,12 @@
         <Bug pattern="EI_EXPOSE_REP2" />
     </Match>
 
+    <!-- KAN-16: Spring constructor injection of collaborator beans (SqsProperties,
+         ObservationRegistry) inherently stores external references; same pattern as
+         services/controllers/storage above. -->
+    <Match>
+        <Package name="~com\.example\.demo\.infrastructure\.config.*"/>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
+
 </FindBugsFilter>

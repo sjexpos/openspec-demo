@@ -19,6 +19,7 @@ package com.example.demo.infrastructure.config;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import io.awspring.cloud.autoconfigure.s3.properties.S3Properties;
 import java.net.URI;
 import java.time.Duration;
 import org.junit.jupiter.api.Test;
@@ -30,71 +31,74 @@ import org.springframework.context.annotation.Configuration;
 class AwsS3PropertiesTests {
 
   @Configuration
-  @EnableConfigurationProperties(AwsS3Properties.class)
+  @EnableConfigurationProperties({AwsS3Properties.class, S3Properties.class})
   static class TestConfig {}
 
   private final ApplicationContextRunner runner =
       new ApplicationContextRunner().withConfiguration(AutoConfigurations.of(TestConfig.class));
 
   @Test
-  void should_bindAllFields_when_allAwsPropertiesAreSet() {
+  void should_bindBucketAndTtl_when_slimKeysAreSet() {
     // Arrange
     ApplicationContextRunner configured =
-        runner.withPropertyValues(
-            "aws.region=eu-west-1",
-            "aws.s3.endpoint=http://localhost:4566",
-            "aws.s3.path-style-access=true",
-            "aws.s3.bucket=develop-assets",
-            "aws.s3.presign-ttl=PT15M");
+        runner.withPropertyValues("aws.s3.bucket=develop-assets", "aws.s3.presign-ttl=PT15M");
 
     // Act + Assert
     configured.run(
         context -> {
           AwsS3Properties properties = context.getBean(AwsS3Properties.class);
-          assertThat(properties.region()).isEqualTo("eu-west-1");
-          assertThat(properties.s3().endpoint()).isEqualTo(URI.create("http://localhost:4566"));
-          assertThat(properties.s3().pathStyleAccess()).isTrue();
-          assertThat(properties.s3().bucket()).isEqualTo("develop-assets");
-          assertThat(properties.s3().presignTtl()).isEqualTo(Duration.ofMinutes(15));
+          assertThat(properties.bucket()).isEqualTo("develop-assets");
+          assertThat(properties.presignTtl()).isEqualTo(Duration.ofMinutes(15));
         });
   }
 
   @Test
-  void should_reportEndpointOverridePresent_when_endpointIsSet() {
-    // Arrange
+  void should_ignoreLegacyKeys_when_regionAndEndpointAreSet() {
+    // Arrange: legacy keys are not a source of truth anymore; they bind nowhere
     ApplicationContextRunner configured =
         runner.withPropertyValues(
-            "aws.region=eu-west-1",
-            "aws.s3.endpoint=http://localhost:4566",
-            "aws.s3.path-style-access=true",
-            "aws.s3.bucket=develop-assets",
-            "aws.s3.presign-ttl=PT15M");
+            "aws.region=eu-west-1", "aws.s3.bucket=develop-assets", "aws.s3.presign-ttl=PT15M");
 
-    // Act + Assert
+    // Act + Assert: slim record binds fine, legacy region drives nothing
     configured.run(
         context -> {
           AwsS3Properties properties = context.getBean(AwsS3Properties.class);
-          assertThat(properties.hasEndpointOverride()).isTrue();
+          assertThat(properties.bucket()).isEqualTo("develop-assets");
+          assertThat(properties.presignTtl()).isEqualTo(Duration.ofMinutes(15));
         });
   }
 
   @Test
-  void should_bindEndpointAsNull_when_propertyIsEmptyString() {
-    // Arrange
+  void should_bindEndpointFromLibrary_when_serviceKeyIsSet() {
+    // Arrange: endpoint override now travels through the library keys
     ApplicationContextRunner configured =
         runner.withPropertyValues(
-            "aws.region=us-east-1",
-            "aws.s3.endpoint=",
-            "aws.s3.path-style-access=false",
+            "spring.cloud.aws.s3.endpoint=http://localhost:4566",
             "aws.s3.bucket=develop-assets",
             "aws.s3.presign-ttl=PT15M");
 
     // Act + Assert
     configured.run(
         context -> {
-          AwsS3Properties properties = context.getBean(AwsS3Properties.class);
-          assertThat(properties.s3().endpoint()).isNull();
-          assertThat(properties.hasEndpointOverride()).isFalse();
+          S3Properties properties = context.getBean(S3Properties.class);
+          assertThat(properties.getEndpoint()).isEqualTo(URI.create("http://localhost:4566"));
+        });
+  }
+
+  @Test
+  void should_bindEndpointAsNull_when_libraryKeyIsEmptyString() {
+    // Arrange: empty override means real AWS resolution
+    ApplicationContextRunner configured =
+        runner.withPropertyValues(
+            "spring.cloud.aws.s3.endpoint=",
+            "aws.s3.bucket=develop-assets",
+            "aws.s3.presign-ttl=PT15M");
+
+    // Act + Assert
+    configured.run(
+        context -> {
+          S3Properties properties = context.getBean(S3Properties.class);
+          assertThat(properties.getEndpoint()).isNull();
         });
   }
 
@@ -102,26 +106,12 @@ class AwsS3PropertiesTests {
   void should_failValidation_when_bucketIsBlank() {
     // Arrange: blank bucket name must be rejected at startup binding
     ApplicationContextRunner configured =
-        runner.withPropertyValues(
-            "aws.region=us-east-1", "aws.s3.bucket=", "aws.s3.presign-ttl=PT15M");
+        runner.withPropertyValues("aws.s3.bucket=", "aws.s3.presign-ttl=PT15M");
 
     // Act + Assert
     configured.run(
         context -> {
           assertThat(context.getStartupFailure()).isNotNull().hasStackTraceContaining("bucket");
-        });
-  }
-
-  @Test
-  void should_reportNoOverride_when_s3SectionIsAbsent() {
-    // Arrange
-    ApplicationContextRunner configured = runner.withPropertyValues("aws.region=us-east-1");
-
-    // Act + Assert
-    configured.run(
-        context -> {
-          AwsS3Properties properties = context.getBean(AwsS3Properties.class);
-          assertThat(properties.hasEndpointOverride()).isFalse();
         });
   }
 }

@@ -1,0 +1,38 @@
+{
+  "Records": [
+    {
+      "eventVersion": "2.1",
+      "eventSource": "aws:s3",
+      "awsRegion": "us-east-1",
+      "eventTime": "2026-09-24T12:00:00.000Z",
+      "eventName": "ObjectCreated:Put",
+      "userIdentity": {
+        "principalId": "AWS:AROATEST:bot"
+      },
+      "requestParameters": {
+        "sourceIPAddress": "127.0.0.1"
+      },
+      "responseElements": {
+        "x-amz-request-id": "test-request-id",
+        "x-amz-id-2": "test-id-2"
+      },
+      "s3": {
+        "s3SchemaVersion": "1.0",
+        "configurationId": "assets-events",
+        "bucket": {
+          "name": "develop-assets",
+          "ownerIdentity": {
+            "principalId": "AWS:AROATEST:bot"
+          },
+          "arn": "arn:aws:s3:::develop-assets"
+        },
+        "object": {
+          "key": "brands%2Fimages%2F0123456789abcdef0123456789abcdef",
+          "size": 1024,
+          "eTag": "d41d8cd98f00b204e9800998ecf8427e",
+          "sequencer": "0066ABCD0000000001"
+        }
+      }
+    }
+  ]
+}

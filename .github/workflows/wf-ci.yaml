@@ -191,13 +191,6 @@ jobs:
             --endpoint-url http://localhost:4566 \
             --region us-east-1
       - name: Testing code
-        env:
-          AWS_REGION: us-east-1
-          AWS_ENDPOINT_URL_S3: http://localhost:4566
-          AWS_S3_PATH_STYLE_ACCESS: true
-          AWS_S3_BUCKET: develop-assets
-          AWS_ACCESS_KEY_ID: test
-          AWS_SECRET_ACCESS_KEY: test
         run: mvn -Dsurefire.skip=true -Dfailsafe.skip=false -Dpitest.skip=true --batch-mode verify
       - name: Upload integration tested sources
         id: upload-int-tested-sources

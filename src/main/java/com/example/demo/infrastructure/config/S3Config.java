@@ -17,55 +17,14 @@
 
 package com.example.demo.infrastructure.config;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.S3ClientBuilder;
-import software.amazon.awssdk.services.s3.S3Configuration;
-import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 
-@Slf4j
+/**
+ * S3 domain configuration registration point. The {@code S3Client}, {@code S3AsyncClient} and
+ * {@code S3Presigner} beans are auto-configured by {@code spring-cloud-aws-starter-s3} from {@code
+ * spring.cloud.aws.*} (Option A: no manual client builders; customizers are the extension point).
+ */
 @Configuration
 @EnableConfigurationProperties(AwsS3Properties.class)
-@RequiredArgsConstructor
-public class S3Config {
-
-  private final AwsS3Properties properties;
-
-  @Bean
-  public S3Client s3Client() {
-    S3ClientBuilder builder =
-        S3Client.builder()
-            .region(Region.of(this.properties.region()))
-            .credentialsProvider(DefaultCredentialsProvider.create());
-    if (this.properties.hasEndpointOverride()) {
-      log.info("Overriding S3 endpoint with {}", this.properties.s3().endpoint());
-      builder
-          .endpointOverride(this.properties.s3().endpoint())
-          .forcePathStyle(this.properties.s3().pathStyleAccess());
-    }
-    return builder.build();
-  }
-
-  @Bean
-  public S3Presigner s3Presigner() {
-    S3Presigner.Builder builder =
-        S3Presigner.builder()
-            .region(Region.of(this.properties.region()))
-            .credentialsProvider(DefaultCredentialsProvider.create());
-    if (this.properties.hasEndpointOverride()) {
-      builder
-          .endpointOverride(this.properties.s3().endpoint())
-          .serviceConfiguration(
-              S3Configuration.builder()
-                  .pathStyleAccessEnabled(this.properties.s3().pathStyleAccess())
-                  .build());
-    }
-    return builder.build();
-  }
-}
+public class S3Config {}

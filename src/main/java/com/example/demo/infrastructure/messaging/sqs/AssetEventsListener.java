@@ -15,20 +15,22 @@
  **********/
 // Copyright (c) 2026-2027 Sergio Exposito.  All rights reserved.              
 
-package com.example.demo.infrastructure.config;
+package com.example.demo.infrastructure.messaging.sqs;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import java.time.Duration;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.validation.annotation.Validated;
+import com.amazonaws.services.lambda.runtime.events.S3Event;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
- * Slim S3 domain gap: keeps only what the Spring Cloud AWS library does not model (bucket, presign
- * TTL). Region, endpoint override, path-style access and credentials are sourced from the library
- * keys ({@code spring.cloud.aws.*}); the legacy {@code aws.region} / {@code aws.s3.endpoint} keys
- * are not a source of truth.
+ * Seam listener for asset events. Logs receipt and delegates to a hook; KAN-13 replaces the body
+ * with {@code BlobUploadEvent} derivation plus confirmation. No business handling and no database
+ * access in this slice.
  */
-@ConfigurationProperties(prefix = "aws.s3")
-@Validated
-public record AwsS3Properties(@NotBlank String bucket, @NotNull Duration presignTtl) {}
+@Slf4j
+@Component
+public class AssetEventsListener {
+
+  public void onAssetEvent(S3Event event) {
+    log.debug("Received asset event with {} record(s)", event.getRecords().size());
+  }
+}
