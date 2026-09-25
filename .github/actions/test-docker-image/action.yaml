@@ -69,7 +69,9 @@ runs:
     - name: Health check
       shell: bash
       run: |
-        status=$(curl -s "http://localhost:7070/actuator/health" | jq -r '.status') 
+        health=$(curl -s "http://localhost:7070/actuator/health)
+        echo $health
+        status=$(echo $health | jq -r '.status') 
         if [ "$status" == "UP" ]; then 
           echo "Service is up and running." 
           exit 0

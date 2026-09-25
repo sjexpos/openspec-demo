@@ -181,6 +181,11 @@
             <groupId>io.awspring.cloud</groupId>
             <artifactId>spring-cloud-aws-starter-sqs</artifactId>
         </dependency>
+        <dependency> <!-- Fix Snyk - https://www.cve.org/CVERecord?id=CVE-2026-47888 / spring-cloud-aws-starter-sqs include 7.0.8 -->
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+            <version>7.0.9</version>
+        </dependency>
         <!-- Lambda event model (S3Event) -->
         <dependency>
             <groupId>com.amazonaws</groupId>
