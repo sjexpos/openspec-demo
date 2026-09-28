@@ -20,7 +20,7 @@ package com.example.demo.infrastructure.config;
 import com.amazonaws.services.lambda.runtime.events.S3Event;
 import com.example.demo.infrastructure.messaging.sqs.AssetEventsListener;
 import com.example.demo.infrastructure.messaging.sqs.S3EventMessageConverter;
-import io.awspring.cloud.autoconfigure.AwsClientCustomizer;
+import io.awspring.cloud.autoconfigure.sqs.SqsAsyncClientCustomizer;
 import io.awspring.cloud.autoconfigure.sqs.SqsProperties;
 import io.awspring.cloud.sqs.config.SqsMessageListenerContainerFactory;
 import io.awspring.cloud.sqs.listener.BackPressureMode;
@@ -33,13 +33,13 @@ import io.micrometer.observation.ObservationRegistry;
 import java.util.List;
 import java.util.concurrent.Executors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.core.task.support.TaskExecutorAdapter;
 import software.amazon.awssdk.services.sqs.SqsAsyncClient;
-import software.amazon.awssdk.services.sqs.SqsAsyncClientBuilder;
 
 /**
  * SQS listener wiring. The starter auto-configures the {@code SqsAsyncClient} from {@code
@@ -59,7 +59,7 @@ public class SqsConfig {
   private final ObservationRegistry observationRegistry;
 
   @Bean
-  public AwsClientCustomizer<SqsAsyncClientBuilder> sqsApiTimeoutCustomizer() {
+  public SqsAsyncClientCustomizer sqsApiTimeoutCustomizer() {
     return builder ->
         builder.overrideConfiguration(
             override -> override.apiCallTimeout(this.properties.apiCallTimeout()));
@@ -120,11 +120,13 @@ public class SqsConfig {
 
   @Bean
   public SqsMessageListenerContainer<S3Event> assetEventsContainer(
-      SqsMessageListenerContainerFactory<S3Event> factory, AssetEventsListener listener) {
+      SqsMessageListenerContainerFactory<S3Event> factory,
+      ObjectProvider<AssetEventsListener> listenerProvider) {
     SqsMessageListenerContainer<S3Event> container = factory.createContainer("asset-events");
     container.setQueueNames(List.of(this.properties.assetsEventsQueue()));
     container.setPayloadDeserializationType(S3Event.class);
-    container.setMessageListener(message -> listener.onAssetEvent(message.getPayload()));
+    container.setMessageListener(
+        message -> listenerProvider.getObject().onAssetEvent(message.getPayload()));
     return container;
   }
 }

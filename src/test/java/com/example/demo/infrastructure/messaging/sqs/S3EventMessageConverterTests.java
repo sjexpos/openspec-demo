@@ -61,7 +61,7 @@ class S3EventMessageConverterTests {
     assertThat(message.getPayload()).isInstanceOf(S3Event.class);
     S3Event event = (S3Event) message.getPayload();
     assertThat(event.getRecords()).hasSize(1);
-    assertThat(event.getRecords().get(0).getS3().getBucket().getName()).isEqualTo("develop-assets");
+    assertThat(event.getRecords().get(0).getS3().getBucket().getName()).isEqualTo("testing-assets");
     assertThat(event.getRecords().get(0).getS3().getObject().getKey())
         .isEqualTo("brands%2Fimages%2F0123456789abcdef0123456789abcdef");
   }
@@ -94,6 +94,6 @@ class S3EventMessageConverterTests {
     assertThat(payload).isInstanceOf(S3Event.class);
     S3Event event = (S3Event) payload;
     assertThat(event.getRecords()).hasSize(1);
-    assertThat(event.getRecords().get(0).getS3().getBucket().getName()).isEqualTo("develop-assets");
+    assertThat(event.getRecords().get(0).getS3().getBucket().getName()).isEqualTo("testing-assets");
   }
 }

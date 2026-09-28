@@ -57,9 +57,9 @@ import software.amazon.awssdk.services.sqs.model.PurgeQueueRequest;
 @SetEnvironmentVariable(key = "AWS_SECRET_ACCESS_KEY", value = "test")
 class SqsContainerIntegrationTests {
 
-  private static final String BUCKET = "develop-assets";
+  private static final String BUCKET = "testing-assets";
 
-  private static final String QUEUE = "develop-assets-events-queue";
+  private static final String QUEUE = "testing-assets-events-queue";
 
   private static final String OBJECT_KEY = "brands/images/0123456789abcdef0123456789abcdef";
 

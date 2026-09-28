@@ -3,7 +3,7 @@ services:
   postgres:
     image: 'postgres:14.4'
     container_name: postgres
-    restart: unless-stopped
+    restart: no
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
       POSTGRES_USER: ${DB_USER:-postgres}
@@ -21,7 +21,7 @@ services:
   localstack:
     image: 'localstack/localstack:4.3.0'
     container_name: localstack
-    restart: unless-stopped
+    restart: no
     ports:
       - "127.0.0.1:4566:4566"            # LocalStack Gateway
       - "127.0.0.1:4510-4559:4510-4559"  # external services port range
@@ -42,6 +42,7 @@ services:
   localstack-resources:
     image: 'amazon/aws-cli'
     container_name: localstack-resources
+    restart: no
     environment:
       - AWS_ENDPOINT_URL=http://localstack:4566
       - AWS_ACCESS_KEY_ID=test
@@ -57,7 +58,7 @@ services:
   sonarqube:
     image: 'sonarqube:26.7.0.124771-community'
     container_name: sonarqube
-    restart: unless-stopped
+    restart: no
     ports:
       - ${SONAR_PORT:-9000}:9000
     volumes:
@@ -71,7 +72,7 @@ services:
   sonarqube-init:
     image: 'dwdraju/alpine-curl-jq'
     container_name: alpine-curl-jq
-    restart: none
+    restart: no
     depends_on:
       - sonarqube
     environment:

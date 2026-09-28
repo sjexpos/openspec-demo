@@ -40,7 +40,7 @@ class AwsSqsPropertiesTests {
     // Arrange
     ApplicationContextRunner configured =
         runner.withPropertyValues(
-            "aws.sqs.assets-events-queue=develop-assets-events-queue",
+            "aws.sqs.assets-events-queue=testing-assets-events-queue",
             "aws.sqs.acknowledgement-interval=PT3S",
             "aws.sqs.acknowledgement-threshold=10",
             "aws.sqs.api-call-timeout=PT1.5S");
@@ -49,7 +49,7 @@ class AwsSqsPropertiesTests {
     configured.run(
         context -> {
           AwsSqsProperties properties = context.getBean(AwsSqsProperties.class);
-          assertThat(properties.assetsEventsQueue()).isEqualTo("develop-assets-events-queue");
+          assertThat(properties.assetsEventsQueue()).isEqualTo("testing-assets-events-queue");
           assertThat(properties.acknowledgementInterval()).isEqualTo(Duration.ofSeconds(3));
           assertThat(properties.acknowledgementThreshold()).isEqualTo(10);
           assertThat(properties.apiCallTimeout()).isEqualTo(Duration.ofMillis(1500));
@@ -61,7 +61,7 @@ class AwsSqsPropertiesTests {
     // Arrange: non-positive batch-ack size must be rejected at startup binding
     ApplicationContextRunner configured =
         runner.withPropertyValues(
-            "aws.sqs.assets-events-queue=develop-assets-events-queue",
+            "aws.sqs.assets-events-queue=testing-assets-events-queue",
             "aws.sqs.acknowledgement-interval=PT3S",
             "aws.sqs.acknowledgement-threshold=0",
             "aws.sqs.api-call-timeout=PT1.5S");

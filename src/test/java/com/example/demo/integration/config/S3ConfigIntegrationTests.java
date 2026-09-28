@@ -77,13 +77,13 @@ class S3ConfigIntegrationTests {
 
   @Test
   void should_listAssetsBucket_when_localstackIsRunning() {
-    // Arrange: LocalStack bootstrap creates the develop-assets bucket
+    // Arrange: LocalStack bootstrap creates the testing-assets bucket
 
     // Act
     var buckets = s3Client.listBuckets().buckets();
 
     // Assert
-    assertThat(buckets).extracting("name").contains("develop-assets");
+    assertThat(buckets).extracting("name").contains("testing-assets");
   }
 
   @Test

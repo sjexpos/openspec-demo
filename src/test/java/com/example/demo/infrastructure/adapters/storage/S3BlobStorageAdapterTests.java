@@ -60,7 +60,7 @@ import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignReques
 @ExtendWith(MockitoExtension.class)
 class S3BlobStorageAdapterTests {
 
-  private static final String BUCKET = "develop-assets";
+  private static final String BUCKET = "testing-assets";
 
   private static final Duration TTL = Duration.ofMinutes(15);
 
@@ -261,7 +261,7 @@ class S3BlobStorageAdapterTests {
     logger.addAppender(appender);
     String signatureMaterial = "X-Amz-Signature=abcdef1234567890";
     String presignedUrl =
-        "http://localhost:4566/develop-assets/products/images/9f2a4c1ed3b74e8fa1c6b0d2e5f7a913"
+        "http://localhost:4566/testing-assets/products/images/9f2a4c1ed3b74e8fa1c6b0d2e5f7a913"
             + "?X-Amz-Algorithm=AWS4-HMAC-SHA256&"
             + signatureMaterial;
     given(s3Presigner.presignPutObject(any(PutObjectPresignRequest.class)))

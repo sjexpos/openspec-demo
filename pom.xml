@@ -14,7 +14,7 @@
     <groupId>ai.sergio</groupId>
     <artifactId>openspec-demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>demo</name>
+    <name>openspec-demo</name>
     <description>Spring Boot REST API with OpenAPI 3</description>
     <url/>
     <licenses>

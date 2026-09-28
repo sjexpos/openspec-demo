@@ -53,7 +53,7 @@ class SqsConfigTests {
 
   private AwsSqsProperties gapRecord() {
     return new AwsSqsProperties(
-        "develop-assets-events-queue", Duration.ofSeconds(3), 10, API_CALL_TIMEOUT);
+        "testing-assets-events-queue", Duration.ofSeconds(3), 10, API_CALL_TIMEOUT);
   }
 
   @Test
@@ -206,11 +206,18 @@ class SqsConfigTests {
     }
 
     // Act
-    SqsMessageListenerContainer<S3Event> container = config.assetEventsContainer(factory, listener);
+    @SuppressWarnings("unchecked")
+    org.springframework.beans.factory.ObjectProvider<
+            com.example.demo.infrastructure.messaging.sqs.AssetEventsListener>
+        listenerProvider =
+            org.mockito.Mockito.mock(org.springframework.beans.factory.ObjectProvider.class);
+    org.mockito.Mockito.when(listenerProvider.getObject()).thenReturn(listener);
+    SqsMessageListenerContainer<S3Event> container =
+        config.assetEventsContainer(factory, listenerProvider);
 
     // Assert
     assertThat(container).isNotNull();
-    assertThat(container.getQueueNames()).containsExactly("develop-assets-events-queue");
+    assertThat(container.getQueueNames()).containsExactly("testing-assets-events-queue");
     assertThat(container.getPayloadDeserializationType()).isEqualTo(S3Event.class);
     S3Event event = new S3Event(java.util.List.of());
     io.awspring.cloud.sqs.listener.AsyncMessageListener<S3Event> asyncListener =
@@ -221,6 +228,47 @@ class SqsConfigTests {
         .onMessage(new org.springframework.messaging.support.GenericMessage<>(event))
         .join();
     org.mockito.Mockito.verify(listener).onAssetEvent(event);
+  }
+
+  @Test
+  void should_resolveListenerLazily_when_messageArrivesAfterSpyReplacement() {
+    // Arrange: container is built before the spy replaces the bean (MockitoSpyBean scenario)
+    SqsConfig config = new SqsConfig(gapRecord(), libraryProperties(), ObservationRegistry.NOOP);
+    com.example.demo.infrastructure.messaging.sqs.AssetEventsListener original =
+        org.mockito.Mockito.mock(
+            com.example.demo.infrastructure.messaging.sqs.AssetEventsListener.class);
+    com.example.demo.infrastructure.messaging.sqs.AssetEventsListener spyReplacement =
+        org.mockito.Mockito.mock(
+            com.example.demo.infrastructure.messaging.sqs.AssetEventsListener.class);
+    SqsMessageListenerContainerFactory<S3Event> factory;
+    try (SqsAsyncClient client = sqsClient()) {
+      factory =
+          config.sqsListenerContainerFactory(
+              client, config.sqsListenerTaskExecutor(), new SqsAcknowledgementLoggingCallback());
+    }
+    @SuppressWarnings("unchecked")
+    org.springframework.beans.factory.ObjectProvider<
+            com.example.demo.infrastructure.messaging.sqs.AssetEventsListener>
+        listenerProvider =
+            org.mockito.Mockito.mock(org.springframework.beans.factory.ObjectProvider.class);
+    org.mockito.Mockito.when(listenerProvider.getObject()).thenReturn(original);
+    SqsMessageListenerContainer<S3Event> container =
+        config.assetEventsContainer(factory, listenerProvider);
+
+    // Act: spy replaces the bean after container creation, then a message arrives
+    org.mockito.Mockito.when(listenerProvider.getObject()).thenReturn(spyReplacement);
+    S3Event event = new S3Event(java.util.List.of());
+    io.awspring.cloud.sqs.listener.AsyncMessageListener<S3Event> asyncListener =
+        container.getMessageListener();
+    ((io.awspring.cloud.sqs.listener.TaskExecutorAware) asyncListener)
+        .setTaskExecutor(config.sqsListenerTaskExecutor());
+    asyncListener
+        .onMessage(new org.springframework.messaging.support.GenericMessage<>(event))
+        .join();
+
+    // Assert: the current bean (spy) receives the event, not the stale captured instance
+    org.mockito.Mockito.verify(spyReplacement).onAssetEvent(event);
+    org.mockito.Mockito.verify(original, org.mockito.Mockito.never()).onAssetEvent(event);
   }
 
   @Test

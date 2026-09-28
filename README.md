@@ -90,7 +90,7 @@ LocalStack workflow (no code changes to switch LocalStack ↔ AWS):
 
 ```bash
 docker compose up            # starts PostgreSQL + LocalStack (bucket + queues bootstrap included)
-AWS_ENDPOINT_URL=http://localhost:4566 mvn spring-boot:run   # run against LocalStack
+AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test AWS_ENDPOINT_URL=http://localhost:4566 AWS_S3_PATH_STYLE_ACCESS=true mvn spring-boot:run   # run against LocalStack
 ```
 
 The S3 → SQS fan-out (`develop-assets` bucket → `develop-assets-events-queue`, DLQ +

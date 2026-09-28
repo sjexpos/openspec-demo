@@ -12,7 +12,7 @@ spring:
         listener:
           max-concurrent-messages: 2
           max-messages-per-poll: 2
-          poll-timeout: PT5S
+          poll-timeout: PT2S
           max-delay-between-polls: PT2S
           auto-startup: false # container created but not started; tests start it manually
   datasource:
@@ -65,10 +65,10 @@ management:
 
 aws:
   s3:
-    bucket: develop-assets
+    bucket: testing-assets
     presign-ttl: PT15M
   sqs:
-    assets-events-queue: develop-assets-events-queue
+    assets-events-queue: testing-assets-events-queue
     acknowledgement-interval: PT1S # faster batching in tests (overrides the 3 s default)
     acknowledgement-threshold: 2
-    api-call-timeout: PT1.5S
+    api-call-timeout: PT3S

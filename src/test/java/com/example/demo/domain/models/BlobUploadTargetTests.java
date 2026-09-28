@@ -30,7 +30,7 @@ class BlobUploadTargetTests {
   void should_exposeKeyUrlMethodAndExpiresAt_when_targetIsCreated() throws Exception {
     // Arrange
     String key = "products/images/9f2a4c1ed3b74e8fa1c6b0d2e5f7a913";
-    URI url = new URI("http://localhost:4566/develop-assets/" + key);
+    URI url = new URI("http://localhost:4566/testing-assets/" + key);
     Instant expiresAt = Instant.now().plusSeconds(900);
 
     // Act

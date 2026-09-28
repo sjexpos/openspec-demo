@@ -41,13 +41,13 @@ class AwsS3PropertiesTests {
   void should_bindBucketAndTtl_when_slimKeysAreSet() {
     // Arrange
     ApplicationContextRunner configured =
-        runner.withPropertyValues("aws.s3.bucket=develop-assets", "aws.s3.presign-ttl=PT15M");
+        runner.withPropertyValues("aws.s3.bucket=testing-assets", "aws.s3.presign-ttl=PT15M");
 
     // Act + Assert
     configured.run(
         context -> {
           AwsS3Properties properties = context.getBean(AwsS3Properties.class);
-          assertThat(properties.bucket()).isEqualTo("develop-assets");
+          assertThat(properties.bucket()).isEqualTo("testing-assets");
           assertThat(properties.presignTtl()).isEqualTo(Duration.ofMinutes(15));
         });
   }
@@ -57,13 +57,13 @@ class AwsS3PropertiesTests {
     // Arrange: legacy keys are not a source of truth anymore; they bind nowhere
     ApplicationContextRunner configured =
         runner.withPropertyValues(
-            "aws.region=eu-west-1", "aws.s3.bucket=develop-assets", "aws.s3.presign-ttl=PT15M");
+            "aws.region=eu-west-1", "aws.s3.bucket=testing-assets", "aws.s3.presign-ttl=PT15M");
 
     // Act + Assert: slim record binds fine, legacy region drives nothing
     configured.run(
         context -> {
           AwsS3Properties properties = context.getBean(AwsS3Properties.class);
-          assertThat(properties.bucket()).isEqualTo("develop-assets");
+          assertThat(properties.bucket()).isEqualTo("testing-assets");
           assertThat(properties.presignTtl()).isEqualTo(Duration.ofMinutes(15));
         });
   }
@@ -74,7 +74,7 @@ class AwsS3PropertiesTests {
     ApplicationContextRunner configured =
         runner.withPropertyValues(
             "spring.cloud.aws.s3.endpoint=http://localhost:4566",
-            "aws.s3.bucket=develop-assets",
+            "aws.s3.bucket=testing-assets",
             "aws.s3.presign-ttl=PT15M");
 
     // Act + Assert
@@ -91,7 +91,7 @@ class AwsS3PropertiesTests {
     ApplicationContextRunner configured =
         runner.withPropertyValues(
             "spring.cloud.aws.s3.endpoint=",
-            "aws.s3.bucket=develop-assets",
+            "aws.s3.bucket=testing-assets",
             "aws.s3.presign-ttl=PT15M");
 
     // Act + Assert

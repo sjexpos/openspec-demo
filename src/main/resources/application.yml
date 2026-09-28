@@ -89,10 +89,10 @@ logging:
 
 aws:
   s3:
-    bucket: ${AWS_S3_BUCKET:develop-assets}
+    bucket: ${AWS_S3_BUCKET:development-assets}
     presign-ttl: ${AWS_S3_PRESIGN_TTL:PT15M}
   sqs:
-    assets-events-queue: ${AWS_SQS_ASSETS_EVENTS_QUEUE:develop-assets-events-queue}
+    assets-events-queue: ${AWS_SQS_ASSETS_EVENTS_QUEUE:development-assets-events-queue}
     acknowledgement-interval: ${AWS_SQS_ACK_INTERVAL:PT3S}
     acknowledgement-threshold: ${AWS_SQS_ACK_THRESHOLD:10}
-    api-call-timeout: ${AWS_SQS_API_CALL_TIMEOUT:PT1.5S}
+    api-call-timeout: ${AWS_SQS_API_CALL_TIMEOUT:PT22S} # greater than spring.cloud.aws.sqs.listener.poll-timeout
