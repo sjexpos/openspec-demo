@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SqsConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">openspec-demo</a> &gt; <a href="index.source.html" class="el_package">com.example.demo.infrastructure.config</a> &gt; <span class="el_source">SqsConfig.java</span></div><h1>SqsConfig.java</h1><pre class="source lang-java linenums">/**********
+ This project is free software; you can redistribute it and/or modify it under
+ the terms of the GNU General Public License as published by the
+ Free Software Foundation; either version 3.0 of the License, or (at your
+ option) any later version. (See &lt;https://www.gnu.org/licenses/gpl-3.0.html&gt;.)
+
+ This project is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this project; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+ **********/
+// Copyright (c) 2026-2027 Sergio Exposito.  All rights reserved.              
+
+package com.example.demo.infrastructure.config;
+
+import com.amazonaws.services.lambda.runtime.events.S3Event;
+import com.example.demo.infrastructure.messaging.sqs.AssetEventsListener;
+import com.example.demo.infrastructure.messaging.sqs.S3EventMessageConverter;
+import io.awspring.cloud.autoconfigure.sqs.SqsAsyncClientCustomizer;
+import io.awspring.cloud.autoconfigure.sqs.SqsProperties;
+import io.awspring.cloud.sqs.config.SqsMessageListenerContainerFactory;
+import io.awspring.cloud.sqs.listener.BackPressureMode;
+import io.awspring.cloud.sqs.listener.SqsMessageListenerContainer;
+import io.awspring.cloud.sqs.listener.acknowledgement.AcknowledgementOrdering;
+import io.awspring.cloud.sqs.listener.acknowledgement.AcknowledgementResultCallback;
+import io.awspring.cloud.sqs.listener.acknowledgement.handler.AcknowledgementMode;
+import io.awspring.cloud.sqs.listener.backpressure.BackPressureHandlerFactories;
+import io.micrometer.observation.ObservationRegistry;
+import java.util.List;
+import java.util.concurrent.Executors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.core.task.support.TaskExecutorAdapter;
+import software.amazon.awssdk.services.sqs.SqsAsyncClient;
+
+/**
+ * SQS listener wiring. The starter auto-configures the {@code SqsAsyncClient} from {@code
+ * spring.cloud.aws.*}; this config only customizes it and builds the listener container (beans
+ * arrive in Phase 3 tasks, one at a time). No manual {@code SqsAsyncClient} bean exists here on
+ * purpose: customizers are the supported extension point.
+ */
+@Configuration
+@EnableConfigurationProperties(AwsSqsProperties.class)
+@RequiredArgsConstructor
+public class SqsConfig {
+
+  private final AwsSqsProperties properties;
+
+  private final SqsProperties sqsProperties;
+
+  private final ObservationRegistry observationRegistry;
+
+  @Bean
+  public SqsAsyncClientCustomizer sqsApiTimeoutCustomizer() {
+<span class="fc" id="L63">    return builder -&gt;</span>
+<span class="fc" id="L64">        builder.overrideConfiguration(</span>
+<span class="fc" id="L65">            override -&gt; override.apiCallTimeout(this.properties.apiCallTimeout()));</span>
+  }
+
+  @Bean
+  public TaskExecutor sqsListenerTaskExecutor() {
+<span class="fc" id="L70">    return new TaskExecutorAdapter(Executors.newVirtualThreadPerTaskExecutor());</span>
+  }
+
+  @Bean
+  public SqsMessageListenerContainerFactory&lt;S3Event&gt; sqsListenerContainerFactory(
+      SqsAsyncClient sqsAsyncClient,
+      TaskExecutor sqsListenerTaskExecutor,
+      AcknowledgementResultCallback&lt;S3Event&gt; acknowledgementResultCallback) {
+<span class="fc" id="L78">    return SqsMessageListenerContainerFactory.&lt;S3Event&gt;builder()</span>
+<span class="fc" id="L79">        .sqsAsyncClient(sqsAsyncClient)</span>
+<span class="fc" id="L80">        .acknowledgementResultCallback(acknowledgementResultCallback)</span>
+<span class="fc" id="L81">        .configure(options -&gt; applyContainerOptions(options, sqsListenerTaskExecutor))</span>
+<span class="fc" id="L82">        .build();</span>
+  }
+
+  private void applyContainerOptions(
+      io.awspring.cloud.sqs.listener.SqsContainerOptionsBuilder options,
+      TaskExecutor sqsListenerTaskExecutor) {
+<span class="fc" id="L88">    SqsProperties.Listener listener = this.sqsProperties.getListener();</span>
+<span class="fc" id="L89">    options</span>
+<span class="fc" id="L90">        .acknowledgementMode(AcknowledgementMode.ON_SUCCESS)</span>
+<span class="fc" id="L91">        .acknowledgementOrdering(AcknowledgementOrdering.ORDERED)</span>
+<span class="fc" id="L92">        .acknowledgementInterval(this.properties.acknowledgementInterval())</span>
+<span class="fc" id="L93">        .acknowledgementThreshold(this.properties.acknowledgementThreshold())</span>
+<span class="fc" id="L94">        .backPressureHandlerFactory(</span>
+<span class="fc" id="L95">            BackPressureHandlerFactories.adaptiveThroughputBackPressureHandler())</span>
+<span class="fc" id="L96">        .backPressureMode(BackPressureMode.AUTO)</span>
+<span class="fc" id="L97">        .componentsTaskExecutor(sqsListenerTaskExecutor)</span>
+<span class="fc" id="L98">        .acknowledgementResultTaskExecutor(sqsListenerTaskExecutor)</span>
+<span class="fc" id="L99">        .messageConverter(new S3EventMessageConverter())</span>
+<span class="fc" id="L100">        .observationRegistry(</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">            Boolean.TRUE.equals(this.sqsProperties.isObservationEnabled())</span>
+<span class="fc" id="L102">                ? this.observationRegistry</span>
+<span class="fc" id="L103">                : ObservationRegistry.NOOP);</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">    if (listener.getMaxConcurrentMessages() != null) {</span>
+<span class="fc" id="L105">      options.maxConcurrentMessages(listener.getMaxConcurrentMessages());</span>
+    }
+<span class="fc bfc" id="L107" title="All 2 branches covered.">    if (listener.getMaxMessagesPerPoll() != null) {</span>
+<span class="fc" id="L108">      options.maxMessagesPerPoll(listener.getMaxMessagesPerPoll());</span>
+    }
+<span class="fc bfc" id="L110" title="All 2 branches covered.">    if (listener.getPollTimeout() != null) {</span>
+<span class="fc" id="L111">      options.pollTimeout(listener.getPollTimeout());</span>
+    }
+<span class="fc bfc" id="L113" title="All 2 branches covered.">    if (listener.getMaxDelayBetweenPolls() != null) {</span>
+<span class="fc" id="L114">      options.maxDelayBetweenPolls(listener.getMaxDelayBetweenPolls());</span>
+    }
+<span class="fc bfc" id="L116" title="All 2 branches covered.">    if (listener.getAutoStartup() != null) {</span>
+<span class="fc" id="L117">      options.autoStartup(listener.getAutoStartup());</span>
+    }
+<span class="fc" id="L119">  }</span>
+
+  @Bean
+  public SqsMessageListenerContainer&lt;S3Event&gt; assetEventsContainer(
+      SqsMessageListenerContainerFactory&lt;S3Event&gt; factory,
+      ObjectProvider&lt;AssetEventsListener&gt; listenerProvider) {
+<span class="fc" id="L125">    SqsMessageListenerContainer&lt;S3Event&gt; container = factory.createContainer(&quot;asset-events&quot;);</span>
+<span class="fc" id="L126">    container.setQueueNames(List.of(this.properties.assetsEventsQueue()));</span>
+<span class="fc" id="L127">    container.setPayloadDeserializationType(S3Event.class);</span>
+<span class="fc" id="L128">    container.setMessageListener(</span>
+<span class="fc" id="L129">        message -&gt; listenerProvider.getObject().onAssetEvent(message.getPayload()));</span>
+<span class="fc" id="L130">    return container;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

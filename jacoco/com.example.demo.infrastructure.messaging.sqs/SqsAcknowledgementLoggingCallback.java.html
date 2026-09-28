@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SqsAcknowledgementLoggingCallback.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">openspec-demo</a> &gt; <a href="index.source.html" class="el_package">com.example.demo.infrastructure.messaging.sqs</a> &gt; <span class="el_source">SqsAcknowledgementLoggingCallback.java</span></div><h1>SqsAcknowledgementLoggingCallback.java</h1><pre class="source lang-java linenums">/**********
+ This project is free software; you can redistribute it and/or modify it under
+ the terms of the GNU General Public License as published by the
+ Free Software Foundation; either version 3.0 of the License, or (at your
+ option) any later version. (See &lt;https://www.gnu.org/licenses/gpl-3.0.html&gt;.)
+
+ This project is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this project; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+ **********/
+// Copyright (c) 2026-2027 Sergio Exposito.  All rights reserved.              
+
+package com.example.demo.infrastructure.messaging.sqs;
+
+import com.amazonaws.services.lambda.runtime.events.S3Event;
+import io.awspring.cloud.sqs.listener.acknowledgement.AcknowledgementResultCallback;
+import java.util.Collection;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.Message;
+import org.springframework.stereotype.Component;
+
+/**
+ * Logs batch acknowledgement outcomes. Only counts and the exception type are logged: never
+ * payloads, keys, URLs, queue URLs with account IDs, or exception messages (which may embed key
+ * material). The generic type must match the container ({@code &lt;S3Event&gt;}); a raw-type callback
+ * compiles but never fires.
+ */
+<span class="fc" id="L33">@Slf4j</span>
+@Component
+<span class="fc" id="L35">public class SqsAcknowledgementLoggingCallback implements AcknowledgementResultCallback&lt;S3Event&gt; {</span>
+
+  @Override
+  public void onSuccess(Collection&lt;Message&lt;S3Event&gt;&gt; messages) {
+<span class="fc" id="L39">    log.debug(&quot;Acknowledged {} asset-event message(s)&quot;, messages.size());</span>
+<span class="fc" id="L40">  }</span>
+
+  @Override
+  public void onFailure(Collection&lt;Message&lt;S3Event&gt;&gt; messages, Throwable throwable) {
+<span class="fc" id="L44">    log.error(</span>
+        &quot;Failed to acknowledge {} asset-event message(s): {}&quot;,
+<span class="fc" id="L46">        messages.size(),</span>
+<span class="fc" id="L47">        throwable.getClass().getName());</span>
+<span class="fc" id="L48">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

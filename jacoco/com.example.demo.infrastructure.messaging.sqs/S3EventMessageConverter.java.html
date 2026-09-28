@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>S3EventMessageConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">openspec-demo</a> &gt; <a href="index.source.html" class="el_package">com.example.demo.infrastructure.messaging.sqs</a> &gt; <span class="el_source">S3EventMessageConverter.java</span></div><h1>S3EventMessageConverter.java</h1><pre class="source lang-java linenums">/**********
+ This project is free software; you can redistribute it and/or modify it under
+ the terms of the GNU General Public License as published by the
+ Free Software Foundation; either version 3.0 of the License, or (at your
+ option) any later version. (See &lt;https://www.gnu.org/licenses/gpl-3.0.html&gt;.)
+
+ This project is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this project; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+ **********/
+// Copyright (c) 2026-2027 Sergio Exposito.  All rights reserved.              
+
+package com.example.demo.infrastructure.messaging.sqs;
+
+import com.amazonaws.services.lambda.runtime.events.S3Event;
+import com.amazonaws.services.lambda.runtime.serialization.events.LambdaEventSerializers;
+import io.awspring.cloud.sqs.support.converter.SqsMessagingMessageConverter;
+import java.nio.charset.StandardCharsets;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.converter.AbstractMessageConverter;
+import org.springframework.messaging.converter.MessageConversionException;
+import org.springframework.util.MimeType;
+
+/**
+ * Converts SQS messages carrying S3 event notifications into {@code S3Event} payloads. The payload
+ * mapping uses the canonical Lambda serialization (the same code path as the Lambda runtime):
+ * plain Jackson mappers cannot bind {@code S3Event} (capitalized {@code Records} envelope, no
+ * default constructor on the record type). A poison body surfaces as a {@code
+ * MessageConversionException} so {@code ON_SUCCESS} withholds the acknowledgement (redrive to DLQ
+ * after {@code maxReceiveCount}); it is never swallowed.
+ */
+public class S3EventMessageConverter extends SqsMessagingMessageConverter {
+
+<span class="fc" id="L39">  public S3EventMessageConverter() {</span>
+<span class="fc" id="L40">    setPayloadMessageConverter(new S3EventPayloadConverter());</span>
+<span class="fc" id="L41">  }</span>
+
+  static class S3EventPayloadConverter extends AbstractMessageConverter {
+
+    S3EventPayloadConverter() {
+<span class="fc" id="L46">      super(new MimeType(&quot;application&quot;, &quot;json&quot;));</span>
+<span class="fc" id="L47">    }</span>
+
+    @Override
+    protected boolean supports(Class&lt;?&gt; clazz) {
+<span class="fc" id="L51">      return S3Event.class.isAssignableFrom(clazz);</span>
+    }
+
+    @Override
+    protected Object convertFromInternal(Message&lt;?&gt; message, Class&lt;?&gt; targetClass, Object hint) {
+<span class="fc" id="L56">      Object payload = message.getPayload();</span>
+      String json =
+<span class="fc bfc" id="L58" title="All 2 branches covered.">          payload instanceof String text</span>
+<span class="fc" id="L59">              ? text</span>
+<span class="fc" id="L60">              : new String((byte[]) payload, StandardCharsets.UTF_8);</span>
+      try {
+<span class="fc" id="L62">        return LambdaEventSerializers.serializerFor(S3Event.class, getClass().getClassLoader())</span>
+<span class="fc" id="L63">            .fromJson(json);</span>
+<span class="fc" id="L64">      } catch (RuntimeException ex) {</span>
+<span class="fc" id="L65">        throw new MessageConversionException(message, &quot;Cannot convert SQS body to S3Event&quot;, ex);</span>
+      }
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
