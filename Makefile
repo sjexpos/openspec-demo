@@ -37,7 +37,7 @@ endif
 ifeq ($(BUCKET),)
 	@$(eval BUCKET := $(shell read -p "BUCKET: " input; echo $$input))
 endif
-ifeq ($(KEY),)
+ifeq ($(KEY_OBJ),)
 	@$(eval KEY_OBJ := $(shell read -p "KEY: " input; echo $$input))
 endif
 	@AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test AWS_DEFAULT_REGION=us-east-1 aws --endpoint-url=http://localhost:4566 s3 cp $(SOURCE_FILE) s3://$(BUCKET)/$(KEY_OBJ)

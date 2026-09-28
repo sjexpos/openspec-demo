@@ -69,7 +69,7 @@ runs:
     - name: Health check
       shell: bash
       run: |
-        health=$(curl -s "http://localhost:7070/actuator/health)
+        health=$(curl -s "http://localhost:7070/actuator/health")
         echo $health
         status=$(echo $health | jq -r '.status') 
         if [ "$status" == "UP" ]; then 
