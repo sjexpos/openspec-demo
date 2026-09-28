@@ -74,10 +74,11 @@ This document outlines the best practices, conventions, and standards used in th
 - **Java**: Runtime environment
 - **SpringBoot**: Web application framework
 - **JPA(Hibernate)**: Modern ORM for database access
-- **AWS SDK v2 (S3)**: Object storage via singleton `S3Client` and `S3Presigner` beans
-  (`infrastructure/config/S3Config`, typed `aws.region` / `aws.s3.*` properties in
-  `AwsS3Properties`); credentials exclusively via the default provider chain, endpoint
-  overridable for LocalStack
+- **AWS SDK v2 (S3)** + **Spring Cloud AWS 4.1.x (S3 + SQS)**: object storage via
+  starter-owned singleton `S3Client`, `S3Presigner` and CRT-based `S3AsyncClient` beans plus a
+  starter-owned `SqsAsyncClient` (`infrastructure/config/SqsConfig` customizes, never rebuilds
+  them); region/endpoint/credentials exclusively from `spring.cloud.aws.*`, credentials via the
+  SDK default chain, S3 endpoint overridable for LocalStack
 
 ### Database & ORM
 - **PostgreSQL**: Relational database (Docker container)
@@ -214,6 +215,51 @@ External object stores are accessed through a storage-agnostic port, not directl
   the endpoint is considered done, and the permission MUST be proven by a manual browser check
   recorded in the change's `reports/` folder — LocalStack does not enforce CORS, so the test suite
   stays green whether or not the rule exists ("green build, broken product").
+
+### Messaging Ports (`SqsMessageListenerContainer<S3Event>` Convention)
+
+SQS consumption follows the same ports-and-adapters discipline as storage:
+
+- One managed `SqsMessageListenerContainer<S3Event>` per queue, built by a `SqsConfig` factory
+  from the normative option set: `ON_SUCCESS` acknowledgement (fixed enum) + `ORDERED`
+  ordering (fixed enum), ack interval/threshold from the 4-key `aws.sqs.*` gap record
+  (`assets-events-queue`, `acknowledgement-interval`, `acknowledgement-threshold`,
+  `api-call-timeout`), concurrency/poll/backoff/auto-startup from the library
+  `spring.cloud.aws.sqs.listener.*` via injected `SqsProperties` (never re-declared —
+  dual sources of truth diverge silently), observation from the library
+  `spring.cloud.aws.sqs.observation-enabled` flag (default `false`; YAML opts in with the
+  Micrometer registry, `NOOP` otherwise — both branches tested).
+- The container is ALWAYS created (no `@ConditionalOnProperty` suppression); `autoStartup`
+  from `SqsProperties.getListener()` governs lifecycle (`false` in tests: created-but-stopped,
+  started manually).
+- Client tuning uses customizers only (`AwsClientCustomizer<SqsAsyncClientBuilder>` for the
+  1.5 s API timeout): no manual `SqsAsyncClient` / `S3AsyncClient` `@Bean` next to the
+  starters (duplicate-bean/conditional clash), no `DefaultCredentialsProvider.create()` or
+  `StaticCredentialsProvider` in `src/main`, no `aws.region` / `aws.s3.endpoint` reads.
+- Backpressure is throughput-adaptive (`BackPressureHandlerFactories`
+  `.adaptiveThroughputBackPressureHandler()` + `BackPressureMode.AUTO`); execution runs on a
+  single virtual-threads `TaskExecutor` (`Executors.newVirtualThreadPerTaskExecutor()` adapted
+  via `TaskExecutorAdapter`) — concurrency is governed by `maxConcurrentMessages`, never by
+  pool sizing; no `ThreadPoolTaskExecutor`, no hand-rolled `@Scheduled` poller.
+- Payload mapping to `S3Event` uses the canonical Lambda serialization (plain Jackson mappers
+  cannot bind `S3Event`); a poison body MUST surface as a listener exception (ack withheld →
+  redrive → DLQ), never swallowed. The container's payload deserialization type is set
+  explicitly (`setPayloadDeserializationType(S3Event.class)`).
+- The listener seam (`AssetEventsListener.onAssetEvent`) only logs the record count and
+  delegates; no business handling, no database access. Downstream must URL-decode
+  `record.getS3().getObject().getKey()` and validate every key through `BlobType` prefix
+  match (never trust a sender-supplied blob-type field).
+- Ack callback logs counts at DEBUG plus the exception type at ERROR on failure — never
+  payloads, keys, URLs, queue URLs with account IDs, or exception messages embedding key
+  material (the generic type must match the container: raw-type callbacks compile but never
+  fire).
+- Vendor imports (`software.amazon.awssdk`, `io.awspring`, `com.amazonaws.services.lambda`)
+  are allowed only in `infrastructure/config` + `infrastructure/messaging/sqs` (+ the single
+  storage adapter); no vendor type may appear in any domain/application signature or port.
+- LocalStack parity: one `AWS_ENDPOINT_URL` export covers SQS + S3 unless a service-level
+  var overrides it; queue/bucket names (`develop-assets-events-queue`, `develop-assets`) must
+  stay stable vs `localstack-resources.yml`. The suite proves the round trip (`putObject` →
+  `S3Event` in the seam listener) and fail-lazy boot (context starts with backends down).
 
 ### Domain Services
 

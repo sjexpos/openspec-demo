@@ -92,7 +92,7 @@ class S3BlobStorageAdapterIntegrationTests {
     assertThat(response.statusCode()).isEqualTo(200);
     var head =
         s3Client.headObject(
-            HeadObjectRequest.builder().bucket(properties.s3().bucket()).key(target.key()).build());
+            HeadObjectRequest.builder().bucket(properties.bucket()).key(target.key()).build());
     assertThat(head.contentLength()).isEqualTo(content.length);
   }
 
@@ -111,10 +111,7 @@ class S3BlobStorageAdapterIntegrationTests {
     String readBack;
     try (ResponseInputStream<GetObjectResponse> object =
         s3Client.getObject(
-            GetObjectRequest.builder()
-                .bucket(properties.s3().bucket())
-                .key(target.key())
-                .build())) {
+            GetObjectRequest.builder().bucket(properties.bucket()).key(target.key()).build())) {
       readBack = new String(object.readAllBytes(), StandardCharsets.UTF_8);
     }
 
@@ -141,7 +138,7 @@ class S3BlobStorageAdapterIntegrationTests {
             () ->
                 s3Client.headObject(
                     HeadObjectRequest.builder()
-                        .bucket(properties.s3().bucket())
+                        .bucket(properties.bucket())
                         .key(target.key())
                         .build()))
         .isInstanceOf(NoSuchKeyException.class);
@@ -180,10 +177,7 @@ class S3BlobStorageAdapterIntegrationTests {
       assertThatThrownBy(
               () ->
                   s3Client.headObject(
-                      HeadObjectRequest.builder()
-                          .bucket(properties.s3().bucket())
-                          .key(key)
-                          .build()))
+                      HeadObjectRequest.builder().bucket(properties.bucket()).key(key).build()))
           .isInstanceOf(NoSuchKeyException.class);
     }
   }
@@ -209,7 +203,7 @@ class S3BlobStorageAdapterIntegrationTests {
           s3Client
               .listObjectsV2(
                   ListObjectsV2Request.builder()
-                      .bucket(properties.s3().bucket())
+                      .bucket(properties.bucket())
                       .prefix(prefixOf(target))
                       .build())
               .contents();

@@ -19,16 +19,21 @@ package com.example.demo.infrastructure.config;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import java.time.Duration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * Slim S3 domain gap: keeps only what the Spring Cloud AWS library does not model (bucket, presign
- * TTL). Region, endpoint override, path-style access and credentials are sourced from the library
- * keys ({@code spring.cloud.aws.*}); the legacy {@code aws.region} / {@code aws.s3.endpoint} keys
- * are not a source of truth.
+ * Gap-only SQS properties: carries exactly what the Spring Cloud AWS library does not model (queue
+ * name, ack batching, client timeout). Listener tuning, observation and region/endpoint/credentials
+ * come from the library {@code SqsProperties} ({@code spring.cloud.aws.sqs.*}) and are never
+ * re-declared here.
  */
-@ConfigurationProperties(prefix = "aws.s3")
+@ConfigurationProperties(prefix = "aws.sqs")
 @Validated
-public record AwsS3Properties(@NotBlank String bucket, @NotNull Duration presignTtl) {}
+public record AwsSqsProperties(
+    @NotBlank String assetsEventsQueue,
+    @NotNull Duration acknowledgementInterval,
+    @Positive int acknowledgementThreshold,
+    @NotNull Duration apiCallTimeout) {}
