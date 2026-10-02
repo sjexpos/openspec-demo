@@ -1,0 +1,54 @@
+name: "Docker delete tag"
+description: "Delete a single tag from Docker Hub via Hub API. Treats 404 as success."
+inputs:
+  registry_user:
+    type: string
+    required: true
+  registry_token:
+    type: string
+    required: true
+  image_name:
+    type: string
+    required: true
+  image_tag:
+    type: string
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Delete tag ${{ inputs.image_name }}:${{ inputs.image_tag }}
+      shell: bash
+      env:
+        REGISTRY_USER: ${{ inputs.registry_user }}
+        REGISTRY_TOKEN: ${{ inputs.registry_token }}
+        IMAGE_NAME: ${{ inputs.image_name }}
+        IMAGE_TAG: ${{ inputs.image_tag }}
+      run: |
+        set -euo pipefail
+        namespace=$(echo "$IMAGE_NAME" | cut -d'/' -f1)
+        repository=$(echo "$IMAGE_NAME" | cut -d'/' -f2-)
+        if [ -z "$namespace" ] || [ -z "$repository" ] || [ "$namespace" = "$repository" ]; then
+          echo "::error::Invalid image name '$IMAGE_NAME'. Expected format 'namespace/repository'."
+          exit 1
+        fi
+        echo "Requesting Docker Hub token for $namespace..."
+        hub_token=$(curl -s -X POST \
+          -H "Content-Type: application/json" \
+          -d "{\"username\": \"$REGISTRY_USER\", \"password\": \"$REGISTRY_TOKEN\"}" \
+          https://hub.docker.com/v2/users/login/ | jq -r '.token')
+        if [ -z "$hub_token" ] || [ "$hub_token" = "null" ]; then
+          echo "::error::Could not obtain Docker Hub token. Check DOCKERHUB_USERNAME/TOKEN."
+          exit 1
+        fi
+        echo "Deleting tag $namespace/$repository:$IMAGE_TAG..."
+        http_code=$(curl -s -o /tmp/delete-body.txt -w "%{http_code}" -X DELETE \
+          -H "Authorization: JWT $hub_token" \
+          "https://hub.docker.com/v2/repositories/$namespace/$repository/tags/$IMAGE_TAG/")
+        if [ "$http_code" = "204" ] || [ "$http_code" = "200" ] || [ "$http_code" = "404" ]; then
+          echo "Tag $IMAGE_TAG deleted or already absent (HTTP $http_code)."
+        else
+          echo "::error::Failed to delete tag $IMAGE_TAG (HTTP $http_code)."
+          cat /tmp/delete-body.txt || true
+          exit 1
+        fi

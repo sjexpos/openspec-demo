@@ -36,6 +36,7 @@ alwaysApply: true
   - [Error Handling](#error-handling)
   - [Validation Patterns](#validation-patterns)
   - [Logging Standards](#logging-standards)
+  - [Code Documentation](#code-documentation)
 - [API Design Standards](#api-design-standards)
   - [REST Endpoints](#rest-endpoints)
   - [Request/Response Patterns](#requestresponse-patterns)
@@ -405,6 +406,12 @@ public class ApplicationReadyInitializer {
 log.info('User created {}', user.id );
 log.error('Failed to create user {}', error.message);
 ```
+
+### Code Documentation
+
+All classes and method MUST be annotated using Java doc format.
+- **Class**: Java doc MUST describe the purpose of this class
+- **Method**: Java doc MUST describe the funcionality and the meaning of each parameter
 
 ## API Design Standards
 

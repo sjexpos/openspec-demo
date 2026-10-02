@@ -65,7 +65,7 @@ runs:
               ${{ inputs.image }}:${{ inputs.tag }}
         echo "Waiting for service localhost:7070..."
         .github/actions/test-docker-image/wait-for-it.sh -h localhost -p 7070 -t 300 -- echo "Service is running!"
-        sleep 5s
+        sleep 10s
     - name: Health check
       shell: bash
       run: |

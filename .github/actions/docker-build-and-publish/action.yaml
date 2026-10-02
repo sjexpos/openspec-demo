@@ -25,6 +25,10 @@ inputs:
   image_tag:
     type: string
     required: true
+  image_extra_tag:
+    type: string
+    required: false
+    default: ''
   platforms:
     type: string
     required: false
@@ -54,6 +58,29 @@ runs:
       uses: docker/metadata-action@v6.2.0
       with:
         images: ${{ inputs.image_name }}
+    - name: Resolve tags
+      shell: bash
+      env:
+        IMAGE_NAME: ${{ inputs.image_name }}
+        IMAGE_TAG: ${{ inputs.image_tag }}
+        IMAGE_EXTRA_TAG: ${{ inputs.image_extra_tag }}
+      run: |
+        set -euo pipefail
+        if [ -n "$IMAGE_EXTRA_TAG" ]; then
+          {
+            echo "TAGS<<EOF"
+            echo "$IMAGE_NAME:$IMAGE_TAG"
+            echo "$IMAGE_NAME:$IMAGE_EXTRA_TAG"
+            echo "EOF"
+          } >> "$GITHUB_ENV"
+        else
+          echo "TAGS=$IMAGE_NAME:$IMAGE_TAG" >> "$GITHUB_ENV"
+        fi
+        echo "Tags to push:"
+        echo "$IMAGE_NAME:$IMAGE_TAG"
+        if [ -n "$IMAGE_EXTRA_TAG" ]; then
+          echo "$IMAGE_NAME:$IMAGE_EXTRA_TAG"
+        fi
     - name: Build and push
       uses: docker/build-push-action@v7.3.0
       with:
@@ -61,7 +88,5 @@ runs:
         file: ${{ inputs.dockerfile }}
         platforms: ${{ inputs.platforms }}
         push: true
-        tags: |
-          ${{ inputs.image_name }}:${{ inputs.image_tag }}
-          ${{ inputs.image_name }}:${{ github.sha }}
+        tags: ${{ env.TAGS }}
         labels: ${{ steps.meta.outputs.labels }}
