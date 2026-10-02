@@ -473,6 +473,9 @@ jobs:
           registry_token: ${{ secrets.DOCKERHUB_TOKEN }}
           image_name: ${{ env.image_name }}
           image_tag: ${{ env.TAG_NAME }}
+          # Only push extra sha tag outside PRs. In PRs only pr-N is pushed
+          # to avoid orphan sha tags, cleanup on PR close deletes just pr-N.
+          image_extra_tag: ${{ github.event_name != 'pull_request' && github.sha || '' }}
           context: ${{ env.context }}
           dockerfile: ${{ env.dockerfile }}
           platforms: ${{ inputs.PLATFORMS }}

@@ -2,10 +2,12 @@ name: PR
 on:
   pull_request:
     branches: [ "**" ]
+    types: [ opened, synchronize, reopened, closed ]
 
 jobs:
   pr:
     name: ''
+    if: github.event.action != 'closed'
     uses: ./.github/workflows/wf-ci.yaml
     secrets: inherit
     with:
@@ -13,3 +15,25 @@ jobs:
       SONAR_PROJECT_NAME: Openspec Demo
       DOCKER_IMAGES: '["sjexpossdd/openspec-demo"]'
       DEFAULT_BRANCH: main
+
+  cleanup-pr-images:
+    name: Cleanup PR docker images
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        file: [ "sjexpossdd/openspec-demo" ]
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - name: Split image name, context, dockerfile
+        run: |
+          triple="${{ matrix.file }}"
+          image_name=$(echo $triple | awk -F ";" '{print $1}')
+          echo "image_name=$image_name" >> $GITHUB_ENV
+      - name: Delete tag pr-${{ github.event.number }}
+        uses: ./.github/actions/docker-delete-tag
+        with:
+          registry_user: ${{ secrets.DOCKERHUB_USERNAME }}
+          registry_token: ${{ secrets.DOCKERHUB_TOKEN }}
+          image_name: ${{ env.image_name }}
+          image_tag: pr-${{ github.event.number }}
