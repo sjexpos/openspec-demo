@@ -268,10 +268,6 @@ Every sub-agent prompt MUST include the **active schema** cached at Init Guard t
 | `code-review` | code changes (required) | `code-review` |
 | `opsx-archive` | all artifacts | `archive-report` |
 
-### Strict TDD Forwarding (MANDATORY)
-
-When launching `opsx-apply` or `opsx-verify`, the orchestrator MUST read the TDD configuration from `openspec/config.yaml` and forward it explicitly in the sub-agent prompt. Do not assume the sub-agent will detect it on its own.
-
 ---
 
 ## Reference

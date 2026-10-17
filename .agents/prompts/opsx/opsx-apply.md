@@ -48,8 +48,6 @@ Return to the orchestrator:
 | `path/to/file.ext` | Created | {brief description} |
 | `path/to/other.ext` | Modified | {brief description} |
 
-{include TDD Cycle Evidence table}
-
 ### Deviations from Design
 {List any places where the implementation deviated from design.md and why.
 If none, say "None — implementation matches design."}

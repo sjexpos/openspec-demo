@@ -448,7 +448,7 @@ artifacts:
       - [ ] 0.1 Create feature branch `feat/update-position` from main/master branch
       - [ ] 0.2 Verify branch creation and current branch status
       
-      ## 1. Backend: Validator Tests (TDD)
+      ## 1. Backend: Validator Tests
       ...
       
       ## 8. Backend: Review and Update Existing Unit Tests (MANDATORY)

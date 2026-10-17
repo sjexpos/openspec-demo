@@ -6,7 +6,7 @@ alwaysApply: true
 ## 1. Core Principles
 
 - **Small tasks, one at a time**: Always work in baby steps, one at a time. Never go forward more than one step.
-- **Test-Driven Development**: Start with failing tests for any new functionality (TDD), according to the task details.
+- **Test After Development**: all tests are written after any new functionality implementation.
 - **Type Safety**: All code must be fully typed.
 - **Clear Naming**: Use clear, descriptive names for all variables and functions.
 - **Incremental Changes**: Prefer incremental, focused changes over large, complex modifications.
@@ -49,7 +49,6 @@ Use these skills for detailed patterns on-demand:
 | `update-docs` | Identify and update required technical documentation | [SKILL.md](.agents/skills/update-docs/SKILL.md) |
 | `enrich-us` | Analyze and enhance Jira user stories | [SKILL.md](.agents/skills/enrich-us/SKILL.md) |
 | `mermaid-diagrams` | Creating software diagrams using Mermaid syntax | [SKILL.md](.agents/skills/mermaid-diagrams/SKILL.md) |
-| `test-driven-development` | Test-Driven Development workflow | [SKILL.md](.agents/skills/test-driven-development/SKILL.md) |
 | `domain-driven-design` | Domain-Driven Design methodology | [SKILL.md](.agents/skills/domain-driven-design/SKILL.md) |
 | `solid-principles` | SOLID principles checklist | [SKILL.md](.agents/skills/solid-principles/SKILL.md) |
 | `dry-principle` | Don't Repeat Yourself principle | [SKILL.md](.agents/skills/dry-principle/SKILL.md) |
@@ -64,11 +63,6 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 |--------|-------|
 | Analyze and enhance Jira user stories | `enrich-us` |
 | need to create, visualize, or document software through diagrams | `mermaid-diagrams` |
-| Fixing bug | `test-driven-development` |
-| Implementing feature | `test-driven-development` |
-| Modifying component | `test-driven-development` |
-| Refactoring code | `test-driven-development` |
-| Working on task | `test-driven-development` |
 | Fixing bug | `domain-driven-design` |
 | Implementing feature | `domain-driven-design` |
 | Modifying component | `domain-driven-design` |

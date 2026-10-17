@@ -11,7 +11,7 @@ context: |
   All code, comments, documentation, and technical artifacts must be in English
 
   Project specs (single source of truth): All artifact creation and implementation MUST follow the project's technical context in docs/. Read and apply these when creating or implementing:
-  - AGENTS.md — core principles, TDD, language standards, links to backend/frontend/docs standards
+  - AGENTS.md — core principles, language standards, links to backend/frontend/docs standards
   - docs/backend-standards.md — API, database, testing, security (backend changes)
   - docs/data-model.md — domain and data model
   - docs/documentation-standards.md — docs structure and maintenance
