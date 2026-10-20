@@ -1,0 +1,24 @@
+name: SDD Task
+description: Run an OpenCode agent with a custom prompt
+title: "[bot]: "
+labels: ["bot"]
+body:
+  - type: dropdown
+    id: agent
+    attributes:
+      label: Agent
+      description: OpenCode agent that will process the prompt
+      options:
+        - build
+        - plan
+        - general
+    validations:
+      required: true
+  - type: textarea
+    id: prompt
+    attributes:
+      label: Prompt
+      description: The prompt/message that will be sent to the agent
+      placeholder: "Hola, quien sos"
+    validations:
+      required: true

@@ -1,0 +1,83 @@
+name: SDD Agent
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  issues: write
+
+env:
+  DEFAULT_AGENT: build
+  DEFAULT_PROMPT: "Hola, quien sos"
+
+jobs:
+  run-opencode:
+    name: Run OpenCode agent on issue
+    if: ${{ github.event.label.name == 'bot' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - name: Parse issue form inputs
+        id: parse-issue-form
+        uses: ./.github/actions/parse-issue-form
+        with:
+          issue-body: ${{ github.event.issue.body }}
+          fields: Agent,Prompt
+      - name: Resolve agent and prompt
+        env:
+          PARSED_VALUES: ${{ steps.parse-issue-form.outputs.values }}
+          FILES_DIR: ${{ steps.parse-issue-form.outputs.files-dir }}
+        run: |
+          agent=$(jq -r '.Agent // empty' <<< "$PARSED_VALUES")
+          agent="${agent:-$DEFAULT_AGENT}"
+          prompt_file="$FILES_DIR/Prompt.txt"
+          if [ ! -s "$prompt_file" ]; then
+            printf '%s\n' "$DEFAULT_PROMPT" > "$prompt_file"
+          fi
+          echo "Resolved agent: $agent"
+          echo "Resolved prompt: $(cat "$prompt_file")"
+          echo "AGENT=$agent" >> $GITHUB_ENV
+          echo "PROMPT_FILE=$prompt_file" >> $GITHUB_ENV
+      - name: Install OpenCode
+        run: |
+          curl -fsSL https://opencode.ai/install | bash
+          echo "$HOME/.opencode/bin" >> $GITHUB_PATH
+      - name: Run OpenCode agent
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          opencode run --agent "$AGENT" "$(cat "$PROMPT_FILE")" > opencode-output.txt 2>&1
+      - name: Comment on issue
+        uses: actions/github-script@v9.0.0
+        env:
+          AGENT: ${{ env.AGENT }}
+          PROMPT_FILE: ${{ env.PROMPT_FILE }}
+        with:
+          script: |
+            const fs = require('fs');
+            const readSafe = (file, fallback) => {
+              try {
+                const content = fs.readFileSync(file, 'utf8').trim();
+                return content.length > 0 ? content : fallback;
+              } catch (e) {
+                return fallback;
+              }
+            };
+            const output = readSafe('opencode-output.txt', 'OpenCode agent produced no output.');
+            const prompt = readSafe(process.env.PROMPT_FILE, process.env.DEFAULT_PROMPT);
+            const agent = process.env.AGENT || process.env.DEFAULT_AGENT;
+            const body = [
+              `OpenCode agent \`${agent}\` was executed with prompt: "${prompt}"`,
+              '',
+              '```',
+              output,
+              '```'
+            ].join('\n');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: body
+            });

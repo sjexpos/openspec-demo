@@ -1,0 +1,50 @@
+name: Parse issue form inputs
+description: A reusable action to extract issue form field values from an issue body
+inputs:
+  issue-body:
+    description: The issue body containing the issue form markdown
+    type: string
+    required: true
+  fields:
+    description: Comma-separated list of issue form field labels to parse, e.g. "Agent,Prompt"
+    type: string
+    required: true
+
+outputs:
+  values:
+    description: JSON object mapping each field label to its parsed value
+    value: ${{ steps.parse.outputs.values }}
+  files-dir:
+    description: Directory containing one <Field>.txt file per parsed field, useful for multiline values
+    value: ${{ steps.parse.outputs.files-dir }}
+
+runs:
+  using: composite
+  steps:
+    - name: Parse issue form fields
+      id: parse
+      shell: bash
+      env:
+        ISSUE_BODY: ${{ inputs.issue-body }}
+        FIELDS: ${{ inputs.fields }}
+      run: |
+        set -euo pipefail
+        files_dir="$RUNNER_TEMP/issue-form-values"
+        mkdir -p "$files_dir"
+        values="{}"
+        IFS=',' read -ra field_list <<< "$FIELDS"
+        for field in "${field_list[@]}"; do
+          field="${field#"${field%%[![:space:]]*}"}"
+          field="${field%"${field##*[![:space:]]}"}"
+          if [ -z "$field" ]; then
+            continue
+          fi
+          value=$(printf '%s\n' "$ISSUE_BODY" | awk -v heading="### $field" '$0 == heading {flag=1; next} /^###/ {flag=0} flag' | sed -e '/^[[:space:]]*$/d')
+          file_name="$(printf '%s' "$field" | tr ' ' '_').txt"
+          printf '%s' "$value" > "$files_dir/$file_name"
+          values=$(jq -c --arg key "$field" --arg value "$value" '.[$key] = $value' <<< "$values")
+        done
+        {
+          echo "values=$values"
+          echo "files-dir=$files_dir"
+        } >> "$GITHUB_OUTPUT"
