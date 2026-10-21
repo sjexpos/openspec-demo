@@ -1,24 +1,25 @@
 name: SDD Task
 description: Run an OpenCode agent with a custom prompt
 title: "[bot]: "
-labels: ["bot"]
+labels: []
 body:
-  - type: dropdown
-    id: agent
+  - type: input
+    id: jira-ticket
     attributes:
-      label: Agent
-      description: OpenCode agent that will process the prompt
-      options:
-        - build
-        - plan
-        - general
+      label: Jira Ticket
+      description: Jira ticket key (max 30 characters), e.g. PROJ-123
+      placeholder: "PROJ-123"
     validations:
       required: true
-  - type: textarea
-    id: prompt
+  - type: dropdown
+    id: model
     attributes:
-      label: Prompt
-      description: The prompt/message that will be sent to the agent
-      placeholder: "Hola, quien sos"
+      label: Model
+      description: OpenCode agent that will process the prompt
+      options:
+        - opencode/deepseek-v4.1-flash-free
+        - opencode/glm-5.3-flash-free
+        - opencode/nemotron-3.5-super-vl-free
+        - opencode/minimax-m3.1-flash-free
     validations:
       required: true
