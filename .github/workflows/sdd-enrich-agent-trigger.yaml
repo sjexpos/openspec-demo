@@ -1,4 +1,4 @@
-name: SDD Agent
+name: SDD Enrich Agent
 
 on:
   issues:
@@ -13,7 +13,7 @@ env:
 jobs:
   run-opencode:
     name: Run OpenCode agent on issue
-    if: ${{ github.event.label.name == 'bot' }}
+    if: ${{ github.event.label.name == 'enrich' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -23,7 +23,7 @@ jobs:
         uses: ./.github/actions/parse-issue-form
         with:
           issue-body: ${{ github.event.issue.body }}
-          fields: Jira Ticket,Model
+          fields: Jira Ticket,Model,Behavior
       - name: Resolve jira ticket, model and prompt
         env:
           PARSED_VALUES: ${{ steps.parse-issue-form.outputs.values }}
@@ -31,16 +31,24 @@ jobs:
         run: |
           jira_ticket=$(jq -r '."Jira Ticket" // empty' <<< "$PARSED_VALUES")
           model=$(jq -r '.Model // empty' <<< "$PARSED_VALUES")
+          behavior=$(jq -r '.Behavior // empty' <<< "$PARSED_VALUES")
           if [ -z "$jira_ticket" ] || [ -z "$model" ]; then
             echo "::error::Both Jira Ticket and Model are required." >&2
             exit 1
           fi
+          if [ -z "$behavior" ]; then
+            echo "::error::Behavior is required." >&2
+            exit 1
+          fi
+          echo "Resolved behavior: $behavior"
           prompt_file="$FILES_DIR/Prompt.txt"
-          printf 'Enriquecer el ticket de Jira %s\n' "$jira_ticket" > "$prompt_file"
+          printf 'Enrich Jira ticket %s\n' "$jira_ticket" > "$prompt_file"
           echo "Resolved agent: $AGENT"
           echo "Resolved jira ticket: $jira_ticket"
           echo "Resolved model: $model"
           echo "MODEL=$model" >> $GITHUB_ENV
+          echo "JIRA_TICKET=$jira_ticket" >> $GITHUB_ENV
+          echo "BEHAVIOR=$behavior" >> $GITHUB_ENV
           echo "PROMPT_FILE=$prompt_file" >> $GITHUB_ENV
       - name: Install uvx
         uses: astral-sh/setup-uv@v10.3.0
@@ -56,41 +64,46 @@ jobs:
           CONFLUENCE_API_TOKEN: ${{ secrets.CONFLUENCE_API_TOKEN }}
         run: |
           opencode run --agent "$AGENT" --model "$MODEL" "$(cat "$PROMPT_FILE")" > opencode-output.txt 2>&1
-      - name: Comment on issue
-        uses: actions/github-script@v9.0.0
-        env:
-          AGENT: ${{ env.AGENT }}
-          MODEL: ${{ env.MODEL }}
-          PROMPT_FILE: ${{ env.PROMPT_FILE }}
-        with:
-          script: |
-            const fs = require('fs');
-            const readSafe = (file, fallback) => {
-              try {
-                const content = fs.readFileSync(file, 'utf8').trim();
-                return content.length > 0 ? content : fallback;
-              } catch (e) {
-                return fallback;
-              }
-            };
-            const output = readSafe('opencode-output.txt', 'OpenCode agent produced no output.');
-            const prompt = readSafe(process.env.PROMPT_FILE, '');
-            const agent = process.env.AGENT;
-            const model = process.env.MODEL;
-            const body = [
-              `OpenCode agent \`${agent}\` (model: \`${model}\`) was executed with prompt: "${prompt}"`,
-              '',
-              '```',
-              output,
-              '```'
-            ].join('\n');
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: body
-            });
       - name: List tmp directory contents
         if: ${{ hashFiles('tmp/**') != '' }}
         run: |
           ls -laR tmp
+      - name: Comment on issue
+        uses: actions/github-script@v9.0.0
+        env:
+          JIRA_TICKET: ${{ env.JIRA_TICKET }}
+        with:
+          script: |
+            const fs = require('fs');
+            const enrichedFile = `tmp/${process.env.JIRA_TICKET}-enriched-us.md`;
+            const content = fs.existsSync(enrichedFile)
+              ? fs.readFileSync(enrichedFile, 'utf8').trim()
+              : '';
+            if (content.length === 0) {
+              core.setFailed(`Enriched user story file not found or empty: ${enrichedFile}`);
+              return;
+            }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: content
+            });
+      - name: Trigger implementation on full-auto behavior
+        if: ${{ env.BEHAVIOR == 'full-auto' }}
+        uses: actions/github-script@v9.0.0
+        with:
+          script: |
+            const issue_number = context.issue.number;
+            await github.rest.issues.removeLabel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number,
+              name: 'enrich'
+            });
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number,
+              labels: ['implement']
+            });

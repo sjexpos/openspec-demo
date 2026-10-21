@@ -1,0 +1,67 @@
+name: SDD Request Issue Created
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  append-jira-ticket-to-title:
+    name: Append Jira ticket to issue title
+    if: ${{ contains(github.event.issue.body, '### Jira Ticket') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - name: Parse issue form inputs
+        id: parse-issue-form
+        uses: ./.github/actions/parse-issue-form
+        with:
+          issue-body: ${{ github.event.issue.body }}
+          fields: Jira Ticket,Behavior
+      - name: Append Jira ticket to title
+        env:
+          PARSED_VALUES: ${{ steps.parse-issue-form.outputs.values }}
+        uses: actions/github-script@v9.0.0
+        with:
+          script: |
+            const values = JSON.parse(process.env.PARSED_VALUES);
+            const jiraTicket = (values['Jira Ticket'] || '').trim();
+            if (!/^[A-Z][A-Z0-9]*-\d+$/.test(jiraTicket) || jiraTicket.length > 30) {
+              core.setFailed(`Invalid Jira ticket key: "${jiraTicket}". Expected format: PROJ-123 (max 30 characters).`);
+              return;
+            }
+            const currentTitle = context.payload.issue.title.replace(/\s+$/, '');
+            if (new RegExp(`${jiraTicket}\\s*$`).test(currentTitle)) {
+              core.info(`Title already ends with Jira ticket "${jiraTicket}". Nothing to do.`);
+              return;
+            }
+            const newTitle = `${currentTitle} ${jiraTicket}`;
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              title: newTitle
+            });
+            core.info(`Issue title updated to: "${newTitle}"`);
+      - name: Add enrich label for automatic behaviors
+        env:
+          PARSED_VALUES: ${{ steps.parse-issue-form.outputs.values }}
+        uses: actions/github-script@v9.0.0
+        with:
+          script: |
+            const values = JSON.parse(process.env.PARSED_VALUES);
+            const behavior = (values['Behavior'] || '').trim().toLowerCase();
+            if (behavior !== 'auto' && behavior !== 'full-auto') {
+              core.info(`Behavior "${behavior}" does not require the enrich label. Nothing to do.`);
+              return;
+            }
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['enrich']
+            });
+            core.info(`Label "enrich" added for behavior "${behavior}".`);
