@@ -1,4 +1,4 @@
-name: CI
+name: WorkflowCI
 on:
   workflow_call:
     secrets:

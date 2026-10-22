@@ -1,6 +1,6 @@
 name: SDD Task
-description: Run an OpenCode agent with a custom prompt
-title: "[bot]: "
+description: Run Spec Driven Development on Jira Ticket
+title: "Work on "
 labels: []
 body:
   - type: input
@@ -21,5 +21,16 @@ body:
         - opencode/glm-5.3-flash-free
         - opencode/nemotron-3.5-super-vl-free
         - opencode/minimax-m3.1-flash-free
+    validations:
+      required: true
+  - type: dropdown
+    id: behavior
+    attributes:
+      label: Behavior
+      description: OpenCode agent that will process the prompt
+      options:
+        - manual
+        - auto
+        - full-auto
     validations:
       required: true

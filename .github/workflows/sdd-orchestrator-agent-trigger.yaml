@@ -1,0 +1,26 @@
+name: SDD Orchestrator Agent
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  issues: write
+
+env:
+  AGENT: product-strategy-analyst
+
+jobs:
+  run-opencode:
+    name: Run OpenCode agent on issue
+    if: ${{ github.event.label.name == 'implement' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - name: Parse issue form inputs
+        id: parse-issue-form
+        uses: ./.github/actions/parse-issue-form
+        with:
+          issue-body: ${{ github.event.issue.body }}
+          fields: Jira Ticket,Model,Behavior
