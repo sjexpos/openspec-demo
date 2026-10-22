@@ -46,11 +46,18 @@ jobs:
               title: newTitle
             });
             core.info(`Issue title updated to: "${newTitle}"`);
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.SDD_APP_ID }}
+          private-key: ${{ secrets.SDD_APP_PRIVATE_KEY }}
       - name: Add sdd-enrich label for automatic behaviors
         env:
           PARSED_VALUES: ${{ steps.parse-issue-form.outputs.values }}
         uses: actions/github-script@v9.0.0
         with:
+          github-token: ${{ steps.app-token.outputs.token }}
           script: |
             const values = JSON.parse(process.env.PARSED_VALUES);
             const behavior = (values['Behavior'] || '').trim().toLowerCase();

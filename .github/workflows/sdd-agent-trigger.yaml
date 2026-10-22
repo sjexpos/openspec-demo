@@ -90,10 +90,18 @@ jobs:
               issue_number: context.issue.number,
               body: content
             });
+      - name: Generate GitHub App token
+        if: ${{ env.BEHAVIOR == 'full-auto' }}
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.SDD_APP_ID }}
+          private-key: ${{ secrets.SDD_APP_PRIVATE_KEY }}
       - name: Trigger implementation on full-auto behavior
         if: ${{ env.BEHAVIOR == 'full-auto' }}
         uses: actions/github-script@v9.0.0
         with:
+          github-token: ${{ steps.app-token.outputs.token }}
           script: |
             const issue_number = context.issue.number;
             await github.rest.issues.removeLabel({
@@ -122,3 +130,23 @@ jobs:
         with:
           issue-body: ${{ github.event.issue.body }}
           fields: Jira Ticket,Model,Behavior
+      - name: Remove sdd-implement label
+        uses: actions/github-script@v9.0.0
+        with:
+          script: |
+            await github.rest.issues.removeLabel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              name: 'sdd-implement'
+            });
+      - name: Close issue
+        uses: actions/github-script@v9.0.0
+        with:
+          script: |
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: 'closed'
+            });
