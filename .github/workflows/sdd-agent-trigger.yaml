@@ -10,6 +10,9 @@ permissions:
 env:
   ENRICH_AGENT: product-strategy-analyst
   SDD_AGENT: opsx-orchestrator
+  ENRICH_PROMPT: 'Enrich Jira ticket %s'
+  IMPLEMENT_PROMPT: 'Implement Jira ticket %s using automatic sdd. When you start, if the ticket status is "ToDo", move the task to the "InProgress" column; otherwise abort process.'
+  CREATE_PR_PROMPT: 'Create a pull request from current changes. Pull request MUST be composed by only one commit. Add a brief description about the changes. If PR is successfully created, move jira ticket %s to "InReview" status.'
 
 jobs:
   run-enrich-agent:
@@ -43,7 +46,7 @@ jobs:
           fi
           echo "Resolved behavior: $behavior"
           prompt_file="$FILES_DIR/Prompt.txt"
-          printf 'Enrich Jira ticket %s\n' "$jira_ticket" > "$prompt_file"
+          printf '%s\n' "$(printf "$ENRICH_PROMPT" "$jira_ticket")" > "$prompt_file"
           echo "Resolved agent: $ENRICH_AGENT"
           echo "Resolved jira ticket: $jira_ticket"
           echo "Resolved model: $model"
@@ -104,12 +107,6 @@ jobs:
           github-token: ${{ steps.app-token.outputs.token }}
           script: |
             const issue_number = context.issue.number;
-            await github.rest.issues.removeLabel({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number,
-              name: 'sdd-enrich'
-            });
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -121,6 +118,38 @@ jobs:
     name: Run SDD agent on issue
     if: ${{ github.event.label.name == 'sdd-implement' }}
     runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:14.4
+        ports:
+          - 5432:5432
+        credentials:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: tests
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      localstack:
+        image: localstack/localstack:4.3.0
+        ports:
+          - 4566:4566
+        credentials:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        env:
+          DEBUG: 0
+          S3_SKIP_SIGNATURE_VALIDATION: 0
+        options: >-
+          --health-cmd "curl -f http://localhost:4566/_localstack/health"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7.0.1
@@ -130,16 +159,86 @@ jobs:
         with:
           issue-body: ${{ github.event.issue.body }}
           fields: Jira Ticket,Model,Behavior
-      - name: Remove sdd-implement label
-        uses: actions/github-script@v9.0.0
+      - name: Resolve jira ticket, model and behavior
+        env:
+          PARSED_VALUES: ${{ steps.parse-issue-form.outputs.values }}
+          FILES_DIR: ${{ steps.parse-issue-form.outputs.files-dir }}
+        run: |
+          jira_ticket=$(jq -r '."Jira Ticket" // empty' <<< "$PARSED_VALUES")
+          model=$(jq -r '.Model // empty' <<< "$PARSED_VALUES")
+          behavior=$(jq -r '.Behavior // empty' <<< "$PARSED_VALUES")
+          if [ -z "$jira_ticket" ] || [ -z "$model" ]; then
+            echo "::error::Both Jira Ticket and Model are required." >&2
+            exit 1
+          fi
+          if [ -z "$behavior" ]; then
+            echo "::error::Behavior is required." >&2
+            exit 1
+          fi
+          echo "Resolved behavior: $behavior"
+          prompt_file="$FILES_DIR/Prompt.txt"
+          printf '%s\n' "$(printf "$IMPLEMENT_PROMPT" "$jira_ticket")" > "$prompt_file"
+          echo "Resolved agent: $SDD_AGENT"
+          echo "Resolved jira ticket: $jira_ticket"
+          echo "Resolved model: $model"
+          echo "MODEL=$model" >> $GITHUB_ENV
+          echo "JIRA_TICKET=$jira_ticket" >> $GITHUB_ENV
+          echo "BEHAVIOR=$behavior" >> $GITHUB_ENV
+          echo "PROMPT_FILE=$prompt_file" >> $GITHUB_ENV
+      - name: Install uvx
+        uses: astral-sh/setup-uv@v10.3.0
+      - name: Install OpenCode
+        run: |
+          curl -fsSL https://opencode.ai/install | bash
+          echo "$HOME/.opencode/bin" >> $GITHUB_PATH
+      - uses: actions/setup-java@v5.6.0
         with:
-          script: |
-            await github.rest.issues.removeLabel({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              name: 'sdd-implement'
-            });
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+          cache-dependency-path: pom.xml
+      - name: Provision LocalStack resources
+        env:
+          AWS_ACCESS_KEY_ID: test
+          AWS_SECRET_ACCESS_KEY: test
+          AWS_REGION: us-east-1
+        run: |
+          echo "Waiting for LocalStack to be ready"
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:4566/_localstack/health > /dev/null; then
+              echo "LocalStack is ready."
+              break
+            fi
+            echo "Waiting..."
+            sleep 2
+          done
+          aws cloudformation deploy \
+            --template-file ./localstack-resources.yml \
+            --stack-name testing-stack \
+            --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM \
+            --parameter-overrides Environment=testing \
+            --endpoint-url http://localhost:4566 \
+            --region us-east-1
+      - name: Run OpenCode with SDD orchestrator agent
+        env:
+          JIRA_USERNAME: ${{ secrets.JIRA_USERNAME }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
+          CONFLUENCE_API_TOKEN: ${{ secrets.CONFLUENCE_API_TOKEN }}
+        run: |
+          opencode run --agent "$SDD_AGENT" --model "$MODEL" "$(cat "$PROMPT_FILE")"
+      - name: List tmp directory contents
+        if: ${{ hashFiles('tmp/**') != '' }}
+        run: |
+          git status
+      - name: Run OpenCode to create pull request
+        env:
+          JIRA_USERNAME: ${{ secrets.JIRA_USERNAME }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
+          CONFLUENCE_API_TOKEN: ${{ secrets.CONFLUENCE_API_TOKEN }}
+        run: |
+          opencode run --agent "$SDD_AGENT" --model "$MODEL" "$CREATE_PR_PROMPT"
       - name: Close issue
         uses: actions/github-script@v9.0.0
         with:
