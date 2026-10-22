@@ -46,7 +46,7 @@ jobs:
               title: newTitle
             });
             core.info(`Issue title updated to: "${newTitle}"`);
-      - name: Add enrich label for automatic behaviors
+      - name: Add sdd-enrich label for automatic behaviors
         env:
           PARSED_VALUES: ${{ steps.parse-issue-form.outputs.values }}
         uses: actions/github-script@v9.0.0
@@ -55,13 +55,13 @@ jobs:
             const values = JSON.parse(process.env.PARSED_VALUES);
             const behavior = (values['Behavior'] || '').trim().toLowerCase();
             if (behavior !== 'auto' && behavior !== 'full-auto') {
-              core.info(`Behavior "${behavior}" does not require the enrich label. Nothing to do.`);
+              core.info(`Behavior "${behavior}" does not require the sdd-enrich label. Nothing to do.`);
               return;
             }
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              labels: ['enrich']
+              labels: ['sdd-enrich']
             });
-            core.info(`Label "enrich" added for behavior "${behavior}".`);
+            core.info(`Label "sdd-enrich" added for behavior "${behavior}".`);
