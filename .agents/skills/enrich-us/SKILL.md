@@ -22,5 +22,5 @@ Follow these steps:
 6. If the user story lacks the technical and specific detail necessary to allow the developer to be fully autonomous when completing it, provide an improved story that is clearer, more specific, and more concise in line with product best practices described in step 4. Use the technical context you will find in 
 @documentation. Return it in markdown format.
 7. Save the enriched user story as a markdown file in the `tmp/` folder at the project root (create the folder if it doesn't exist). Name the file `<ticket-id>-enriched-us.md` (e.g., `PROJ-42-enriched-us.md`). The `tmp/` folder is already in `.gitignore`.
-8. Update ticket in Jira, adding the new content after the old one and marking each section with the h2 tags [original] and [enhanced]. Apply proper formatting to make it readable and visually clear, using appropriate text types (lists, code snippets...).
+8. Update ticket description field in Jira, adding the new content after the old one and marking each section with the h2 tags [original] and [enhanced]. Apply proper formatting to make it readable and visually clear, using appropriate text types (lists, code snippets...).
 9. If the ticket status was "ToBeRefine" or "Refining", move the task to the "ToDo" column.
