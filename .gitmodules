@@ -1,0 +1,3 @@
+[submodule "openspec/schemas"]
+	path = openspec/schemas
+	url = git@github.com:sjexpos/openspec-schemas.git
