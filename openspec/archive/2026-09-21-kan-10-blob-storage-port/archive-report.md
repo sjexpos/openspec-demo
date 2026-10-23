@@ -1,7 +1,7 @@
 # KAN-10 Blob Storage Port + S3 Adapter — Archive Report
 
 - **Change:** `kan-10-blob-storage-port` — Storage-agnostic `BlobStorage` port plus first AWS S3 implementation (presigned PUT targets + validated batch removal)
-- **Schema:** `story-sdd`
+- **Schema:** `be-user-story`
 - **Branch:** `feat/KAN-10-blob-storage-port`
 - **Archived on:** 2026-09-21
 - **Archived to:** `openspec/archive/2026-09-21-kan-10-blob-storage-port/`
@@ -28,7 +28,7 @@ The KAN-10 Blob Storage Port change was archived. The full SDD pipeline complete
 
 ## Spec Sync
 
-Per the `story-sdd` schema (new capability + MODIFIED reconciliation), the delta specs were sync-promoted into the main OpenSpec spec store as canonical content, following the KAN-14 precedent (delta `## ADDED`/`## MODIFIED Requirements` wrappers stripped to canonical `## Requirements`; Purpose retained verbatim for the new capability):
+Per the `be-user-story` schema (new capability + MODIFIED reconciliation), the delta specs were sync-promoted into the main OpenSpec spec store as canonical content, following the KAN-14 precedent (delta `## ADDED`/`## MODIFIED Requirements` wrappers stripped to canonical `## Requirements`; Purpose retained verbatim for the new capability):
 
 - **New canonical spec:** `openspec/specs/blob-storage/spec.md`
   - Form: canonical `## Requirements` (delta `## ADDED Requirements` wrapper stripped).

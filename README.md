@@ -150,7 +150,7 @@ openspec-demo/
 |
 ├── 📁 openspec/                          # OpenSpec structure
 |   ├── 📁 schemas
-|   |   └── story-sdd                     # Custom OpenSpec schema (support for extended testing tasks)
+|   |   └── be-user-story                     # Custom OpenSpec schema (support for extended testing tasks)
 |   ├── 📁 changes                        # OpenSpec historical specifications
 |   └── config.yaml                       # OpenSpec configuration file 
 │

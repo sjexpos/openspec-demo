@@ -1,7 +1,7 @@
 # KAN-14 S3 Client Beans — Archive Report
 
 - **Change:** `KAN-14-s3-client-beans` — Reusable AWS S3 foundation (injectable `S3Client` + `S3Presigner` beans, LocalStack-overridable endpoint)
-- **Schema:** `story-sdd`
+- **Schema:** `be-user-story`
 - **Branch:** `feat/KAN-14-s3-client-beans-backend`
 - **Archived on:** 2026-09-20
 - **Archived to:** `openspec/archive/2026-09-20-KAN-14-s3-client-beans/`

@@ -1,6 +1,6 @@
 # Tasks: kan-16-spring-cloud-aws-foundation
 
-> Schema: `story-sdd`. TDD mandatory (failing test first, `should_[expected]_when_[condition]`, AAA, >= 90% lines/branches on all new classes). Baby steps, one task at a time, incremental. No business handling of `S3Event` (KAN-13 seam only). No REST endpoint, no Flyway migration, no `SqsTemplate` producer, no DLQ alarm, no production queue-policy scoping.
+> Schema: `be-user-story`. TDD mandatory (failing test first, `should_[expected]_when_[condition]`, AAA, >= 90% lines/branches on all new classes). Baby steps, one task at a time, incremental. No business handling of `S3Event` (KAN-13 seam only). No REST endpoint, no Flyway migration, no `SqsTemplate` producer, no DLQ alarm, no production queue-policy scoping.
 
 ## Phase 1 — Build foundation: BOM + dependencies first
 

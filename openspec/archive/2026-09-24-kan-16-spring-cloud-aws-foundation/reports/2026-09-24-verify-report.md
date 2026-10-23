@@ -4,7 +4,7 @@
 - Mode: verify (static inspection + unit test re-run; failsafe/LocalStack round trip accepted from apply evidence, not re-executed here)
 - Date: 2026-09-24
 - Verifier: opsx-verify sub-agent
-- Schema: `story-sdd` (per openspec/config.yaml)
+- Schema: `be-user-story` (per openspec/config.yaml)
 
 ## Skill resolution
 

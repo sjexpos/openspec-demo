@@ -7,7 +7,7 @@
 - Mode: full independent verification. Every claim below was re-derived from a fresh run or from
   reading the actual code/git history. Prior reports (`apply-progress.md`, the two mandatory Step
   N+1 / N+2 reports) were read as *claims to be checked*, not as evidence.
-- Schema: `openspec/schemas/story-sdd/schema.yaml` has **no distinct `verify` artifact block**; the
+- Schema: `openspec/schemas/be-user-story/schema.yaml` has **no distinct `verify` artifact block**; the
   closest analog is the `apply` block's tracking philosophy. Report path/name follows the KAN-6
   archive precedent (`openspec/archive/2026-08-05-KAN-6-brands-crud/reports/2026-08-05-verify-report.md`).
 

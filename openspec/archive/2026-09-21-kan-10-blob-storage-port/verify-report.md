@@ -2,7 +2,7 @@
 
 - Change: `kan-10-blob-storage-port` (Blob Storage Port + S3 Adapter)
 - Mode: re-ran `mvn verify` (full build with unit + integration tests); inspected implementation in `src/main` + `src/test`; checked every spec scenario maps to a passing test; checked DoD §6 items 1–12 from `tmp/KAN-10-enriched-us-opus.md`.
-- Schema: `story-sdd` (`openspec/config.yaml`). Dependency position: apply → **verify** → code-review → archive.
+- Schema: `be-user-story` (`openspec/config.yaml`). Dependency position: apply → **verify** → code-review → archive.
 - Date: 2026-09-21. Verifier: `opsx-verify` sub-agent.
 - Verdict: **PASS WITH WARNINGS** (no CRITICAL findings; 3 WARNINGs, 2 SUGGESTIONs — none block `code-review`).
 

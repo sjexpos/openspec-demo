@@ -1,6 +1,6 @@
 # Apply progress — kan-11-brand-image-upload-target
 
-Schema `story-sdd` | Branch `feat/kan-11-brand-image-upload-target` | 28/28 tasks complete.
+Schema `be-user-story` | Branch `feat/kan-11-brand-image-upload-target` | 28/28 tasks complete.
 No commits made (orchestrator automatic-chain rule); all work in the working tree.
 
 ## Completed

@@ -6,7 +6,7 @@
 - Agent: `code-review` (adversarial pass, post-`verify`, pre-`archive`)
 - Scope: full diff `git diff main..feat/KAN-8-create-product` — 19 new main files, 1 modified main file,
   7 new test files, 4 modified test files, 3 modified non-code files, 6 OpenSpec artifacts.
-- Schema: `openspec/config.yaml` → `story-sdd`; routing
+- Schema: `openspec/config.yaml` → `be-user-story`; routing
   `proposal->specs->design->tasks->apply->verify->code-review->archive`. Report path follows the KAN-6
   archive precedent (`reports/` inside the change folder).
 
