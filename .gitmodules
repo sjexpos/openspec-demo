@@ -1,3 +1,6 @@
 [submodule "openspec/schemas"]
 	path = openspec/schemas
 	url = git@github.com:sjexpos/openspec-schemas.git
+[submodule ".opencode/openspec"]
+	path = .opencode/openspec
+	url = git@github.com:sjexpos/openspec-opencode.git
