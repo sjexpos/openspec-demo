@@ -18,20 +18,13 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 60 # 1hs
     steps:
-      - name: Configurar Git para transformar SSH a HTTPS con PAT
+      - name: Override ssh submodules to https with PAT (Personal Access Token)
         run: |
           git config --global url."https://x-access-token:${{ secrets.GH_PAT }}@github.com/".insteadOf "git@github.com:"
       - uses: actions/checkout@v7.0.1
         with:
-          submodules: true
+          submodules: 'recursive'
           token: ${{ secrets.GH_PAT }}
-      - name: Check cloned submodules
-        run: |
-          ls -al
-          ls -al .claude/
-          ls -al .claude/openspec/
-          ls -al .opencode/
-          ls -al .opencode/openspec/
       - name: Parse issue form inputs
         id: parse-issue-form
         uses: ./.github/actions/parse-issue-form
@@ -82,6 +75,7 @@ jobs:
           ls -al .opencode/
           ls -al .opencode/openspec/
           ls -al .opencode/openspec/agents/
+          ls -al .claude/openspec/agents/
           ls -al .opencode/openspec/agents/product-strategy-analyst.md
           opencode run --agent "$ENRICH_AGENT" --model "$MODEL" "$(cat "$PROMPT_FILE")"
       - name: List tmp directory contents
@@ -168,12 +162,12 @@ jobs:
           --health-retries 5
     timeout-minutes: 480 # 8hs
     steps:
-      - name: Configurar Git para transformar SSH a HTTPS con PAT
+      - name: Override ssh submodules to https with PAT (Personal Access Token)
         run: |
           git config --global url."https://x-access-token:${{ secrets.GH_PAT }}@github.com/".insteadOf "git@github.com:"
       - uses: actions/checkout@v7.0.1
         with:
-          submodules: true
+          submodules: 'recursive'
           token: ${{ secrets.GH_PAT }}
       - name: Parse issue form inputs
         id: parse-issue-form
