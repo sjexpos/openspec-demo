@@ -1,0 +1,1 @@
+Implement Jira ticket {{JIRA_TICKET}} using automatic sdd. When you start, if the ticket status is "ToDo", move the task to the "InProgress" column; otherwise abort process. The final verdict must be written to the file tmp/final_status.md in markdown format.
