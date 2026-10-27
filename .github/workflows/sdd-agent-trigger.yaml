@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v7.0.1
         with:
           submodules: true
-          ssh-key: ${{ secrets.GH_PAT }}
+          token: ${{ secrets.GH_PAT }}
       - name: Parse issue form inputs
         id: parse-issue-form
         uses: ./.github/actions/parse-issue-form
@@ -161,7 +161,7 @@ jobs:
       - uses: actions/checkout@v7.0.1
         with:
           submodules: true
-          ssh-key: ${{ secrets.GH_PAT }}
+          token: ${{ secrets.GH_PAT }}
       - name: Parse issue form inputs
         id: parse-issue-form
         uses: ./.github/actions/parse-issue-form
