@@ -9,7 +9,7 @@ permissions:
 
 env:
   ENRICH_AGENT: product-strategy-analyst
-  SDD_AGENT: opsx-orchestrator
+  SDD_AGENT: orchestrator
 
 jobs:
   run-enrich-agent:
