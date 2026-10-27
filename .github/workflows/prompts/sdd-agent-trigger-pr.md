@@ -1,0 +1,1 @@
+Create a pull request from current changes. Pull request MUST be composed by only one commit. Add a brief description about the changes. If PR is successfully created, move jira ticket {{JIRA_TICKET}} to "InReview" status. If the file tmp/final_status.md exists, add it as a comment to the PR.

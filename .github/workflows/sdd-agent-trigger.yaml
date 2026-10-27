@@ -10,9 +10,6 @@ permissions:
 env:
   ENRICH_AGENT: product-strategy-analyst
   SDD_AGENT: opsx-orchestrator
-  ENRICH_PROMPT: 'Enrich Jira ticket %s'
-  IMPLEMENT_PROMPT: 'Implement Jira ticket %s using automatic sdd. When you start, if the ticket status is "ToDo", move the task to the "InProgress" column; otherwise abort process. The final verdict must be written to the file tmp/final_status.md in markdown format.'
-  CREATE_PR_PROMPT: 'Create a pull request from current changes. Pull request MUST be composed by only one commit. Add a brief description about the changes. If PR is successfully created, move jira ticket %s to "InReview" status. If the file tmp/final_status.md exists, add it as a comment to the PR.'
 
 jobs:
   run-enrich-agent:
@@ -52,7 +49,7 @@ jobs:
           fi
           echo "Resolved behavior: $behavior"
           prompt_file="$FILES_DIR/Prompt.txt"
-          printf '%s\n' "$(printf "$ENRICH_PROMPT" "$jira_ticket")" > "$prompt_file"
+          sed "s/{{JIRA_TICKET}}/$jira_ticket/g" ".github/workflows/prompts/sdd-agent-trigger-enrich.md" > "$prompt_file"
           echo "Resolved agent: $ENRICH_AGENT"
           echo "Resolved jira ticket: $jira_ticket"
           echo "Resolved model: $model"
@@ -189,7 +186,9 @@ jobs:
           fi
           echo "Resolved behavior: $behavior"
           prompt_file="$FILES_DIR/Prompt.txt"
-          printf '%s\n' "$(printf "$IMPLEMENT_PROMPT" "$jira_ticket")" > "$prompt_file"
+          sed "s/{{JIRA_TICKET}}/$jira_ticket/g" ".github/workflows/prompts/sdd-agent-trigger-implement.md" > "$prompt_file"
+          pr_prompt_file="$FILES_DIR/Prompt-pr.txt"
+          sed "s/{{JIRA_TICKET}}/$jira_ticket/g" ".github/workflows/prompts/sdd-agent-trigger-pr.md" > "$pr_prompt_file"
           echo "Resolved agent: $SDD_AGENT"
           echo "Resolved jira ticket: $jira_ticket"
           echo "Resolved model: $model"
@@ -197,6 +196,7 @@ jobs:
           echo "JIRA_TICKET=$jira_ticket" >> $GITHUB_ENV
           echo "BEHAVIOR=$behavior" >> $GITHUB_ENV
           echo "PROMPT_FILE=$prompt_file" >> $GITHUB_ENV
+          echo "PR_PROMPT_FILE=$pr_prompt_file" >> $GITHUB_ENV
       - name: Install uvx
         uses: astral-sh/setup-uv@v10.3.0
       - name: Install OpenCode
@@ -231,6 +231,10 @@ jobs:
             --parameter-overrides Environment=testing \
             --endpoint-url http://localhost:4566 \
             --region us-east-1
+      - name: Provision 'demo' database
+        run: |
+          mvn flyway:migrate
+          mvn flyway:info
       - name: Run OpenCode with SDD orchestrator agent
         env:
           JIRA_USERNAME: ${{ secrets.JIRA_USERNAME }}
@@ -250,7 +254,7 @@ jobs:
           CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
           CONFLUENCE_API_TOKEN: ${{ secrets.CONFLUENCE_API_TOKEN }}
         run: |
-          opencode run --agent "$SDD_AGENT" --model "$MODEL" "$CREATE_PR_PROMPT"
+          opencode run --agent "$SDD_AGENT" --model "$MODEL" "$(cat "$PR_PROMPT_FILE")"
       - name: Close issue
         uses: actions/github-script@v9.0.0
         with:
