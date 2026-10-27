@@ -1,1 +1,0 @@
-../../prompts/opsx/opsx-archive.md

@@ -1,7 +1,7 @@
 # KAN-11 Brand Image Upload Target Endpoint — Archive Report
 
 - **Change:** `kan-11-brand-image-upload-target` — First HTTP surface over the asset pipeline (KAN-12 F1): `POST /api/brands/{brandId}/images` wiring brand resolution → `BlobStorage.createUploadTarget(BRAND_IMAGE)` → `BrandImage.pending` persistence, returning a credential-free presigned `PUT` target; establishes the reusable asset-creation contract
-- **Schema:** `story-sdd`
+- **Schema:** `be-user-story`
 - **Branch:** `feat/kan-11-brand-image-upload-target` (based on KAN-12 `50448c1`; working tree only, no commits per automatic-chain rule)
 - **Archived on:** 2026-09-22
 - **Archived to:** `openspec/archive/2026-09-22-kan-11-brand-image-upload-target/`
@@ -31,7 +31,7 @@ The KAN-11 brand-image upload-target change was archived. The full SDD pipeline 
 
 ## Spec Sync
 
-Per the `story-sdd` schema (ADDED + MODIFIED reconciliation), the delta specs were sync-promoted into the main OpenSpec spec store as canonical content, following the KAN-10/KAN-12 precedent (delta `## ADDED`/`## MODIFIED Requirements` wrappers stripped to canonical `## Requirements`):
+Per the `be-user-story` schema (ADDED + MODIFIED reconciliation), the delta specs were sync-promoted into the main OpenSpec spec store as canonical content, following the KAN-10/KAN-12 precedent (delta `## ADDED`/`## MODIFIED Requirements` wrappers stripped to canonical `## Requirements`):
 
 - **Updated canonical spec:** `openspec/specs/brands-management/spec.md`
   - The delta `ADDED` requirement `Create brand image upload target` (+ 11 scenarios) appended after the existing `Brand image persistence and lifecycle` requirement; no existing requirement reordered or removed.

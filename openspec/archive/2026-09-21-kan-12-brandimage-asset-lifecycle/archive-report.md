@@ -1,7 +1,7 @@
 # KAN-12 BrandImage Asset Lifecycle — Archive Report
 
 - **Change:** `kan-12-brandimage-asset-lifecycle` — Persistence half of the asset pipeline: shared `AssetStatus` lifecycle enum, `BrandImage` entity, `BrandImageRepository`, `BlobType.isKeyOf` extraction, Flyway `V0.1.1` migration, tests and docs (no endpoint, no service)
-- **Schema:** `story-sdd`
+- **Schema:** `be-user-story`
 - **Branch:** `feat/kan-12-brandimage-asset-lifecycle`
 - **Archived on:** 2026-09-21
 - **Archived to:** `openspec/archive/2026-09-21-kan-12-brandimage-asset-lifecycle/`
@@ -31,7 +31,7 @@ The KAN-12 BrandImage asset-lifecycle change was archived. The full SDD pipeline
 
 ## Spec Sync
 
-Per the `story-sdd` schema (new capability + ADDED + MODIFIED reconciliation), the delta specs were sync-promoted into the main OpenSpec spec store as canonical content, following the KAN-10 precedent (delta `## ADDED`/`## MODIFIED Requirements` wrappers stripped to canonical `## Requirements`; Purpose retained verbatim for the new capability):
+Per the `be-user-story` schema (new capability + ADDED + MODIFIED reconciliation), the delta specs were sync-promoted into the main OpenSpec spec store as canonical content, following the KAN-10 precedent (delta `## ADDED`/`## MODIFIED Requirements` wrappers stripped to canonical `## Requirements`; Purpose retained verbatim for the new capability):
 
 - **New canonical spec:** `openspec/specs/asset-lifecycle/spec.md`
   - Form: canonical `# asset-lifecycle` + `## Purpose` + `## Requirements` (delta `## ADDED Requirements` wrapper stripped).

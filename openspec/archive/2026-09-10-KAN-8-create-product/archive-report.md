@@ -1,7 +1,7 @@
 # KAN-8 Create Product — Archive Report
 
 - **Change:** `KAN-8-create-product` — Product aggregate and write API (`POST /api/products`)
-- **Schema:** `story-sdd`
+- **Schema:** `be-user-story`
 - **Branch:** `feat/KAN-8-create-product`
 - **Archived on:** 2026-09-10
 - **Archived to:** `openspec/archive/2026-09-10-KAN-8-create-product/`

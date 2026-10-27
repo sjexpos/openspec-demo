@@ -3,7 +3,7 @@
 - Change: `kan-16-spring-cloud-aws-foundation`
 - Date: 2026-09-24
 - Reviewer: code-review sub-agent
-- Schema: `story-sdd` (per openspec/config.yaml)
+- Schema: `be-user-story` (per openspec/config.yaml)
 - Verdict: **PASS WITH GAPS**
 
 ## Skill resolution

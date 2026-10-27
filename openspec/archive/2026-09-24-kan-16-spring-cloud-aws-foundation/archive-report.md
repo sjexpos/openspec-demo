@@ -1,7 +1,7 @@
 # kan-16-spring-cloud-aws-foundation — Archive Report
 
 - **Change:** `kan-16-spring-cloud-aws-foundation` — Spring Cloud AWS async messaging foundation (starter-owned `S3AsyncClient` + `SqsAsyncClient`, one ordered `SqsMessageListenerContainer<S3Event>` for asset events, S3 config migration onto `spring.cloud.aws.*`)
-- **Schema:** `story-sdd` (per `openspec/config.yaml`)
+- **Schema:** `be-user-story` (per `openspec/config.yaml`)
 - **Branch:** work held uncommitted in dirty tree on `main` (desired shape: `feat/KAN-16-spring-cloud-aws` with conventional commits — see Commit Boundary)
 - **Archived on:** 2026-09-24
 - **Archived to:** `openspec/archive/2026-09-24-kan-16-spring-cloud-aws-foundation/`

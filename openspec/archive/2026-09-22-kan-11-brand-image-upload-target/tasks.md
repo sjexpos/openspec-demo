@@ -1,6 +1,6 @@
 # Tasks: kan-11-brand-image-upload-target — Brand Image Upload Target Endpoint
 
-Schema: `story-sdd` | Change: `kan-11-brand-image-upload-target` | Branch: `feat/kan-11-brand-image-upload-target`
+Schema: `be-user-story` | Change: `kan-11-brand-image-upload-target` | Branch: `feat/kan-11-brand-image-upload-target`
 
 Conventions: TDD red-first, one baby step at a time. Each task: RED (write failing test, watch it fail) → GREEN (minimal code) → verify neighbours still green. English-only artifacts. Coverage gate: 90% branches/lines on all new classes (`docs/backend-standards.md`). Parallelizable tasks marked `[P]` — may run concurrently only after their `Depends on` is green. Never skip the mandatory manual browser preflight check (DoD).
 

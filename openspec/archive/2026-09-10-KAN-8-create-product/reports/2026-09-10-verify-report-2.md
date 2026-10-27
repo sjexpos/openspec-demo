@@ -18,7 +18,7 @@
 
 | Artifact | Expected | Found | Verdict |
 |---|---|---|---|
-| `openspec/config.yaml` | schema `story-sdd`, routing `proposal->specs->design->tasks->apply->verify->code-review->archive` | Present, unchanged | PASS |
+| `openspec/config.yaml` | schema `be-user-story`, routing `proposal->specs->design->tasks->apply->verify->code-review->archive` | Present, unchanged | PASS |
 | `proposal.md` | 12 open items (up from 9) | 12 items; new #11 (unbounded `description`) and #12 (existence-oracle) present and correctly scoped as *disclosed, not fixed* | PASS |
 | `specs/products-management/spec.md` | 8 requirements, 18 scenarios | 8 requirements, 18 scenarios; **unmodified** by the corrective pass (correct — no behaviour changed) | PASS |
 | `design.md` | corrected file counts + SpotBugs-deferral note | Deferral note present (Risks, D2 block). File counts **still wrong** — see W1 | **PARTIAL** |

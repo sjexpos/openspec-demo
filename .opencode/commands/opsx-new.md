@@ -1,1 +1,0 @@
-../../.agents/opencode/commands/opsx-new.md

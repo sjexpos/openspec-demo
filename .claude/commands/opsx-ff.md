@@ -1,1 +1,0 @@
-../../.agents/claude/commands/opsx-ff.md

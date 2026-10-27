@@ -2,7 +2,7 @@
 
 - Change: `kan-10-blob-storage-port` (Blob Storage Port + S3 Adapter)
 - Date: 2026-09-21. Reviewer: `code-review` sub-agent (adversarial red-team pass).
-- Schema: `story-sdd` (`openspec/config.yaml`). Position: apply → verify → **code-review** → archive.
+- Schema: `be-user-story` (`openspec/config.yaml`). Position: apply → verify → **code-review** → archive.
 - Verdict: **PASS WITH GAPS** (no Blocker, no Major; 4 Minor + 2 Questions — none block archive).
 - Per AGENTS.md §6: findings are reported, NOT fixed inline.
 

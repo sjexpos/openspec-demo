@@ -1,7 +1,7 @@
 # KAN-6 Brands CRUD — Archive Report
 
 - **Change:** `KAN-6-brands-crud` — Brands CRUD (backend)
-- **Schema:** `story-sdd`
+- **Schema:** `be-user-story`
 - **Branch:** `feature/KAN-6-brands-crud-backend`
 - **Archived on:** 2026-08-05
 - **Archived to:** `openspec/archive/2026-08-05-KAN-6-brands-crud/`
