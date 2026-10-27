@@ -77,6 +77,12 @@ jobs:
           CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
           CONFLUENCE_API_TOKEN: ${{ secrets.CONFLUENCE_API_TOKEN }}
         run: |
+          pwd
+          ls -al
+          ls -al .opencode/
+          ls -al .opencode/openspec/
+          ls -al .opencode/openspec/agents/
+          ls -al .opencode/openspec/agents/product-strategy-analyst.md
           opencode run --agent "$ENRICH_AGENT" --model "$MODEL" "$(cat "$PROMPT_FILE")"
       - name: List tmp directory contents
         if: ${{ hashFiles('tmp/**') != '' }}
