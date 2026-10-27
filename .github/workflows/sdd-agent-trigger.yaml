@@ -25,6 +25,13 @@ jobs:
         with:
           submodules: true
           token: ${{ secrets.GH_PAT }}
+      - name: Check cloned submodules
+        run: |
+          ls -al
+          ls -al .claude/
+          ls -al .claude/openspec/
+          ls -al .opencode/
+          ls -al .opencode/openspec/
       - name: Parse issue form inputs
         id: parse-issue-form
         uses: ./.github/actions/parse-issue-form
