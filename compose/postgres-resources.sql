@@ -1,7 +1,3 @@
-#!/usr/bin/env bash
-
-psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
-
 CREATE USER develop WITH NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT LOGIN ENCRYPTED PASSWORD 'develop';
 CREATE DATABASE demo WITH OWNER develop;
 
@@ -13,7 +9,3 @@ CREATE DATABASE tests WITH OWNER test;
 
 GRANT ALL PRIVILEGES ON DATABASE tests TO test;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO test;
-
-EOSQL
-
-echo "------------ Grants were executed ------------"

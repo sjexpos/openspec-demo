@@ -702,8 +702,8 @@ Assertion pattern:
 ### Development Scripts
 
 ```bash
-docker compose up                          # Start third-party service for development and testing
-docker compose down                        # Stop and clean third-party service for development and testing
+cd compose && docker compose up            # Start third-party service for development and testing
+cd compose && docker compose down          # Stop and clean third-party service for development and testing
 mvn flyway:migrate                         # run flyway scripts on development database
 mvn flyway:info                            # show flyway development database info
 mvn spring-boot:run                        # Development server

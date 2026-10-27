@@ -70,13 +70,6 @@ jobs:
           CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
           CONFLUENCE_API_TOKEN: ${{ secrets.CONFLUENCE_API_TOKEN }}
         run: |
-          pwd
-          ls -al
-          ls -al .opencode/
-          ls -al .opencode/openspec/
-          ls -al .opencode/openspec/agents/
-          ls -al .claude/openspec/agents/
-          ls -al .opencode/openspec/agents/product-strategy-analyst.md
           opencode run --agent "$ENRICH_AGENT" --model "$MODEL" "$(cat "$PROMPT_FILE")"
       - name: List tmp directory contents
         if: ${{ hashFiles('tmp/**') != '' }}
@@ -137,9 +130,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
         env:
-          POSTGRES_USER: test
-          POSTGRES_PASSWORD: test
-          POSTGRES_DB: tests
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -210,6 +203,10 @@ jobs:
         run: |
           curl -fsSL https://opencode.ai/install | bash
           echo "$HOME/.opencode/bin" >> $GITHUB_PATH
+      - name: Install PostgreSQL client (psql)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
       - uses: actions/setup-java@v5.6.0
         with:
           java-version: '21'
@@ -232,12 +229,18 @@ jobs:
             sleep 2
           done
           aws cloudformation deploy \
-            --template-file ./localstack-resources.yml \
+            --template-file ./compose/localstack-resources.yml \
             --stack-name testing-stack \
             --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM \
             --parameter-overrides Environment=testing \
             --endpoint-url http://localhost:4566 \
             --region us-east-1
+
+      - name: Ejecutar psql
+        run: |
+          psql -v ON_ERROR_STOP=1 --host localhost --username "postgres" --dbname "postgres" -f ./compose/postgres-resources.sql
+        env:
+          PGPASSWORD: postgres
       - name: Provision 'demo' database
         run: |
           mvn flyway:migrate
