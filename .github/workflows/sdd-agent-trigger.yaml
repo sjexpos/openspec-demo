@@ -15,7 +15,7 @@ jobs:
   run-enrich-agent:
     name: Run enrich agent on issue
     if: ${{ github.event.label.name == 'sdd-enrich' }}
-    runs-on: self-hosted
+    runs-on: ubuntu-24.04
     timeout-minutes: 60 # 1hs
     steps:
       - name: Override ssh submodules to https with PAT (Personal Access Token)
