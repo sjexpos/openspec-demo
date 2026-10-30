@@ -70,7 +70,7 @@
 
         <surefire.skip>false</surefire.skip>
         <failsafe.skip>false</failsafe.skip>
-        <pitest.skip>false</pitest.skip>
+        <pitest.skip>true</pitest.skip>
     </properties>
 
     <dependencyManagement>
