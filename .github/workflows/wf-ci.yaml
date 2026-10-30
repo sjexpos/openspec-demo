@@ -219,8 +219,15 @@ jobs:
           distribution: 'temurin'
           cache: maven
           cache-dependency-path: pom.xml
+      - name: Resolve pitest skip flag
+        run: |
+          if [ "${{ env.BRANCH_NAME }}" = "${{ inputs.DEFAULT_BRANCH }}" ]; then
+            echo "PITEST_SKIP=false" >> $GITHUB_ENV
+          else
+            echo "PITEST_SKIP=true" >> $GITHUB_ENV
+          fi
       - name: Testing code
-        run: mvn -Dsurefire.skip=true -Dfailsafe.skip=true -Dpitest.skip=false --batch-mode verify
+        run: mvn -Dsurefire.skip=true -Dfailsafe.skip=true -Dpitest.skip=${PITEST_SKIP} --batch-mode verify
       - name: Upload pitested sources
         id: upload-pitested-sources
         uses: actions/upload-artifact@v7.0.1
@@ -330,6 +337,7 @@ jobs:
           cache: maven
           cache-dependency-path: pom.xml
       - name: Run maven site
+        if: ${{ env.BRANCH_NAME == inputs.DEFAULT_BRANCH }}
         run: mvn -Dsurefire.skip=true -Dfailsafe.skip=true -Dpitest.skip=true --batch-mode site
       - name: Upload site sources
         id: upload-site-sources
@@ -406,6 +414,12 @@ jobs:
         uses: codecov/codecov-action@v7.0.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          report-type: test_results
 
   publish-reports:
     name: Publish reports
