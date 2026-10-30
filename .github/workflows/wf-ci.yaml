@@ -337,6 +337,7 @@ jobs:
           cache: maven
           cache-dependency-path: pom.xml
       - name: Run maven site
+        if: ${{ env.BRANCH_NAME == inputs.DEFAULT_BRANCH }}
         run: mvn -Dsurefire.skip=true -Dfailsafe.skip=true -Dpitest.skip=true --batch-mode site
       - name: Upload site sources
         id: upload-site-sources
