@@ -80,31 +80,31 @@ public class BrandImage extends BaseEntity {
    * the new image always starts in {@code PENDING}.
    */
   public static BrandImage pending(Brand brand, String imageKey) {
-<span class="fc bfc" id="L83" title="All 4 branches covered.">    if (brand == null || brand.getId() == null) {</span>
-<span class="fc" id="L84">      throw new IllegalArgumentException(&quot;Brand image requires a persisted brand&quot;);</span>
+<span class="nc bnc" id="L83" title="All 4 branches missed.">    if (brand == null || brand.getId() == null) {</span>
+<span class="nc" id="L84">      throw new IllegalArgumentException(&quot;Brand image requires a persisted brand&quot;);</span>
     }
-<span class="fc bfc" id="L86" title="All 2 branches covered.">    if (!BlobType.BRAND_IMAGE.isKeyOf(imageKey)) {</span>
-<span class="fc" id="L87">      throw new IllegalArgumentException(&quot;Brand image requires a canonical BRAND_IMAGE blob key&quot;);</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">    if (!BlobType.BRAND_IMAGE.isKeyOf(imageKey)) {</span>
+<span class="nc" id="L87">      throw new IllegalArgumentException(&quot;Brand image requires a canonical BRAND_IMAGE blob key&quot;);</span>
     }
-<span class="fc" id="L89">    return BrandImage.builder().brand(brand).imageKey(imageKey).status(AssetStatus.PENDING).build();</span>
+<span class="nc" id="L89">    return BrandImage.builder().brand(brand).imageKey(imageKey).status(AssetStatus.PENDING).build();</span>
   }
 
   /** Confirms the blob upload, moving the image from {@code PENDING} to {@code UPLOADED}. */
   public void markUploaded() {
-<span class="fc" id="L94">    transitionTo(AssetStatus.UPLOADED);</span>
-<span class="fc" id="L95">  }</span>
+<span class="nc" id="L94">    transitionTo(AssetStatus.UPLOADED);</span>
+<span class="nc" id="L95">  }</span>
 
   /** Retires the image, moving it from {@code PENDING} or {@code UPLOADED} to {@code DELETED}. */
   public void markDeleted() {
-<span class="fc" id="L99">    transitionTo(AssetStatus.DELETED);</span>
-<span class="fc" id="L100">  }</span>
+<span class="nc" id="L99">    transitionTo(AssetStatus.DELETED);</span>
+<span class="nc" id="L100">  }</span>
 
   private void transitionTo(AssetStatus target) {
-<span class="fc bfc" id="L103" title="All 2 branches covered.">    if (!this.status.canTransitionTo(target)) {</span>
-<span class="fc" id="L104">      throw new IllegalStateException(</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">    if (!this.status.canTransitionTo(target)) {</span>
+<span class="nc" id="L104">      throw new IllegalStateException(</span>
           &quot;Cannot transition brand image from &quot; + this.status + &quot; to &quot; + target);
     }
-<span class="fc" id="L107">    this.status = target;</span>
-<span class="fc" id="L108">  }</span>
+<span class="nc" id="L107">    this.status = target;</span>
+<span class="nc" id="L108">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
