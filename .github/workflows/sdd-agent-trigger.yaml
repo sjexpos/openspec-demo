@@ -122,6 +122,7 @@ jobs:
     name: Run SDD agent on issue
     if: ${{ github.event.label.name == 'sdd-implement' }}
     runs-on: ubuntu-24.04
+    timeout-minutes: 360 # 6hs - max github timeout in no self-hosted
     services:
       postgres:
         image: postgres:14.4
@@ -154,7 +155,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-    timeout-minutes: 480 # 8hs
     steps:
       - name: Override ssh submodules to https with PAT (Personal Access Token)
         run: |
