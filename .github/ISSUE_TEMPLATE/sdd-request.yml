@@ -21,6 +21,10 @@ body:
         - opencode/glm-5.3-flash-free
         - opencode/nemotron-3.5-super-vl-free
         - opencode/minimax-m3.1-flash-free
+        - nvidia/nvidia/nemotron-3-ultra-550b-a55b
+        - nvidia/z-ai/glm-5.3-flash
+        - nvidia/deepseek-ai/deepseek-v4.1-flash
+        - nvidia/minimaxai/minimax-m3.1-flash
     validations:
       required: true
   - type: dropdown

@@ -64,6 +64,10 @@ jobs:
         run: |
           curl -fsSL https://opencode.ai/install | bash
           echo "$HOME/.opencode/bin" >> $GITHUB_PATH
+      - name: Install global OpenCode config
+        run: |
+          mkdir -p "$HOME/.config/opencode"
+          cp "$GITHUB_WORKSPACE/.github/workflows/prompts/opencode.json" "$HOME/.config/opencode/opencode.json"
       - name: Run OpenCode agent
         env:
           JIRA_USERNAME: ${{ secrets.JIRA_USERNAME }}
