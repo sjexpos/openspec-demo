@@ -24,6 +24,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import com.amazonaws.services.lambda.runtime.events.S3Event;
+import com.example.demo.infrastructure.config.AwsS3Properties;
+import com.example.demo.infrastructure.config.AwsSqsProperties;
 import com.example.demo.infrastructure.messaging.sqs.AssetEventsListener;
 import io.awspring.cloud.sqs.listener.SqsMessageListenerContainer;
 import java.net.URLDecoder;
@@ -57,10 +59,6 @@ import software.amazon.awssdk.services.sqs.model.PurgeQueueRequest;
 @SetEnvironmentVariable(key = "AWS_SECRET_ACCESS_KEY", value = "test")
 class SqsContainerIntegrationTests {
 
-  private static final String BUCKET = "testing-assets";
-
-  private static final String QUEUE = "testing-assets-events-queue";
-
   private static final String OBJECT_KEY = "brands/images/0123456789abcdef0123456789abcdef";
 
   @Autowired private ApplicationContext context;
@@ -68,6 +66,10 @@ class SqsContainerIntegrationTests {
   @Autowired private S3AsyncClient s3AsyncClient;
 
   @Autowired private SqsAsyncClient sqsAsyncClient;
+
+  @Autowired private AwsS3Properties s3Properties;
+
+  @Autowired private AwsSqsProperties sqsProperties;
 
   @Autowired private SqsMessageListenerContainer<S3Event> assetEventsContainer;
 
@@ -80,7 +82,7 @@ class SqsContainerIntegrationTests {
     s3AsyncClient
         .deleteObject(
             software.amazon.awssdk.services.s3.model.DeleteObjectRequest.builder()
-                .bucket(BUCKET)
+                .bucket(s3Properties.bucket())
                 .key(OBJECT_KEY)
                 .build())
         .get();
@@ -108,7 +110,7 @@ class SqsContainerIntegrationTests {
     // Act: upload triggers the bucket notification fan-out to SQS
     s3AsyncClient
         .putObject(
-            PutObjectRequest.builder().bucket(BUCKET).key(OBJECT_KEY).build(),
+            PutObjectRequest.builder().bucket(s3Properties.bucket()).key(OBJECT_KEY).build(),
             AsyncRequestBody.fromString("kan-16 round-trip"))
         .get();
     assetEventsContainer.start();
@@ -125,7 +127,7 @@ class SqsContainerIntegrationTests {
                   String decoded =
                       URLDecoder.decode(
                           record.getS3().getObject().getKey(), StandardCharsets.UTF_8);
-                  return BUCKET.equals(record.getS3().getBucket().getName())
+                  return s3Properties.bucket().equals(record.getS3().getBucket().getName())
                       && OBJECT_KEY.equals(decoded);
                 }));
   }
@@ -151,7 +153,10 @@ class SqsContainerIntegrationTests {
 
   private void purgeQueue() throws Exception {
     String queueUrl =
-        sqsAsyncClient.getQueueUrl(builder -> builder.queueName(QUEUE)).get().queueUrl();
+        sqsAsyncClient
+            .getQueueUrl(builder -> builder.queueName(sqsProperties.assetsEventsQueue()))
+            .get()
+            .queueUrl();
     sqsAsyncClient.purgeQueue(PurgeQueueRequest.builder().queueUrl(queueUrl).build()).get();
     // Purge is eventually consistent on LocalStack; give it a beat.
     org.awaitility.Awaitility.await()

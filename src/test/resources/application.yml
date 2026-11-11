@@ -4,7 +4,7 @@ spring:
     aws:
       region:
         static: us-east-1
-      endpoint: http://localhost:4566
+      endpoint: @testing.aws.endpoint@
       s3:
         path-style-access-enabled: true
       sqs:
@@ -16,9 +16,12 @@ spring:
           max-delay-between-polls: PT2S
           auto-startup: false # container created but not started; tests start it manually
   datasource:
-    url: jdbc:postgresql://localhost:5432/tests
-    username: test
-    password: test
+    host: @testing.db.host@
+    port: @testing.db.port@
+    dbname: @testing.db.dbname@
+    url: jdbc:postgresql://${spring.datasource.host}:${spring.datasource.port}/${spring.datasource.dbname}?serverTimezone=UTC
+    username: @testing.db.username@
+    password: @testing.db.password@
     driver-class-name: org.postgresql.Driver
   jpa:
     show-sql: false
@@ -27,9 +30,9 @@ spring:
         format_sql: false
   flyway:
     enabled: true
-    url: jdbc:postgresql://localhost:5432/tests
-    user: test
-    password: test
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
     driver-class-name: org.postgresql.Driver
     table: flyway_schema_history
     locations:
@@ -65,10 +68,10 @@ management:
 
 aws:
   s3:
-    bucket: testing-assets
+    bucket: @testing.s3.bucket.assets@
     presign-ttl: PT15M
   sqs:
-    assets-events-queue: testing-assets-events-queue
+    assets-events-queue: @testing.sqs.events.assets@
     acknowledgement-interval: PT1S # faster batching in tests (overrides the 3 s default)
     acknowledgement-threshold: 2
     api-call-timeout: PT3S
