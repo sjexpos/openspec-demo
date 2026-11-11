@@ -52,7 +52,7 @@ runs:
                -e PORT=7070 -e MANAGEMENT_PORT=7070 \
                -e DATABASE_HOST=localhost \
                -e DATABASE_PORT=5432 \
-               -e DATABASE_SCHEMA=openspec \
+               -e DATABASE_DBNAME=openspec \
                -e DATABASE_USER=admin \
                -e DATABASE_PASSWORD=secret \
                -e AWS_REGION=us-east-1 \

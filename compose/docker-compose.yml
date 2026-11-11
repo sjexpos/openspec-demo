@@ -10,11 +10,8 @@ services:
       POSTGRES_DB: ${DB_NAME:-postgres}
     ports:
       - ${DB_PORT:-5432}:5432
-    volumes:
-      - './docker-compose-pg-init.sh:/docker-entrypoint-initdb.d/init-db.sh'
-      - './postgres-resources.sql:/docker-entrypoint-initdb.d/postgres-resources.sql'
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -d ecomm -U pgadmin" ]
+      test: [ "CMD-SHELL", "pg_isready -d postgres -U postgres" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -39,22 +36,6 @@ services:
       retries: 3
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
-
-  localstack-resources:
-    image: 'amazon/aws-cli'
-    container_name: localstack-resources
-    restart: no
-    environment:
-      - AWS_ENDPOINT_URL=http://localstack:4566
-      - AWS_ACCESS_KEY_ID=test
-      - AWS_SECRET_ACCESS_KEY=test
-      - AWS_REGION=us-east-1
-    volumes:
-      - ./:/mnt
-    depends_on:
-      - localstack
-    working_dir: /mnt
-    entrypoint: ["/mnt/wait-for-it.sh", "localstack:4566", "-t", "10", "--", "/mnt/docker-compose-localstack-init.sh" ] 
 
   sonarqube:
     image: 'sonarqube:26.7.0.124771-community'

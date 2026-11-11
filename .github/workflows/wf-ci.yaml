@@ -132,9 +132,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
         env:
-          POSTGRES_USER: test
-          POSTGRES_PASSWORD: test
-          POSTGRES_DB: tests
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -168,28 +168,10 @@ jobs:
           distribution: 'temurin'
           cache: maven
           cache-dependency-path: pom.xml
-      - name: Provision LocalStack resources
-        env:
-          AWS_ACCESS_KEY_ID: test
-          AWS_SECRET_ACCESS_KEY: test
-          AWS_REGION: us-east-1
+      - name: Provisioning resources
         run: |
-          echo "Waiting for LocalStack to be ready"
-          for i in $(seq 1 30); do
-            if curl -sf http://localhost:4566/_localstack/health > /dev/null; then
-              echo "LocalStack is ready."
-              break
-            fi
-            echo "Waiting..."
-            sleep 2
-          done
-          aws cloudformation deploy \
-            --template-file ./compose/localstack-resources.yml \
-            --stack-name develop-stack \
-            --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM \
-            --parameter-overrides Environment=testing \
-            --endpoint-url http://localhost:4566 \
-            --region us-east-1
+          ls -al
+          make init
       - name: Testing code
         run: mvn -Dsurefire.skip=true -Dfailsafe.skip=false -Dpitest.skip=true --batch-mode verify
       - name: Upload integration tested sources

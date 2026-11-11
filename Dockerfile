@@ -8,7 +8,7 @@ LABEL EMAIL='sjexpos@gmail.com'
 # ENV MANAGEMENT_PORT
 # ENV DATABASE_HOST        <postgres server host name>
 # ENV DATABASE_PORT        <postgres server port>
-# ENV DATABASE_SCHEMA      <postgres schema>
+# ENV DATABASE_DBNAME      <postgres dbname>
 # ENV DATABASE_USER        <postgres username>
 # ENV DATABASE_PASSWORD    <postgres password>
 
@@ -26,7 +26,7 @@ RUN echo "#!/usr/bin/env bash" > /opt/entrypoint.sh && \
     echo "echo \"MANAGEMENT_PORT: \$MANAGEMENT_PORT \" " >> /opt/entrypoint.sh && \
     echo "echo \"DATABASE_HOST: \$DATABASE_HOST \" " >> /opt/entrypoint.sh && \
     echo "echo \"DATABASE_PORT: \$DATABASE_PORT \" " >> /opt/entrypoint.sh && \
-    echo "echo \"DATABASE_SCHEMA: \$DATABASE_SCHEMA \" " >> /opt/entrypoint.sh && \
+    echo "echo \"DATABASE_DBNAME: \$DATABASE_DBNAME \" " >> /opt/entrypoint.sh && \
     echo "echo \"DATABASE_USER: \$DATABASE_USER \" " >> /opt/entrypoint.sh && \
     echo "echo \"DATABASE_PASSWORD: \$DATABASE_PASSWORD \" " >> /opt/entrypoint.sh && \
     echo "echo \"===============================================\" " >> /opt/entrypoint.sh && \
@@ -37,7 +37,7 @@ RUN echo "#!/usr/bin/env bash" > /opt/entrypoint.sh && \
         -Dmanagement.server.port=\$MANAGEMENT_PORT \
         -Dspring.datasource.host=\$DATABASE_HOST \
         -Dspring.datasource.port=\$DATABASE_PORT \
-        -Dspring.datasource.schema=\$DATABASE_SCHEMA \
+        -Dspring.datasource.dbname=\$DATABASE_SCHEMA \
         -Dspring.datasource.username=\$DATABASE_USER \
         -Dspring.datasource.password=\$DATABASE_PASSWORD \
         -jar /opt/openspec-demo.jar" >> /opt/entrypoint.sh
