@@ -83,7 +83,7 @@ class S3ConfigIntegrationTests {
     var buckets = s3Client.listBuckets().buckets();
 
     // Assert
-    assertThat(buckets).extracting("name").contains("testing-assets");
+    assertThat(buckets).extracting("name").contains(properties.bucket());
   }
 
   @Test
