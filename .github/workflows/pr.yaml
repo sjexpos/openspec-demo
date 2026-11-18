@@ -4,10 +4,40 @@ on:
     branches: [ "**" ]
     types: [ opened, synchronize, reopened, closed ]
 
+# Pull requests cancel superseded runs. Pushes and manual runs get a unique
+# group (run_id), so they are never cancelled; deploys stay serialized by the
+# job-level "pages" group below.
+concurrency:
+  group: ci-pr-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
+
+  changes:
+    name: 🔍 changes
+    runs-on: ubuntu-latest
+    outputs:
+      docs_any_changed: ${{ steps.filter.outputs.docs_any_changed }}
+      tests_any_changed: ${{ steps.filter.outputs.tests_any_changed }}
+      sources_any_changed: ${{ steps.filter.outputs.sources_any_changed }}
+    steps:
+      - name: 🔍 Detect changes that affect the app
+        id: filter
+        uses: tj-actions/changed-files@v47.0.6
+        with:
+          files_yaml: |
+            docs:
+              - docs/**
+            tests:
+              - src/test/**
+            sources:
+              - flyway/**
+              - src/main/**
+
   pr:
-    name: ''
-    if: github.event.action != 'closed'
+    name: 🧪
+    needs: changes
+    if: github.event.action != 'closed' && (needs.changes.outputs.sources_any_changed == 'true' || needs.changes.outputs.tests_any_changed == 'true')
     uses: ./.github/workflows/wf-ci.yaml
     secrets: inherit
     with:
@@ -17,9 +47,10 @@ jobs:
       DEFAULT_BRANCH: main
 
   cleanup-pr-images:
-    name: Cleanup PR docker images
-    if: github.event.action == 'closed'
-    runs-on: ubuntu-24.04
+    name: 🧹 Cleanup PR docker images
+    needs: changes
+    if: github.event.action == 'closed' && (needs.changes.outputs.sources_any_changed == 'true' || needs.changes.outputs.tests_any_changed == 'true')
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         file: [ "sjexpossdd/openspec-demo" ]

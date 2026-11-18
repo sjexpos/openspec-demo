@@ -35,7 +35,7 @@ env:
 jobs:
 
   check-styling:
-    name: Check styling
+    name: 🔎 Check styling
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7.0.1
@@ -51,7 +51,7 @@ jobs:
         run: mvn spotless:check
 
   build-app:
-    name: Build code
+    name: 🏗️ Build code
     needs: [check-styling]
     runs-on: ubuntu-24.04
     steps:
@@ -91,7 +91,7 @@ jobs:
       compiled-sources-artifact-id: ${{ steps.upload-compiled-sources.outputs.artifact-id }}
 
   run-unit-tests:
-    name: Run Unit Tests
+    name: 🧪 Run Unit Tests
     needs: [build-app]
     runs-on: ubuntu-24.04
     steps:
@@ -120,7 +120,7 @@ jobs:
       unit-tested-sources-artifact-id: ${{ steps.upload-unit-tested-sources.outputs.artifact-id }}
 
   run-int-tests:
-    name: Run Integration Tests
+    name: ⚙️ Run Integration Tests
     needs: [run-unit-tests]
     runs-on: ubuntu-24.04
     services:
@@ -221,7 +221,7 @@ jobs:
       pitested-sources-artifact-id: ${{ steps.upload-pitested-sources.outputs.artifact-id }}
 
   run-sonarqube:
-    name: SonarQube Scan
+    name: 🔍 SonarQube Scan
     needs: [ check-styling, run-pitest ]
     runs-on: ubuntu-24.04
     services:
@@ -292,7 +292,7 @@ jobs:
           path: ./target/sonar_report2.json
 
   create-site:
-    name: Build reports
+    name: 🌐 Build site reports
     needs: [ run-pitest, run-sonarqube ]
     runs-on: ubuntu-24.04
     steps:
@@ -332,7 +332,7 @@ jobs:
       site-sources-artifact-id: ${{ steps.upload-site-sources.outputs.artifact-id }}
 
   run-vulnerability-scan:
-    name: Vulnerability Scan
+    name: 🔎 Vulnerability Scan
     needs: [run-pitest]
     runs-on: ubuntu-24.04
     steps:
@@ -382,7 +382,7 @@ jobs:
           sarif_file: snyk.sarif    
 
   publish-coverage:
-    name: Publish coverage
+    name: 📤 Publish coverage
     needs: [create-site]
     runs-on: ubuntu-24.04
     steps:
@@ -404,7 +404,7 @@ jobs:
           report-type: test_results
 
   publish-reports:
-    name: Publish reports
+    name: 📤 Publish reports
     needs: [create-site]
     runs-on: ubuntu-24.04
     if: ${{ github.ref_name == inputs.DEFAULT_BRANCH }}
@@ -422,7 +422,7 @@ jobs:
           publish_dir: ./target/site
 
   build-docker-image:
-    name: Create & publish docker image
+    name: 🐳 Create & publish docker image
     needs: [run-sonarqube, run-vulnerability-scan]
     runs-on: ubuntu-24.04
     strategy:
@@ -479,7 +479,7 @@ jobs:
       image_tag: ${{ env.TAG_NAME }}
 
   run-docker-vulnerability-scan:
-    name: Docker vulnerability Scan
+    name: 🔎 Docker vulnerability Scan
     needs: [build-docker-image]
     runs-on: ubuntu-24.04
     strategy:
@@ -552,7 +552,7 @@ jobs:
           sarif_file: snyk.sarif
         
   delete-unused-artifact:
-    name: Delete unused artifact
+    name: 🧹 Delete unused artifact
     # build-app, run-unit-tests, run-int-tests, run-pitest and create-site are needed as dependencies because it is using outputs from those jobs
     needs: [build-app, run-unit-tests, run-int-tests, run-pitest, create-site, publish-coverage, build-docker-image]
     runs-on: ubuntu-22.04
@@ -609,7 +609,7 @@ jobs:
             });
 
   test-docker-image:
-    name: Test docker images
+    name: ⚙️ Test docker images
     needs: [ build-docker-image ]
     uses: ./.github/workflows/verify-images.yaml
     secrets: inherit
