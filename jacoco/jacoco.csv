@@ -30,8 +30,8 @@ openspec-demo,com.example.demo.domain.models,BlobType,0,93,0,6,0,20,0,9,0,6
 openspec-demo,com.example.demo.domain.models,AssetStatus,0,61,0,15,0,12,0,12,0,4
 openspec-demo,com.example.demo.domain.models.strain,Strain,637,127,73,15,0,0,80,10,36,10
 openspec-demo,com.example.demo.infrastructure.messaging.sqs,S3EventMessageConverter,0,8,0,0,0,3,0,1,0,1
-openspec-demo,com.example.demo.infrastructure.messaging.sqs,SqsAcknowledgementLoggingCallback,0,24,0,0,0,8,0,4,0,4
 openspec-demo,com.example.demo.infrastructure.messaging.sqs,S3EventMessageConverter.S3EventPayloadConverter,0,46,0,2,0,11,0,4,0,3
+openspec-demo,com.example.demo.infrastructure.messaging.sqs,SqsAcknowledgementLoggingCallback,0,24,0,0,0,8,0,4,0,4
 openspec-demo,com.example.demo.infrastructure.messaging.sqs,AssetEventsListener,0,15,0,0,0,4,0,3,0,3
 openspec-demo,com.example.demo.domain.repositories,BlobStorageException,0,28,0,0,0,10,0,4,0,4
 openspec-demo,com.example.demo.application.exceptions,NotFoundException,0,4,0,0,0,2,0,1,0,1
