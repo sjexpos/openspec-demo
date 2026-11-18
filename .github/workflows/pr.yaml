@@ -35,7 +35,7 @@ jobs:
               - src/main/**
 
   pr:
-    name: 🧪
+    name: ''
     needs: changes
     if: github.event.action != 'closed' && (needs.changes.outputs.sources_any_changed == 'true' || needs.changes.outputs.tests_any_changed == 'true')
     uses: ./.github/workflows/wf-ci.yaml
