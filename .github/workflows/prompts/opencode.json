@@ -8,6 +8,14 @@
         "baseURL": "https://integrate.api.nvidia.com/v1",
         "apiKey": "{env:NVIDIA_API_KEY}"
       }
+    },
+    "opencode-go": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Opencode GO",
+      "options": {
+        "baseURL": "https://opencode.ai/inference/go/v1",
+        "apiKey": "{env:OPENCODEGO_API_KEY}"
+      }
     }
   }
 }

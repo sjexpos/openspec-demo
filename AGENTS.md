@@ -47,14 +47,13 @@ Use these skills for detailed patterns on-demand:
 | `meta-prompt` | Rewrite prompts using prompt-engineering best practices | [SKILL.md](.agents/skills/meta-prompt/SKILL.md) |
 | `sync-agent-symlinks` | Analyze and synchronize agent skill exposure after .agents skill changes  | [SKILL.md](.agents/skills/sync-agent-symlinks/SKILL.md) |
 | `update-docs` | Identify and update required technical documentation | [SKILL.md](.agents/skills/update-docs/SKILL.md) |
-| `enrich-us` | Analyze and enhance Jira user stories | [SKILL.md](.agents/skills/enrich-us/SKILL.md) |
 | `mermaid-diagrams` | Creating software diagrams using Mermaid syntax | [SKILL.md](.agents/skills/mermaid-diagrams/SKILL.md) |
 | `test-driven-development` | Test-Driven Development workflow | [SKILL.md](.agents/skills/test-driven-development/SKILL.md) |
 | `domain-driven-design` | Domain-Driven Design methodology | [SKILL.md](.agents/skills/domain-driven-design/SKILL.md) |
 | `solid-principles` | SOLID principles checklist | [SKILL.md](.agents/skills/solid-principles/SKILL.md) |
 | `dry-principle` | Don't Repeat Yourself principle | [SKILL.md](.agents/skills/dry-principle/SKILL.md) |
 | `java-jpa-hibernate` | Master JPA/Hibernate - entity design, queries, transactions, performance optimization | [SKILL.md](.agents/skills/java-jpa-hibernate/SKILL.md) |
-
+| `jira-api` | Read and manage Jira Cloud issues, projects, boards, sprints, comments, and transitions. | [SKILL.md](.agents/skills/jira-api/SKILL.md) |
 
 ### Auto-invoke Skills
 
@@ -62,8 +61,8 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 
 | Action | Skill |
 |--------|-------|
-| Analyze and enhance Jira user stories | `enrich-us` |
 | need to create, visualize, or document software through diagrams | `mermaid-diagrams` |
+| Need access to Jira (issues, projects, boards, sprints, comments, transitions) | `jira-api` |
 | Fixing bug | `test-driven-development` |
 | Implementing feature | `test-driven-development` |
 | Modifying component | `test-driven-development` |
@@ -89,6 +88,7 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 | Make review | `code-auditing` |
 | Update agentic symbolic links | `sync-agent-symlinks` |
 | Create/Update technical documentation | `update-docs` |
+| 
 
 ## 5. Symlink Integrity and Multi-Agent Portability
 

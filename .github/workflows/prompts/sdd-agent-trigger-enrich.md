@@ -1,2 +1,1 @@
-Enrich Jira ticket {{JIRA_TICKET}}. When you start, if the ticket status is "ToBeRefine", move the task to the "Refining" column; otherwise abort process. When you finish, move the ticket to the "ToDo" status.
-
+Enrich Jira ticket {{JIRA_TICKET}}. When you start, if the ticket status is "TO BE REFINE", move the task to the "REFINING" column; otherwise abort process. When you finish, if the last veredict is **APPROVED** or **APPROVED WITH NON-BLOCKING** move the ticket to the "REFINED" status, otherwise to "HUMAN QUESTION".
