@@ -1,0 +1,64 @@
+name: Factory - Enrich Jira Ticket
+
+# curl -X POST -H "Authorization: Bearer $TOKEN" -H "Accept: application/vnd.github+json" https://api.github.com/repos/sjexpos/openspec-demo/actions/workflows.
+
+on:
+  workflow_dispatch:
+    inputs:
+      jira_ticket:
+        description: "Jira ticket key (e.g. PROJ-123)"
+        required: true
+        type: string
+permissions:
+  contents: read
+
+env:
+  ENRICH_AGENT: enrich-story-orchestrator
+  ENRICH_PROMPT: ".github/workflows/prompts/factory-enrich.md"
+
+jobs:
+  run-enrich-agent:
+    name: Run enrich agent on Jira ticket
+    runs-on: ubuntu-latest
+    timeout-minutes: 60 # 1hs
+    steps:
+      - name: Override ssh submodules to https with PAT (Personal Access Token)
+        run: |
+          git config --global url."https://x-access-token:${{ secrets.GH_PAT }}@github.com/".insteadOf "git@github.com:"
+      - uses: actions/checkout@v7.0.1
+        with:
+          submodules: 'recursive'
+          token: ${{ secrets.GH_PAT }}
+      - name: Resolve jira ticket
+        id: resolve-jira-ticket
+        uses: ./.github/actions/resolve-jira-ticket
+        with:
+          jira-ticket: ${{ inputs.jira_ticket }}
+          prompt-template: ${{ env.ENRICH_PROMPT }}
+      - name: Export jira ticket environment
+        env:
+          JIRA_TICKET_VALUE: ${{ steps.resolve-jira-ticket.outputs.jira-ticket }}
+          PROMPT_FILE_VALUE: ${{ steps.resolve-jira-ticket.outputs.prompt-file }}
+        run: |
+          echo "JIRA_TICKET=$JIRA_TICKET_VALUE" >> $GITHUB_ENV
+          echo "PROMPT_FILE=$PROMPT_FILE_VALUE" >> $GITHUB_ENV
+          echo "Resolved agent: $ENRICH_AGENT"
+          echo "Resolved jira ticket: $JIRA_TICKET_VALUE"
+      - name: Install uvx
+        uses: astral-sh/setup-uv@v10.3.0
+      - name: Install OpenCode
+        run: |
+          curl -fsSL https://opencode.ai/install | bash
+          echo "$HOME/.opencode/bin" >> $GITHUB_PATH
+      - name: Install global OpenCode config
+        run: |
+          mkdir -p "$HOME/.config/opencode"
+          cp "$GITHUB_WORKSPACE/.github/workflows/prompts/opencode.json" "$HOME/.config/opencode/opencode.json"
+      - name: Run OpenCode agent
+        env:
+          JIRA_USERNAME: ${{ secrets.JIRA_USERNAME }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
+          CONFLUENCE_API_TOKEN: ${{ secrets.CONFLUENCE_API_TOKEN }}
+        run: |
+          opencode run --agent "$ENRICH_AGENT" "$(cat "$PROMPT_FILE")"
