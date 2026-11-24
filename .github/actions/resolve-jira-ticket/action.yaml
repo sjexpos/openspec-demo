@@ -1,0 +1,48 @@
+name: Resolve Jira ticket
+description: Validates a Jira ticket key and renders a prompt template replacing the {{JIRA_TICKET}} placeholder
+inputs:
+  jira-ticket:
+    description: Jira ticket key, e.g. PROJ-123
+    required: true
+  prompt-template:
+    description: Path to the prompt template containing the {{JIRA_TICKET}} placeholder
+    required: true
+  prompt-file:
+    description: Destination path for the rendered prompt. Defaults to RUNNER_TEMP/jira-ticket-prompts/Prompt.txt
+    required: false
+    default: ""
+
+outputs:
+  jira-ticket:
+    description: Normalized and validated Jira ticket key
+    value: ${{ steps.resolve.outputs.jira-ticket }}
+  prompt-file:
+    description: Path to the rendered prompt file
+    value: ${{ steps.resolve.outputs.prompt-file }}
+
+runs:
+  using: composite
+  steps:
+    - name: Resolve and validate Jira ticket
+      id: resolve
+      shell: bash
+      env:
+        RAW_JIRA_TICKET: ${{ inputs.jira-ticket }}
+        PROMPT_TEMPLATE: ${{ inputs.prompt-template }}
+        PROMPT_FILE: ${{ inputs.prompt-file }}
+      run: |
+        set -euo pipefail
+        jira_ticket="$(printf '%s' "$RAW_JIRA_TICKET" | tr -d '[:space:]')"
+        if ! [[ "$jira_ticket" =~ ^[A-Z][A-Z0-9_]+-[0-9]+$ ]]; then
+          echo "::error::Invalid Jira ticket: '$jira_ticket'. Expected format like PROJ-123." >&2
+          exit 1
+        fi
+        if [ -z "$PROMPT_FILE" ]; then
+          PROMPT_FILE="$RUNNER_TEMP/jira-ticket-prompts/Prompt.txt"
+        fi
+        mkdir -p "$(dirname "$PROMPT_FILE")"
+        sed "s/{{JIRA_TICKET}}/$jira_ticket/g" "$PROMPT_TEMPLATE" > "$PROMPT_FILE"
+        {
+          echo "jira-ticket=$jira_ticket"
+          echo "prompt-file=$PROMPT_FILE"
+        } >> "$GITHUB_OUTPUT"

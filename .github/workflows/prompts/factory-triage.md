@@ -1,0 +1,1 @@
+When you start, if the ticket status is "REFINED", move the task to the "IN TRIAGE" column; otherwise abort process. When you finish, you MUST move the ticket to the "READY FOR DEVELOP" status.
