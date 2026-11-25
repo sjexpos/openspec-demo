@@ -1,5 +1,5 @@
 name: Factory - Triage Jira Ticket
-
+run-name: "Factory - Triage Jira Ticket ${{ inputs.jira_ticket }}"
 on:
   workflow_dispatch:
     inputs:
