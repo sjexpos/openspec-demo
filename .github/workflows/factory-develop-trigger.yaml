@@ -118,38 +118,6 @@ jobs:
           distribution: 'temurin'
           cache: maven
           cache-dependency-path: pom.xml
-      - name: Provision LocalStack resources
-        env:
-          AWS_ACCESS_KEY_ID: test
-          AWS_SECRET_ACCESS_KEY: test
-          AWS_REGION: us-east-1
-        run: |
-          echo "Waiting for LocalStack to be ready"
-          for i in $(seq 1 30); do
-            if curl -sf http://localhost:4566/_localstack/health > /dev/null; then
-              echo "LocalStack is ready."
-              break
-            fi
-            echo "Waiting..."
-            sleep 2
-          done
-          aws cloudformation deploy \
-            --template-file ./compose/localstack-resources.yml \
-            --stack-name testing-stack \
-            --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM \
-            --parameter-overrides Environment=testing \
-            --endpoint-url http://localhost:4566 \
-            --region us-east-1
-
-      - name: Ejecutar psql
-        run: |
-          psql -v ON_ERROR_STOP=1 --host localhost --username "postgres" --dbname "postgres" -f ./compose/postgres-resources.sql
-        env:
-          PGPASSWORD: postgres
-      - name: Provision 'demo' database
-        run: |
-          mvn flyway:migrate
-          mvn flyway:info
       - name: Run OpenCode with SDD orchestrator agent
         env:
           JIRA_USERNAME: ${{ secrets.JIRA_USERNAME }}
