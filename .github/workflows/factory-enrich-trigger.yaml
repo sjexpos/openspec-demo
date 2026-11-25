@@ -43,6 +43,11 @@ jobs:
         run: |
           echo "JIRA_TICKET=$JIRA_TICKET_VALUE" >> $GITHUB_ENV
           echo "PROMPT_FILE=$PROMPT_FILE_VALUE" >> $GITHUB_ENV
+          {
+            echo "PROMPT_CONTENT<<PROMPT_CONTENT_EOF"
+            cat "$PROMPT_FILE_VALUE"
+            echo "PROMPT_CONTENT_EOF"
+          } >> $GITHUB_ENV
           echo "Resolved agent: $ENRICH_AGENT"
           echo "Resolved jira ticket: $JIRA_TICKET_VALUE"
       - name: Install uvx
@@ -68,4 +73,4 @@ jobs:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
           OPENCODEGO_API_KEY: ${{ secrets.OPENCODEGO_API_KEY }}
         run: |
-          opencode run --agent "$ENRICH_AGENT" "$(cat "$PROMPT_FILE")"
+          opencode run --agent "$ENRICH_AGENT" "$PROMPT_CONTENT"
