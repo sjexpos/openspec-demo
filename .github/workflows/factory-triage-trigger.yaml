@@ -40,12 +40,12 @@ jobs:
           PROMPT_FILE_VALUE: ${{ steps.resolve-jira-ticket.outputs.prompt-file }}
         run: |
           echo "JIRA_TICKET=$JIRA_TICKET_VALUE" >> $GITHUB_ENV
-          echo "PROMPT_FILE=$PROMPT_FILE_VALUE" >> $GITHUB_ENV
           {
             echo "PROMPT_CONTENT<<PROMPT_CONTENT_EOF"
             cat "$PROMPT_FILE_VALUE"
             echo "PROMPT_CONTENT_EOF"
           } >> $GITHUB_ENV
+          rm -f "$PROMPT_FILE_VALUE"
           echo "Resolved agent: $TRIAGE_AGENT"
           echo "Resolved jira ticket: $JIRA_TICKET_VALUE"
       - name: Install uvx

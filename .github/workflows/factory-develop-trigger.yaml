@@ -81,8 +81,6 @@ jobs:
           PR_PROMPT_FILE_VALUE: ${{ steps.resolve-pr-prompt.outputs.prompt-file }}
         run: |
           echo "JIRA_TICKET=$JIRA_TICKET_VALUE" >> $GITHUB_ENV
-          echo "PROMPT_FILE=$PROMPT_FILE_VALUE" >> $GITHUB_ENV
-          echo "PR_PROMPT_FILE=$PR_PROMPT_FILE_VALUE" >> $GITHUB_ENV
           {
             echo "PROMPT_CONTENT<<PROMPT_CONTENT_EOF"
             cat "$PROMPT_FILE_VALUE"
@@ -93,6 +91,7 @@ jobs:
             cat "$PR_PROMPT_FILE_VALUE"
             echo "PR_PROMPT_CONTENT_EOF"
           } >> $GITHUB_ENV
+          rm -f "$PROMPT_FILE_VALUE" "$PR_PROMPT_FILE_VALUE"
           echo "Resolved agent: $SDD_AGENT"
           echo "Resolved jira ticket: $JIRA_TICKET_VALUE"
       - name: Install uvx
