@@ -1,1 +1,1 @@
-When you start, if the ticket status is "REFINED", move the task to the "IN TRIAGE" column; otherwise abort process. When you finish, you MUST move the ticket to the "READY FOR DEVELOP" status.
+It is not allowed to read or write files out of the current folder. If you need to write, use current tmp subfolder which is in .gitignore file. When you start, if the ticket status is "REFINED", move the task to the "IN TRIAGE" column; otherwise abort process. When you finish, you MUST move the ticket to the "READY FOR DEVELOP" status.
