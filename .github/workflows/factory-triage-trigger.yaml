@@ -1,5 +1,5 @@
 name: Factory - Triage Jira Ticket
-
+run-name: "Factory - Triage Jira Ticket ${{ inputs.jira_ticket }}"
 on:
   workflow_dispatch:
     inputs:
@@ -64,6 +64,7 @@ jobs:
           cat "$HOME/.config/opencode/opencode.jsonc"
       - name: Run OpenCode agent
         env:
+          JIRA_BASE: ${{ vars.JIRA_BASE }}
           JIRA_USERNAME: ${{ secrets.JIRA_USERNAME }}
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
           CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
