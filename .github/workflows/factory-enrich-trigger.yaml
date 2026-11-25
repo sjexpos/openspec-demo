@@ -1,7 +1,6 @@
 name: Factory - Enrich Jira Ticket
-
+run-name: "Factory - Enrich Jira Ticket ${{ inputs.jira_ticket }}"
 # curl -X POST -H "Authorization: Bearer $TOKEN" -H "Accept: application/vnd.github+json" https://api.github.com/repos/sjexpos/openspec-demo/actions/workflows/factory-enrich-trigger.yaml/dispatches -d '{"ref":"main", "inputs":{"jira_ticket":"{{triggerIssue.key}}"}}'
-
 on:
   workflow_dispatch:
     inputs:
