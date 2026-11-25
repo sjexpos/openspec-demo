@@ -11,6 +11,7 @@ permissions:
   contents: read
 
 env:
+  OPENCODE_VERSION: 1.19.6
   TRIAGE_AGENT: Build
   TRIAGE_PROMPT: ".github/workflows/prompts/factory-triage.md"
 
@@ -44,9 +45,12 @@ jobs:
           echo "Resolved jira ticket: $JIRA_TICKET_VALUE"
       - name: Install uvx
         uses: astral-sh/setup-uv@v10.3.0
-      - name: Install OpenCode
+      - name: Install OpenCode $OPENCODE_VERSION
         run: |
-          curl -fsSL https://opencode.ai/install | bash
+          mkdir -p "$HOME/tmp"
+          cd "$HOME/tmp" && wget https://opencode.ai/install
+          chmod 755 $HOME/tmp/install
+          $HOME/tmp/install -v $OPENCODE_VERSION
           echo "$HOME/.opencode/bin" >> $GITHUB_PATH
       - name: Install global OpenCode config
         run: |

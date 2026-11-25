@@ -1,6 +1,6 @@
 name: Factory - Enrich Jira Ticket
 
-# curl -X POST -H "Authorization: Bearer $TOKEN" -H "Accept: application/vnd.github+json" https://api.github.com/repos/sjexpos/openspec-demo/actions/workflows.
+# curl -X POST -H "Authorization: Bearer $TOKEN" -H "Accept: application/vnd.github+json" https://api.github.com/repos/sjexpos/openspec-demo/actions/workflows/factory-enrich-trigger.yaml/dispatches -d '{"ref":"main", "inputs":{"jira_ticket":"{{triggerIssue.key}}"}}'
 
 on:
   workflow_dispatch:
@@ -13,6 +13,7 @@ permissions:
   contents: read
 
 env:
+  OPENCODE_VERSION: 1.19.6
   ENRICH_AGENT: enrich-story-orchestrator
   ENRICH_PROMPT: ".github/workflows/prompts/factory-enrich.md"
 
@@ -46,9 +47,12 @@ jobs:
           echo "Resolved jira ticket: $JIRA_TICKET_VALUE"
       - name: Install uvx
         uses: astral-sh/setup-uv@v10.3.0
-      - name: Install OpenCode
+      - name: Install OpenCode $OPENCODE_VERSION
         run: |
-          curl -fsSL https://opencode.ai/install | bash
+          mkdir -p "$HOME/tmp"
+          cd "$HOME/tmp" && wget https://opencode.ai/install
+          chmod 755 $HOME/tmp/install
+          $HOME/tmp/install -v $OPENCODE_VERSION
           echo "$HOME/.opencode/bin" >> $GITHUB_PATH
       - name: Install global OpenCode config
         run: |
