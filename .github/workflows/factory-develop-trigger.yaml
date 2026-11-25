@@ -120,6 +120,7 @@ jobs:
           cache-dependency-path: pom.xml
       - name: Run OpenCode with SDD orchestrator agent
         env:
+          JIRA_BASE: ${{ vars.JIRA_BASE }}
           JIRA_USERNAME: ${{ secrets.JIRA_USERNAME }}
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
           CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
@@ -134,6 +135,7 @@ jobs:
           git status
       - name: Run OpenCode to create pull request
         env:
+          JIRA_BASE: ${{ vars.JIRA_BASE }}
           JIRA_USERNAME: ${{ secrets.JIRA_USERNAME }}
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
           CONFLUENCE_USERNAME: ${{ secrets.CONFLUENCE_USERNAME }}
