@@ -13,7 +13,7 @@ permissions:
 env:
   OPENCODE_VERSION: 1.19.6
   SDD_AGENT: orchestrator
-  PR_AGENT: Build
+  PR_AGENT: orchestrator
 
 jobs:
 
