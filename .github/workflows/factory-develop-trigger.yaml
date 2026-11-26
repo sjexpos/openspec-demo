@@ -12,6 +12,7 @@ permissions:
 
 env:
   OPENCODE_VERSION: 1.19.6
+  OPENSPEC_VERSION: 1.10.0
   SDD_AGENT: orchestrator
   PR_AGENT: orchestrator
 
@@ -96,7 +97,7 @@ jobs:
           echo "Resolved jira ticket: $JIRA_TICKET_VALUE"
       - name: Install uvx
         uses: astral-sh/setup-uv@v10.3.0
-      - name: Install OpenCode $OPENCODE_VERSION
+      - name: Install OpenCode ${{ env.OPENCODE_VERSION }}
         run: |
           mkdir -p "$HOME/tmp"
           cd "$HOME/tmp" && wget https://opencode.ai/install
@@ -108,6 +109,9 @@ jobs:
           mkdir -p "$HOME/.config/opencode"
           cp "$GITHUB_WORKSPACE/.github/workflows/prompts/opencode.json" "$HOME/.config/opencode/opencode.jsonc"
           cat "$HOME/.config/opencode/opencode.jsonc"
+      - name: Install OpenSpec ${{ env.OPENSPEC_VERSION }}
+        run: |
+          npm install -g @fission-ai/openspec@$OPENSPEC_VERSION
       - name: Install PostgreSQL client (psql)
         run: |
           sudo apt-get update
@@ -129,8 +133,7 @@ jobs:
           OPENCODEGO_API_KEY: ${{ secrets.OPENCODEGO_API_KEY }}
         run: |
           opencode run --agent "$SDD_AGENT" "$PROMPT_CONTENT"
-      - name: List tmp directory contents
-        if: ${{ hashFiles('tmp/**') != '' }}
+      - name: List all local changes
         run: |
           git status
       - name: Run OpenCode to create pull request
