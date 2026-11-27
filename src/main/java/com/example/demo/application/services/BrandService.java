@@ -56,4 +56,20 @@ public interface BrandService {
       Integer adminId,
       Boolean enabled)
       throws NotFoundException;
+
+  /**
+   * Soft-deletes the brand with the given identifier.
+   *
+   * <p>Resolves the brand first (a missing or already soft-deleted brand answers {@code
+   * NotFoundException}, never a conflict), then rejects the delete with {@code ConflictException}
+   * when at least one live product still references the brand, and finally marks {@code deletedAt}
+   * and saves.
+   *
+   * @param id the brand identifier
+   * @return the soft-deleted brand
+   * @throws NotFoundException when no live brand exists with the given identifier
+   * @throws com.example.demo.application.exceptions.ConflictException when a live product still
+   *     references the brand
+   */
+  Brand deleteById(Long id);
 }

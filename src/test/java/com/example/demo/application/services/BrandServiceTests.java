@@ -28,6 +28,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 
+import com.example.demo.application.exceptions.ConflictException;
 import com.example.demo.application.exceptions.NotFoundException;
 import com.example.demo.domain.models.brand.Brand;
 import com.example.demo.domain.models.brand.BrandType;
@@ -335,5 +336,90 @@ class BrandServiceTests extends ServiceTest {
 
     // Then
     assertEquals(Boolean.FALSE, result.getEnabled());
+  }
+
+  @Test
+  @DisplayName("deleteById marks deletedAt and saves when brand is live and unreferenced")
+  void should_markDeletedAtAndSave_when_brandIsLiveAndUnreferenced() {
+    // Given
+    Brand brand = liveBrand(1L, "brand");
+    given(brandRepository.findById(1L)).willReturn(Optional.of(brand));
+    given(brandRepository.countLiveProductsByBrandId(1L)).willReturn(0L);
+    given(brandRepository.save(any(Brand.class))).willAnswer(inv -> inv.getArgument(0));
+
+    // When
+    Brand result = brandService.deleteById(1L);
+
+    // Then
+    assertNotNull(result.getDeletedAt());
+    then(brandRepository).should(times(1)).save(brand);
+  }
+
+  @Test
+  @DisplayName("deleteById throws NotFoundException with exact message when findById is empty")
+  void should_throwNotFoundWithExactMessage_when_findByIdIsEmpty() {
+    // Given
+    given(brandRepository.findById(77L)).willReturn(Optional.empty());
+
+    // When / Then
+    NotFoundException ex =
+        assertThrows(NotFoundException.class, () -> brandService.deleteById(77L));
+
+    // Then
+    assertEquals("Brand not found with ID: 77", ex.getMessage());
+    then(brandRepository).should(never()).save(any(Brand.class));
+  }
+
+  @Test
+  @DisplayName(
+      "deleteById throws ConflictException with exact message and never saves when live products"
+          + " reference the brand")
+  void should_throwConflictWithExactMessageAndNotSave_when_liveProductsReferenceBrand() {
+    // Given
+    Brand brand = liveBrand(1L, "brand");
+    given(brandRepository.findById(1L)).willReturn(Optional.of(brand));
+    given(brandRepository.countLiveProductsByBrandId(1L)).willReturn(1L);
+
+    // When / Then
+    ConflictException ex = assertThrows(ConflictException.class, () -> brandService.deleteById(1L));
+
+    // Then
+    assertEquals(
+        "Brand with ID 1 cannot be deleted because it is used by products", ex.getMessage());
+    then(brandRepository).should(never()).save(any(Brand.class));
+  }
+
+  @Test
+  @DisplayName("deleteById proceeds to save when only soft-deleted products reference the brand")
+  void should_proceedToSave_when_onlySoftDeletedProductsReferenceBrand() {
+    // Given
+    Brand brand = liveBrand(1L, "brand");
+    given(brandRepository.findById(1L)).willReturn(Optional.of(brand));
+    given(brandRepository.countLiveProductsByBrandId(1L)).willReturn(0L);
+    given(brandRepository.save(any(Brand.class))).willAnswer(inv -> inv.getArgument(0));
+
+    // When
+    Brand result = brandService.deleteById(1L);
+
+    // Then
+    assertNotNull(result.getDeletedAt());
+    then(brandRepository).should(times(1)).save(brand);
+  }
+
+  @Test
+  @DisplayName(
+      "deleteById throws NotFoundException before guard when brand is already soft-deleted")
+  void should_throwNotFoundBeforeGuard_when_brandIsAlreadySoftDeleted() {
+    // Given
+    given(brandRepository.findById(2L)).willReturn(Optional.empty());
+    given(brandRepository.countLiveProductsByBrandId(2L)).willReturn(1L);
+
+    // When / Then
+    NotFoundException ex = assertThrows(NotFoundException.class, () -> brandService.deleteById(2L));
+
+    // Then
+    assertEquals("Brand not found with ID: 2", ex.getMessage());
+    then(brandRepository).should(never()).countLiveProductsByBrandId(2L);
+    then(brandRepository).should(never()).save(any(Brand.class));
   }
 }

@@ -19,7 +19,26 @@ package com.example.demo.domain.repositories;
 
 import com.example.demo.domain.models.brand.Brand;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BrandRepository extends JpaRepository<Brand, Long> {}
+public interface BrandRepository extends JpaRepository<Brand, Long> {
+
+  /**
+   * Counts live (non-soft-deleted) products referencing the given brand.
+   *
+   * <p>Soft-deleted products do not count, so a brand referenced exclusively by deleted products
+   * remains deletable. Loads no {@code Product} entity and adds no inverse collection to {@code
+   * Brand}; the native query is the anti-corruption seam between the two aggregates.
+   *
+   * @param brandId the brand identifier to check
+   * @return the number of live products referencing the brand
+   */
+  @Query(
+      value =
+          "SELECT COUNT(*) FROM products p WHERE p.brand_id = :brandId AND p.deleted_at IS NULL",
+      nativeQuery = true)
+  long countLiveProductsByBrandId(@Param("brandId") Long brandId);
+}

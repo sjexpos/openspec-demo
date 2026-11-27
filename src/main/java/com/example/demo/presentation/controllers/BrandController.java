@@ -26,6 +26,7 @@ import com.example.demo.presentation.api.model.CreateBrandRequest;
 import com.example.demo.presentation.api.model.CreateBrandResponse;
 import com.example.demo.presentation.api.model.GetAllBrandsResponse;
 import com.example.demo.presentation.api.model.GetBrandResponse;
+import com.example.demo.presentation.api.model.RemoveBrandResponse;
 import com.example.demo.presentation.api.model.UpdateBrandRequest;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -118,6 +119,30 @@ public class BrandController implements BrandApi {
             request.getAdminId(),
             request.getEnabled());
     return new DataResponse<>(toGetBrandResponse(brand));
+  }
+
+  /**
+   * Soft-deletes the brand with the given identifier.
+   *
+   * <p>Thin handler: delegates to {@code brandService.deleteById}, maps the returned brand to
+   * {@code RemoveBrandResponse}, and wraps it in {@code DataResponse}. Business rules (404
+   * resolution, 409 guard) live in the service; error mapping lives in {@code
+   * GlobalExceptionHandler}.
+   *
+   * @param id the brand identifier from the path
+   * @return the removal confirmation
+   */
+  @Override
+  public DataResponse<RemoveBrandResponse> delete(Long id) {
+    Brand brand = this.brandService.deleteById(id);
+    return new DataResponse<>(
+        new RemoveBrandResponse(
+            brand.getId(),
+            brand.getName(),
+            brand.getDescription(),
+            brand.getStateLicense(),
+            brand.getBrandType().getName(),
+            brand.getAdminId()));
   }
 
   private GetBrandResponse toGetBrandResponse(Brand brand) {

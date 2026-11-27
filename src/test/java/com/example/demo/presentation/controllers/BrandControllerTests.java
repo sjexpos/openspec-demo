@@ -24,12 +24,14 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.example.demo.application.exceptions.ConflictException;
 import com.example.demo.application.exceptions.NotFoundException;
 import com.example.demo.application.services.BrandService;
 import com.example.demo.domain.models.brand.Brand;
@@ -276,5 +278,73 @@ class BrandControllerTests {
         .update(
             anyLong(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any(),
             any());
+  }
+
+  @Test
+  @DisplayName(
+      "DELETE /api/brands/{id} returns 200 with RemoveBrandResponse when service returns brand")
+  void delete_shouldReturn200WithRemoveBrandResponse_when_serviceReturnsBrand() throws Exception {
+    // Given
+    given(brandService.deleteById(1L)).willReturn(liveBrand(1L, "brand-a"));
+
+    // When / Then
+    mockMvc
+        .perform(delete("/api/brands/1"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.data.id").value(1))
+        .andExpect(jsonPath("$.data.name").value("brand-a"))
+        .andExpect(jsonPath("$.data.description").value("Description"))
+        .andExpect(jsonPath("$.data.stateLicense").value("LIC"))
+        .andExpect(jsonPath("$.data.brandType").value("grower"))
+        .andExpect(jsonPath("$.data.adminId").value(1));
+  }
+
+  @Test
+  @DisplayName("DELETE /api/brands/{id} delegates once to the service with the path id")
+  void delete_shouldDelegateOnce_when_called() throws Exception {
+    // Given
+    given(brandService.deleteById(5L)).willReturn(liveBrand(5L, "brand-a"));
+
+    // When
+    mockMvc.perform(delete("/api/brands/5")).andExpect(status().isOk());
+
+    // Then
+    verify(brandService, org.mockito.Mockito.times(1)).deleteById(5L);
+  }
+
+  @Test
+  @DisplayName("DELETE /api/brands/{id} service NotFoundException returns 404")
+  void delete_shouldReturn404_when_serviceThrowsNotFound() throws Exception {
+    // Given
+    given(brandService.deleteById(999L))
+        .willThrow(new NotFoundException("Brand not found with ID: 999"));
+
+    // When / Then
+    mockMvc
+        .perform(delete("/api/brands/999"))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$.status").value(404))
+        .andExpect(jsonPath("$.errors[0].field").value("general"))
+        .andExpect(jsonPath("$.errors[0].message").value("Brand not found with ID: 999"));
+  }
+
+  @Test
+  @DisplayName("DELETE /api/brands/{id} service ConflictException returns 409")
+  void delete_shouldReturn409_when_serviceThrowsConflict() throws Exception {
+    // Given
+    given(brandService.deleteById(3L))
+        .willThrow(
+            new ConflictException(
+                "Brand with ID 3 cannot be deleted because it is used by products"));
+
+    // When / Then
+    mockMvc
+        .perform(delete("/api/brands/3"))
+        .andExpect(status().isConflict())
+        .andExpect(jsonPath("$.status").value(409))
+        .andExpect(jsonPath("$.errors[0].field").value("general"))
+        .andExpect(
+            jsonPath("$.errors[0].message")
+                .value("Brand with ID 3 cannot be deleted because it is used by products"));
   }
 }

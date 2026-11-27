@@ -21,6 +21,7 @@ import com.example.demo.presentation.api.model.CreateBrandRequest;
 import com.example.demo.presentation.api.model.CreateBrandResponse;
 import com.example.demo.presentation.api.model.GetAllBrandsResponse;
 import com.example.demo.presentation.api.model.GetBrandResponse;
+import com.example.demo.presentation.api.model.RemoveBrandResponse;
 import com.example.demo.presentation.api.model.UpdateBrandRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -31,6 +32,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -84,4 +86,15 @@ public interface BrandApi {
   DataResponse<GetBrandResponse> update(
       @Parameter(description = "Brand ID", required = true) @PathVariable Long id,
       @Valid @RequestBody UpdateBrandRequest request);
+
+  @DeleteMapping("/{id}")
+  @ResponseStatus(value = HttpStatus.OK)
+  @Operation(summary = "Delete a brand", description = "Soft-deletes a brand by its ID")
+  @ApiResponses({
+    @ApiResponse(responseCode = "200", description = "Brand deleted successfully"),
+    @ApiResponse(responseCode = "404", description = "Brand not found"),
+    @ApiResponse(responseCode = "409", description = "Brand is still referenced by products")
+  })
+  DataResponse<RemoveBrandResponse> delete(
+      @Parameter(description = "Brand ID", required = true) @PathVariable Long id);
 }

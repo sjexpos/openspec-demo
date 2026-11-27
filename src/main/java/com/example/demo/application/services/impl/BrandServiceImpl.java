@@ -17,12 +17,14 @@
 
 package com.example.demo.application.services.impl;
 
+import com.example.demo.application.exceptions.ConflictException;
 import com.example.demo.application.exceptions.NotFoundException;
 import com.example.demo.application.services.BrandService;
 import com.example.demo.domain.models.brand.Brand;
 import com.example.demo.domain.models.brand.BrandType;
 import com.example.demo.domain.repositories.BrandRepository;
 import com.example.demo.domain.repositories.BrandTypeRepository;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -148,6 +150,33 @@ public class BrandServiceImpl implements BrandService {
     if (enabled != null) {
       brand.setEnabled(enabled);
     }
+    return this.brandRepository.save(brand);
+  }
+
+  /**
+   * Soft-deletes the brand with the given identifier.
+   *
+   * <p>Fixed order: (1) resolve the brand, throwing {@code NotFoundException} when it is missing
+   * or already soft-deleted (the latter is invisible to {@code findById} through {@code
+   * SQLRestriction}); (2) guard against live product references, throwing {@code
+   * ConflictException}; (3) mark {@code deletedAt} and save. The only mutation is the last
+   * statement, so a rejected delete leaves the catalog unchanged.
+   *
+   * @param id the brand identifier
+   * @return the soft-deleted brand
+   */
+  @Override
+  @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+  public Brand deleteById(Long id) {
+    Brand brand =
+        this.brandRepository
+            .findById(id)
+            .orElseThrow(() -> new NotFoundException("Brand not found with ID: " + id));
+    if (this.brandRepository.countLiveProductsByBrandId(id) > 0) {
+      throw new ConflictException(
+          "Brand with ID " + id + " cannot be deleted because it is used by products");
+    }
+    brand.setDeletedAt(LocalDateTime.now());
     return this.brandRepository.save(brand);
   }
 }
